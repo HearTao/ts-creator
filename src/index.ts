@@ -1,6 +1,11 @@
 import * as ts from 'typescript'
 
-const sourceFile = ts.createSourceFile("1.tsx", `fuck([1, 2, 3])`, ts.ScriptTarget.Latest)
+const code = `
+fuck([1, 2, 3])
+shit(fuck)
+`
+
+const sourceFile = ts.createSourceFile("1.tsx", code, ts.ScriptTarget.Latest)
 const printer = ts.createPrinter()
 
 function createTsAccess(id: ts.Identifier) {
@@ -643,4 +648,6 @@ function transformSourceFile(sourceFile: ts.SourceFile): ts.SourceFile {
   }
 }
 
+console.log(code)
+console.log("to")
 console.log(printer.printFile(transformSourceFile(sourceFile)))
