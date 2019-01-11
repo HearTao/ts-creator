@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+      "sourceMap": true,
+      "strict": true,
+      "noImplicitReturns": true,
+      "forceConsistentCasingInFileNames": false,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "target": "esnext",
+      "allowSyntheticDefaultImports": true,
+  }
+}
