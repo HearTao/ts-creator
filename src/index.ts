@@ -14,7 +14,7 @@ interface QuestionOrExclamation {
   exclamationToken?: ts.ExclamationToken
 }
 
-interface Options {
+export interface Options {
   prettierOptions?: prettier.Options
 }
 
@@ -1278,6 +1278,10 @@ function transformVisitor(node?: ts.Node): ts.Expression {
     default:
       throw new Error('unsupported syntax: ' + node.kind)
   }
+}
+
+export function transformNode(node: ts.Node): ts.Expression {
+  return transformVisitor(node)
 }
 
 export function transformSourceFile(sourceFile: ts.SourceFile): ts.SourceFile {
