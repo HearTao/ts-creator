@@ -34,6 +34,7 @@ ts.updateSourceFileNode(
         ts.createParameter(
           undefined,
           undefined,
+          undefined,
           ts.createIdentifier('bar'),
           undefined,
           ts.createToken(ts.SyntaxKind.NumberKeyword),
