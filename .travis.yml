@@ -16,13 +16,18 @@ cache:
   directories:
     - node_modules
 
-script:
-  - npm run lint
-  - npm run test
+stages:
+  - name: test
+  - name: deploy
 
 jobs:
   include:
-    - stage: npm release
+    - stage: test
+      script:
+        - npm run lint
+        - npm run test
+
+    - stage: deploy
       if: tag IS present
       node_js: "node"
       script: npm run build
