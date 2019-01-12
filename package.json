@@ -1,7 +1,7 @@
 {
   "name": "ts-creator",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "A code generator to generate TypeScript code generator from TypeScript code",
   "main": "src/index.ts",
   "scripts": {
     "build": "webpack --config webpack.config.js",
