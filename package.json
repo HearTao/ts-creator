@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "test": "webpack --config webpack.config.test.js && node ./dist/main.js"
+    "test": "webpack --config webpack.config.test.js && node ./dist/main.js",
+    "prettier": "prettier --config ./prettier.json --write ./src/**/* ./tests/**/*"
   },
   "author": "kingwl",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^10.12.18",
+    "@types/prettier": "^1.15.2",
+    "prettier": "^1.15.3",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.2",
     "webpack": "^4.28.4",

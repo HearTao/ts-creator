@@ -6,6 +6,10 @@
   version "10.12.18"
   resolved "http://npm.in.chaitin.net/@types%2fnode/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
 
+"@types/prettier@^1.15.2":
+  version "1.15.2"
+  resolved "http://npm.in.chaitin.net/@types%2fprettier/-/prettier-1.15.2.tgz#91594ea7cb6f3b1f7ea69f32621246654c7cc231"
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "http://npm.in.chaitin.net/@webassemblyjs%2fast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"
@@ -1742,6 +1746,10 @@ pkg-dir@^3.0.0:
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "http://npm.in.chaitin.net/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
+
+prettier@^1.15.3:
+  version "1.15.3"
+  resolved "http://npm.in.chaitin.net/prettier/-/prettier-1.15.3.tgz#1feaac5bdd181237b54dbe65d874e02a1472786a"
 
 process-nextick-args@~2.0.0:
   version "2.0.0"

@@ -8,5 +8,6 @@
       "moduleResolution": "node",
       "target": "esnext",
       "allowSyntheticDefaultImports": true,
+      "resolveJsonModule": true
   }
 }
