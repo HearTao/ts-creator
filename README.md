@@ -11,11 +11,9 @@ If you want to write a TypeScript codegen.
 You got TypeScript code: 
 
 ```ts
-
 function foo(bar: number): number {
   return bar + 1
 }
-
 ```
 
 ts-creator generate TypeScript factory from given code to:
@@ -63,14 +61,20 @@ ts.updateSourceFileNode(
 Result after run the generated factory code: 
 
 ```ts
-
 function foo(bar: number): number {
     return bar + 1;
 }
-
 ```
 
-### TODO:
+## How to use it:
+
+```ts
+import creator from 'ts-creator'
+
+const generatedFactoryCode = creator(`const foo = "your code here"`)
+```
+
+## TODO:
 
 - [ ] JSDoc
 - [ ] Jsx
