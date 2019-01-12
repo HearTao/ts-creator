@@ -10,10 +10,21 @@ A code generator to generate TypeScript code generator from TypeScript code
 npm install ts-creator
 ```
 
+### 1. generate from code
+
 ```ts
 import creator from 'ts-creator'
 
 const generatedFactoryCode = creator(`const foo = "your code here"`)
+```
+
+### 2. transform source file
+
+```ts
+import { transformSourceFile } from 'ts-creator'
+
+declare const file: ts.SourceFile
+const factoryFile = transformSourceFile(file)
 ```
 
 ## How does it work?
