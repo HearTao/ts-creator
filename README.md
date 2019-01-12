@@ -59,7 +59,7 @@ ts.updateSourceFileNode(
 
 ```
 
-run The Result of the generated factory code: 
+Result after run the generated factory code: 
 
 ```ts
 
