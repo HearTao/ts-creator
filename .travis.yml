@@ -5,10 +5,6 @@ node_js:
 
 sudo: false
 
-branches:
-  only:
-  - master
-
 install:
   - npm install --registry=http://registry.npm.taobao.org
 
@@ -26,6 +22,9 @@ jobs:
       script:
         - npm run lint
         - npm run test
+      on:
+        branch: master
+        
 
     - stage: deploy
       if: tag IS present
