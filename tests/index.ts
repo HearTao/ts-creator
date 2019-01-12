@@ -1,18 +1,7 @@
-import * as ts from 'typescript'
-import prettier from 'prettier'
 import fs from 'fs'
-import * as creator from '../src'
-import prettierOptions from '../prettier.json'
+import creator from '../src'
 
 const code = fs.readFileSync('./src/index.ts').toString()
+const newCode = creator(code)
 
-const printer = ts.createPrinter()
-const file = ts.createSourceFile('test.ts', code, ts.ScriptTarget.Latest)
-
-const newFile = creator.transformSourceFile(file)
-
-const newCode = printer.printFile(newFile)
-
-const betterCode = prettier.format(newCode, prettierOptions as prettier.Options)
-
-console.log('succeed: ' + betterCode.length)
+console.log(`succeed: ${newCode.length} lines generated`)

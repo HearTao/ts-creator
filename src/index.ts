@@ -1,4 +1,5 @@
 import * as ts from 'typescript'
+import prettier from 'prettier'
 import {
   createTsCall,
   createBooleanLiteral,
@@ -6,10 +7,15 @@ import {
   createLiteralCall,
   createTsAccess
 } from './helper'
+import defaultPrettierOptions from '../prettier.json'
 
 interface QuestionOrExclamation {
   questionToken?: ts.QuestionToken
   exclamationToken?: ts.ExclamationToken
+}
+
+interface Options {
+  prettierOptions?: prettier.Options
 }
 
 function createEnumMember(node: ts.EnumMember) {
@@ -993,6 +999,8 @@ function transformVisitor(node?: ts.Node): ts.Expression {
     case ts.SyntaxKind.BigIntKeyword:
     case ts.SyntaxKind.VoidKeyword:
     case ts.SyntaxKind.ConstKeyword:
+    case ts.SyntaxKind.DefaultKeyword:
+    case ts.SyntaxKind.DeleteKeyword:
       return createToken(node)
 
     case ts.SyntaxKind.NumericLiteral:
@@ -1276,4 +1284,15 @@ export function transformSourceFile(sourceFile: ts.SourceFile): ts.SourceFile {
   return ts.updateSourceFileNode(sourceFile, [
     ts.createExpressionStatement(transformVisitor(sourceFile))
   ])
+}
+
+export default function create(code: string, options: Options = {}): string {
+  const printer = ts.createPrinter()
+  const file = ts.createSourceFile('unknow.ts', code, ts.ScriptTarget.Latest)
+  const factoryFile = transformSourceFile(file)
+  const factoryCode = printer.printFile(factoryFile)
+
+  const prettierOptions =
+    options.prettierOptions || (defaultPrettierOptions as prettier.Options)
+  return prettier.format(factoryCode, prettierOptions)
 }
