@@ -1,8 +1,9 @@
 {
   "name": "ts-creator",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "A code generator to generate TypeScript code generator from TypeScript code",
-  "main": "src/index.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/types/src",
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "test": "tsc -p ./tsconfig.test.json && node ./dist/tests/index.js",
@@ -15,8 +16,7 @@
     "@types/node": "^10.12.18",
     "@types/prettier": "^1.15.2",
     "prettier": "^1.15.3",
-    "typescript": "^3.2.2",
-    "webpack-cli": "^3.2.1"
+    "typescript": "^3.2.2"
   },
   "files": [
     "src",

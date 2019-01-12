@@ -4,6 +4,18 @@ A code generator to generate TypeScript code generator from TypeScript code
 
 [![Build Status](https://travis-ci.com/HearTao/ts-creator.svg?branch=master)](https://travis-ci.com/HearTao/ts-creator)
 
+## How to use it:
+
+```
+npm install ts-creator
+```
+
+```ts
+import creator from 'ts-creator'
+
+const generatedFactoryCode = creator(`const foo = "your code here"`)
+```
+
 ## How does it work?
 
 If you want to write a TypeScript codegen.
@@ -64,14 +76,6 @@ Result after run the generated factory code:
 function foo(bar: number): number {
     return bar + 1;
 }
-```
-
-## How to use it:
-
-```ts
-import creator from 'ts-creator'
-
-const generatedFactoryCode = creator(`const foo = "your code here"`)
 ```
 
 ## TODO:
