@@ -17,8 +17,8 @@ cache:
     - node_modules
 
 stages:
-  - name: test
-  - name: deploy
+  - test
+  - deploy
 
 jobs:
   include:
@@ -29,7 +29,6 @@ jobs:
 
     - stage: deploy
       if: tag IS present
-      node_js: "node"
       script: npm run build
       deploy:
         provider: npm
