@@ -10,15 +10,15 @@ branches:
   - master
 
 install:
-  - yarn
+  - npm install --registry=http://registry.npm.taobao.org
 
 cache:
   directories:
     - node_modules
 
 script:
-  - yarn run lint
-  - yarn run test
+  - npm run lint
+  - npm run test
 
 matrix:
   fast_finish: true

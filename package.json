@@ -10,7 +10,7 @@
     "prettier": "prettier --config ./prettier.json --write ./src/**/* ./tests/**/*"
   },
   "author": "kingwl",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "^10.12.18",
     "@types/prettier": "^1.15.2",
