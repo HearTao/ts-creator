@@ -10,14 +10,15 @@ branches:
   - master
 
 install:
-  - npm install
+  - yarn
 
 cache:
   directories:
     - node_modules
 
 script:
-  - npm run test
+  - yarn run lint
+  - yarn run test
 
 matrix:
   fast_finish: true

@@ -15,4 +15,4 @@ const newCode = printer.printFile(newFile)
 
 const betterCode = prettier.format(newCode, prettierOptions as prettier.Options)
 
-console.log(betterCode)
+console.log('succeed: ' + betterCode.length)
