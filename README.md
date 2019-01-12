@@ -4,6 +4,8 @@ A code generator to generate TypeScript code generator from TypeScript code
 
 [![Build Status](https://travis-ci.com/HearTao/ts-creator.svg?branch=master)](https://travis-ci.com/HearTao/ts-creator)
 
+[![NPM version](https://img.shields.io/npm/v/ts-creator.svg)](https://www.npmjs.com/package/ts-creator)
+
 ## How to use it:
 
 ```
@@ -25,6 +27,15 @@ import { transformSourceFile } from 'ts-creator'
 
 declare const file: ts.SourceFile
 const factoryFile = transformSourceFile(file)
+```
+
+### 3. transform node
+
+```ts
+import { transformNode } from 'ts-creator'
+
+declare const node: ts.Expression
+const factoryNode = transformNode(node)
 ```
 
 ## How does it work?
