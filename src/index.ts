@@ -791,6 +791,7 @@ function createParameter(node: ts.ParameterDeclaration) {
   return createTsCall('createParameter', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
+    transformVisitor(node.dotDotDotToken),
     transformVisitor(node.name),
     transformVisitor(node.questionToken),
     transformVisitor(node.type),
