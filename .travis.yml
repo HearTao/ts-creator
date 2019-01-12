@@ -20,6 +20,14 @@ script:
   - npm run lint
   - npm run test
 
+deploy:
+  provider: npm
+  email: "$NPM_EMAIL"
+  api_key: "$NPM_TOKEN"
+  skip_cleanup: true
+  on:
+    tags: true
+
 matrix:
   fast_finish: true
 
