@@ -1292,7 +1292,7 @@ export function transformSourceFile(sourceFile: ts.SourceFile): ts.SourceFile {
 
 export default function create(code: string, options: Options = {}): string {
   const printer = ts.createPrinter()
-  const file = ts.createSourceFile('unknow.ts', code, ts.ScriptTarget.Latest)
+  const file = ts.createSourceFile('templory.ts', code, ts.ScriptTarget.Latest)
   const factoryFile = transformSourceFile(file)
   const factoryCode = printer.printFile(factoryFile)
 
