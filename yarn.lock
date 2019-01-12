@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/node@^10.12.18":
+  version "10.12.18"
+  resolved "http://npm.in.chaitin.net/@types%2fnode/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
+
 "@webassemblyjs/ast@1.7.11":
   version "1.7.11"
   resolved "http://npm.in.chaitin.net/@webassemblyjs%2fast/-/ast-1.7.11.tgz#b988582cafbb2b095e8b556526f30c90d057cace"
@@ -2244,10 +2248,6 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     extend-shallow "^3.0.2"
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
-
-ts-creator@^1.0.0:
-  version "1.0.0"
-  resolved "http://npm.in.chaitin.net/ts-creator/-/ts-creator-1.0.0.tgz#2d017b429e987e9674f64f16f5dea667da789056"
 
 ts-loader@^5.3.3:
   version "5.3.3"

@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "test": "webpack --config webpack.config.test.js && node ./dist/main.js"
   },
   "author": "kingwl",
   "license": "ISC",
   "dependencies": {
-    "ts-creator": "^1.0.0",
+    "@types/node": "^10.12.18",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.2",
     "webpack": "^4.28.4",
