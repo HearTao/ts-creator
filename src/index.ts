@@ -1,5 +1,5 @@
 import * as ts from 'typescript'
-import prettier from 'prettier'
+import * as prettier from 'prettier'
 import {
   createTsCall,
   createBooleanLiteral,
@@ -7,7 +7,7 @@ import {
   createLiteralCall,
   createTsAccess
 } from './helper'
-import defaultPrettierOptions from '../prettier.json'
+import * as defaultPrettierOptions from '../prettier.json'
 
 interface QuestionOrExclamation {
   questionToken?: ts.QuestionToken

@@ -4,8 +4,8 @@
   "description": "A code generator to generate TypeScript code generator from TypeScript code",
   "main": "src/index.ts",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "test": "webpack --config webpack.config.test.js && node ./dist/main.js",
+    "build": "tsc -p ./tsconfig.json",
+    "test": "tsc -p ./tsconfig.test.json && node ./dist/tests/index.js",
     "lint": "prettier --config ./prettier.json --list-different ./src/**/* ./tests/**/*",
     "prettier": "prettier --config ./prettier.json --write ./src/**/* ./tests/**/*"
   },
@@ -15,9 +15,7 @@
     "@types/node": "^10.12.18",
     "@types/prettier": "^1.15.2",
     "prettier": "^1.15.3",
-    "ts-loader": "^5.3.3",
     "typescript": "^3.2.2",
-    "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1"
   }
 }

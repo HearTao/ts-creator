@@ -6,12 +6,10 @@
       "moduleResolution": "node",
       "target": "es5",
       "resolveJsonModule": true,
-      "declaration": true,
       "outDir": "./dist",
-      "declarationDir": "./dist/types"
   },
   "exclude": [
     "node_modules",
-    "tests"
+    "src"
   ]
 }
