@@ -1,0 +1,26 @@
+language: node_js
+
+node_js:
+  - 'node'
+
+sudo: false
+
+branches:
+  only:
+  - master
+
+install:
+  - npm install
+
+cache:
+  directories:
+    - node_modules
+
+script:
+  - npm run test
+
+matrix:
+  fast_finish: true
+
+git:
+  depth: 1
