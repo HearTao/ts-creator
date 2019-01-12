@@ -2,9 +2,7 @@
 
 A code generator to generate TypeScript code generator from TypeScript code
 
-[![Build Status](https://travis-ci.com/HearTao/ts-creator.svg?branch=master)](https://travis-ci.com/HearTao/ts-creator)
-
-[![NPM version](https://img.shields.io/npm/v/ts-creator.svg)](https://www.npmjs.com/package/ts-creator)
+[![Build Status](https://travis-ci.com/HearTao/ts-creator.svg?branch=master)](https://travis-ci.com/HearTao/ts-creator)  [![NPM version](https://img.shields.io/npm/v/ts-creator.svg)](https://www.npmjs.com/package/ts-creator)
 
 ## How to use it:
 
