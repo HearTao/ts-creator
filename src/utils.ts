@@ -1,3 +1,4 @@
+/** @internal */
 export function getEnumMembers<T extends Object>(enumObject: T) {
   const result: [number, string][] = []
   for (const name in enumObject) {
@@ -10,6 +11,7 @@ export function getEnumMembers<T extends Object>(enumObject: T) {
   return result.sort((a, b) => a[0] - b[0])
 }
 
+/** @internal */
 export function formatFlags<T extends Object>(
   value: number = 0,
   enumObject: T

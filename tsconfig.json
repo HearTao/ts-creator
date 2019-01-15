@@ -8,6 +8,7 @@
       "declaration": true,
       "outDir": "./dist",
       "declarationDir": "./dist/types",
+      "stripInternal": true
   },
   "exclude": [
     "node_modules",

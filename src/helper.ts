@@ -1,14 +1,17 @@
 import * as ts from 'typescript'
 import { formatFlags } from './utils'
 
+/** @internal */
 export function createTsAccess(id: ts.Identifier) {
   return ts.createPropertyAccess(ts.createIdentifier('ts'), id)
 }
 
+/** @internal */
 export function createTsCall(id: string, args?: ts.Expression[]) {
   return ts.createCall(createTsAccess(ts.createIdentifier(id)), undefined, args)
 }
 
+/** @internal */
 export function createLiteralCall(node: ts.LiteralLikeNode, func: string) {
   return createTsCall(func, [ts.createStringLiteral(node.text)])
 }
@@ -26,6 +29,7 @@ function connectBinary(
   return ts.createBinary(nodes[0], op, connectBinary(op, nodes.slice(1)))
 }
 
+/** @internal */
 export function createNodeFlags(flags: ts.NodeFlags) {
   const formattedFlags = formatFlags(flags, ts.NodeFlags).map(f =>
     ts.createPropertyAccess(
@@ -36,6 +40,7 @@ export function createNodeFlags(flags: ts.NodeFlags) {
   return connectBinary(ts.SyntaxKind.BarBarToken, formattedFlags)
 }
 
+/** @internal */
 export function createBooleanLiteral(bool: boolean | undefined) {
   if (bool === undefined) {
     return ts.createIdentifier('undefined')
