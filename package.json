@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/types",
   "scripts": {
-    "build": "tsc -p ./tsconfig.json",
+    "build": "rollup --config rollup.config.js",
     "test": "tsc -p ./tsconfig.test.json && node ./dist/tests/index.js",
     "lint": "prettier --config ./prettier.json --list-different ./src/**/* ./tests/**/*",
     "prettier": "prettier --config ./prettier.json --write ./src/**/* ./tests/**/*"
@@ -16,11 +16,16 @@
     "@types/node": "^10.12.18",
     "@types/prettier": "^1.15.2",
     "prettier": "^1.15.3",
+    "rollup": "^1.1.0",
+    "rollup-plugin-typescript2": "^0.18.1",
     "typescript": "^3.2.2"
   },
   "files": [
     "src",
-    "prettier.json",
-    "dist"
+    "dist",
+    "LICENSE",
+    "tsconfig.json",
+    "package.json",
+    "README.md"
   ]
 }
