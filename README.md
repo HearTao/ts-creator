@@ -51,10 +51,7 @@ function foo(bar: number): number {
 ts-creator generate TypeScript factory from given code to:
 
 ```ts
-ts.updateSourceFileNode(
-  ts.createSourceFile('test.ts', '', ts.ScriptTarget.Latest),
-  [
-    ts.createFunctionDeclaration(
+ts.createFunctionDeclaration(
       undefined,
       undefined,
       undefined,
@@ -67,11 +64,11 @@ ts.updateSourceFileNode(
           undefined,
           ts.createIdentifier('bar'),
           undefined,
-          ts.createToken(ts.SyntaxKind.NumberKeyword),
+          ts.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
           undefined
         )
       ],
-      ts.createToken(ts.SyntaxKind.NumberKeyword),
+      ts.createKeywordTypeNode(ts.SyntaxKind.NumberKeyword),
       ts.createBlock(
         [
           ts.createReturn(
@@ -85,8 +82,6 @@ ts.updateSourceFileNode(
         true
       )
     )
-  ]
-)
 
 ```
 
@@ -101,4 +96,3 @@ function foo(bar: number): number {
 ## TODO:
 
 - [ ] JSDoc
-- [ ] Jsx
