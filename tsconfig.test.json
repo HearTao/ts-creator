@@ -2,14 +2,14 @@
   "compilerOptions": {
       "sourceMap": true,
       "strict": true,
-      "module": "commonjs",
+      "module": "umd",
       "moduleResolution": "node",
       "target": "es5",
-      "resolveJsonModule": true,
       "outDir": "./dist",
   },
   "exclude": [
     "node_modules",
-    "src"
+    "src",
+    "dist"
   ]
 }

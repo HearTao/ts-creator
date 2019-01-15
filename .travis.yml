@@ -6,7 +6,7 @@ node_js:
 sudo: false
 
 install:
-  - npm install --registry=http://registry.npm.taobao.org
+  - yarn
 
 cache:
   directories:
@@ -20,15 +20,15 @@ jobs:
   include:
     - stage: test
       script:
-        - npm run lint
-        - npm run test
+        - yarn run lint
+        - yarn run test
       on:
         branch: master
         
 
     - stage: deploy
       if: tag IS present
-      script: npm run build
+      script: yarn run build
       deploy:
         provider: npm
         email: "$NPM_EMAIL"
