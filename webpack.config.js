@@ -9,16 +9,27 @@ const cjsConfig = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
   },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js"]
-  },
+  
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: "ts-loader" }
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        resolve: {
+          extensions: [".ts", ".tsx", ".js"],
+        },
+      }
     ]
   },
   optimization: {
     minimize: false
+  },
+  externals: {
+    "prettier-typescript-plugins": {
+      commonjs: 'prettier/parser-typescript.js',
+      commonjs2: 'prettier/parser-typescript.js',
+      root: ['prettierPlugins', 'typescript']
+    }
   }
 }
 

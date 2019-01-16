@@ -1,6 +1,9 @@
+///<reference path="../types/prettier.d.ts"/>
+
 import { transformSourceFile } from './transformer'
 import { Options as PrettierOptions, format } from 'prettier'
 import { createPrinter, createSourceFile, ScriptTarget } from 'typescript'
+import tsPlugin from 'prettier-typescript-plugins'
 
 export interface Options {
   prettierOptions?: Options
@@ -8,6 +11,7 @@ export interface Options {
 
 const defaultPrettierOptions: PrettierOptions = {
   parser: 'typescript',
+  plugins: [tsPlugin],
   semi: false,
   singleQuote: true,
   jsxSingleQuote: false,
