@@ -801,7 +801,6 @@ function createParameter(node: ts.ParameterDeclaration) {
 }
 
 function createToken<T extends ts.SyntaxKind>(node: ts.Token<T>) {
-  ts.createToken(node.kind)
   return createTsCall('createToken', [transformSyntaxKind(node.kind)])
 }
 
@@ -956,10 +955,6 @@ function createJsxElement(node: ts.JsxElement) {
   ])
 }
 
-function createJsxText(node: ts.JsxText) {
-  return transformRawNode(ts.SyntaxKind.JsxText)
-}
-
 function createSourceFile(node: ts.SourceFile) {
   return createTsCall('updateSourceFileNode', [
     createTsCall('createSourceFile', [
@@ -1067,93 +1062,20 @@ function transformVisitors(nodes?: ts.NodeArray<ts.Node>): ts.Expression {
   return ts.createArrayLiteral(nodes.map(transformVisitor))
 }
 
+function isToken(kind: ts.SyntaxKind) {
+  return kind >= ts.SyntaxKind.FirstToken && kind <= ts.SyntaxKind.LastToken
+}
+
+function isKeyword(kind: ts.SyntaxKind) {
+  return kind >= ts.SyntaxKind.FirstKeyword && kind <= ts.SyntaxKind.LastKeyword
+}
+
 function transformVisitor(node?: ts.Node): ts.Expression {
   if (!node) {
     return ts.createIdentifier('undefined')
   }
 
   switch (node.kind) {
-    case ts.SyntaxKind.QuestionToken:
-    case ts.SyntaxKind.ExclamationToken:
-    case ts.SyntaxKind.AsteriskToken:
-    case ts.SyntaxKind.PlusToken:
-    case ts.SyntaxKind.MinusToken:
-    case ts.SyntaxKind.DotDotDotToken:
-    case ts.SyntaxKind.EqualsGreaterThanToken:
-    case ts.SyntaxKind.CommaToken:
-    case ts.SyntaxKind.AsteriskToken:
-    case ts.SyntaxKind.AsteriskAsteriskToken:
-    case ts.SyntaxKind.SlashToken:
-    case ts.SyntaxKind.PercentToken:
-    case ts.SyntaxKind.LessThanToken:
-    case ts.SyntaxKind.LessThanEqualsToken:
-    case ts.SyntaxKind.GreaterThanToken:
-    case ts.SyntaxKind.GreaterThanEqualsToken:
-    case ts.SyntaxKind.InstanceOfKeyword:
-    case ts.SyntaxKind.GreaterThanEqualsToken:
-    case ts.SyntaxKind.GreaterThanGreaterThanToken:
-    case ts.SyntaxKind.GreaterThanGreaterThanGreaterThanToken:
-    case ts.SyntaxKind.GreaterThanGreaterThanToken:
-    case ts.SyntaxKind.EqualsEqualsToken:
-    case ts.SyntaxKind.EqualsEqualsEqualsToken:
-    case ts.SyntaxKind.ExclamationEqualsEqualsToken:
-    case ts.SyntaxKind.ExclamationEqualsToken:
-    case ts.SyntaxKind.AmpersandToken:
-    case ts.SyntaxKind.BarToken:
-    case ts.SyntaxKind.CaretToken:
-    case ts.SyntaxKind.AmpersandAmpersandToken:
-    case ts.SyntaxKind.BarBarToken:
-    case ts.SyntaxKind.PlusEqualsToken:
-    case ts.SyntaxKind.MinusEqualsToken:
-    case ts.SyntaxKind.AsteriskAsteriskEqualsToken:
-    case ts.SyntaxKind.AsteriskEqualsToken:
-    case ts.SyntaxKind.SlashEqualsToken:
-    case ts.SyntaxKind.PercentEqualsToken:
-    case ts.SyntaxKind.AmpersandEqualsToken:
-    case ts.SyntaxKind.BarEqualsToken:
-    case ts.SyntaxKind.CaretEqualsToken:
-    case ts.SyntaxKind.LessThanLessThanEqualsToken:
-    case ts.SyntaxKind.GreaterThanGreaterThanGreaterThanEqualsToken:
-    case ts.SyntaxKind.GreaterThanGreaterThanEqualsToken:
-    case ts.SyntaxKind.CommaToken:
-    case ts.SyntaxKind.EqualsToken:
-    case ts.SyntaxKind.LessThanLessThanToken:
-      return createToken(node)
-
-    case ts.SyntaxKind.InKeyword:
-    case ts.SyntaxKind.TrueKeyword:
-    case ts.SyntaxKind.FalseKeyword:
-    case ts.SyntaxKind.NumberKeyword:
-    case ts.SyntaxKind.VoidKeyword:
-    case ts.SyntaxKind.BooleanKeyword:
-    case ts.SyntaxKind.AnyKeyword:
-    case ts.SyntaxKind.StringKeyword:
-    case ts.SyntaxKind.SymbolKeyword:
-    case ts.SyntaxKind.ObjectKeyword:
-    case ts.SyntaxKind.UndefinedKeyword:
-    case ts.SyntaxKind.UnknownKeyword:
-    case ts.SyntaxKind.BigIntKeyword:
-    case ts.SyntaxKind.VoidKeyword:
-    case ts.SyntaxKind.ConstKeyword:
-    case ts.SyntaxKind.DefaultKeyword:
-    case ts.SyntaxKind.DeleteKeyword:
-    case ts.SyntaxKind.AwaitKeyword:
-    case ts.SyntaxKind.ExtendsKeyword:
-    case ts.SyntaxKind.ImplementsKeyword:
-    case ts.SyntaxKind.ExportKeyword:
-    case ts.SyntaxKind.ThisKeyword:
-    case ts.SyntaxKind.NullKeyword:
-    case ts.SyntaxKind.NeverKeyword:
-    case ts.SyntaxKind.AbstractKeyword:
-    case ts.SyntaxKind.AsyncKeyword:
-    case ts.SyntaxKind.DeclareKeyword:
-    case ts.SyntaxKind.PublicKeyword:
-    case ts.SyntaxKind.PrivateKeyword:
-    case ts.SyntaxKind.ProtectedKeyword:
-    case ts.SyntaxKind.ReadonlyKeyword:
-    case ts.SyntaxKind.StaticKeyword:
-      return transformKeyword(node.kind)
-
     case ts.SyntaxKind.NumericLiteral:
       return createNumericLiteral(node as ts.NumericLiteral)
     case ts.SyntaxKind.BigIntLiteral:
@@ -1174,6 +1096,7 @@ function transformVisitor(node?: ts.Node): ts.Expression {
       return createTemplateTail(node as ts.TemplateTail)
     case ts.SyntaxKind.Identifier:
       return createIdentifier(node as ts.Identifier)
+
     case ts.SyntaxKind.QualifiedName:
       return createQualifiedName(node as ts.QualifiedName)
     case ts.SyntaxKind.ComputedPropertyName:
@@ -1441,9 +1364,8 @@ function transformVisitor(node?: ts.Node): ts.Expression {
       return createJsxSpreadAttribute(node as ts.JsxSpreadAttribute)
     case ts.SyntaxKind.JsxExpression:
       return createJsxExpression(node as ts.JsxExpression)
-    case ts.SyntaxKind.JsxText:
-      return createJsxText(node as ts.JsxText)
 
+    case ts.SyntaxKind.JsxText:
     case ts.SyntaxKind.MissingDeclaration:
     case ts.SyntaxKind.SyntheticExpression:
     case ts.SyntaxKind.OmittedExpression:
@@ -1451,6 +1373,14 @@ function transformVisitor(node?: ts.Node): ts.Expression {
         'unknown syntax: ' + node.kind + ' ' + JSON.stringify(node)
       )
     default:
+      if (isKeyword(node.kind)) {
+        return transformKeyword(node.kind)
+      }
+
+      if (isToken(node.kind)) {
+        return createToken(node)
+      }
+
       throw new Error('unsupported syntax: ' + node.kind)
   }
 }
