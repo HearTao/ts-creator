@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "NODE_ENV=production webpack --config webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "dev": "webpack --config webpack.config.js",
     "test": "tsc -p ./tsconfig.test.json && node ./dist/tests/index.js",
     "lint": "prettier --config ./prettier.json --list-different ./src/**/* ./tests/**/*",
@@ -30,6 +30,7 @@
     "README.md"
   ],
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "ts-loader": "^5.3.3",
     "webpack-merge": "^4.2.1"
   }
