@@ -34,3 +34,8 @@ export function formatFlags<T extends Object>(
   }
   return result
 }
+
+/** @internal */
+export function isDef<T>(v: T | null | undefined): v is T {
+  return v !== undefined && v !== null
+}

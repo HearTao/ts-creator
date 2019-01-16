@@ -1,8 +1,11 @@
 ///<reference path="../types/prettier.d.ts"/>
 
 import { transformSourceFile } from './transformer'
+import { isDef } from './utils'
 import { Options as PrettierOptions, format } from 'prettier'
 import { createPrinter, createSourceFile, ScriptTarget } from 'typescript'
+
+// if standalone, that is external module, otherwise undefined
 import tsPlugin from 'prettier-typescript-plugins'
 
 export interface Options {
@@ -11,7 +14,7 @@ export interface Options {
 
 const defaultPrettierOptions: PrettierOptions = {
   parser: 'typescript',
-  plugins: [tsPlugin],
+  plugins: [tsPlugin].filter(isDef),
   semi: false,
   singleQuote: true,
   jsxSingleQuote: false,

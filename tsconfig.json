@@ -9,10 +9,5 @@
       "outDir": "./dist",
       "declarationDir": "./dist/types",
       "stripInternal": true
-  },
-  "exclude": [
-    "node_modules",
-    "tests",
-    "dist"
-  ]
+  }
 }

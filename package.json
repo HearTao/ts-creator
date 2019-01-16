@@ -7,7 +7,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "dev": "webpack --config webpack.config.js",
-    "test": "tsc -p ./tsconfig.test.json && node ./dist/tests/index.js",
+    "test": "webpack --config webpack.test.config.js && node ./dist/tests/index.js",
     "lint": "prettier --config ./prettier.json --list-different ./src/**/* ./tests/**/*",
     "prettier": "prettier --config ./prettier.json --write ./src/**/* ./tests/**/*"
   },
