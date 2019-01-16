@@ -1,21 +1,13 @@
-import * as ts from 'typescript'
 import { transformSourceFile } from './transformer'
-import { Options as PrettierOptions, Plugin } from 'prettier'
+import { Options as PrettierOptions, format } from 'prettier'
+import { createPrinter, createSourceFile, ScriptTarget } from 'typescript'
 
 export interface Options {
   prettierOptions?: Options
 }
 
-interface PrettierNamespace {
-  format: (source: string, options?: PrettierOptions) => string
-}
-
-const prettier: PrettierNamespace = require('prettier/standalone')
-const prettierTS: Plugin = require('prettier/parser-typescript')
-
 const defaultPrettierOptions: PrettierOptions = {
   parser: 'typescript',
-  plugins: [prettierTS],
   semi: false,
   singleQuote: true,
   jsxSingleQuote: false,
@@ -27,8 +19,8 @@ const defaultPrettierOptions: PrettierOptions = {
 }
 
 export default function create(code: string, options: Options = {}): string {
-  const printer = ts.createPrinter()
-  const file = ts.createSourceFile('templory.ts', code, ts.ScriptTarget.Latest)
+  const printer = createPrinter()
+  const file = createSourceFile('templory.ts', code, ScriptTarget.Latest)
   const factoryFile = transformSourceFile(file)
   const factoryCode = printer.printFile(factoryFile)
 
@@ -36,7 +28,7 @@ export default function create(code: string, options: Options = {}): string {
     ...defaultPrettierOptions,
     ...options.prettierOptions
   }
-  return prettier.format(factoryCode, prettierOptions)
+  return format(factoryCode, prettierOptions)
 }
 
 export { transformNode, transformSourceFile } from './transformer'

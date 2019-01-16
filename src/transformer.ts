@@ -1,4 +1,163 @@
-import * as ts from 'typescript'
+import {
+  Node,
+  QuestionToken,
+  ExclamationToken,
+  EnumMember,
+  SpreadAssignment,
+  ShorthandPropertyAssignment,
+  PropertyAssignment,
+  CatchClause,
+  HeritageClause,
+  DefaultClause,
+  CaseClause,
+  ExternalModuleReference,
+  ExportSpecifier,
+  NamedExports,
+  ExportDeclaration,
+  ExportAssignment,
+  ImportSpecifier,
+  NamedImports,
+  NamespaceImport,
+  ImportClause,
+  ImportDeclaration,
+  ImportEqualsDeclaration,
+  NamespaceExportDeclaration,
+  CaseBlock,
+  ModuleBlock,
+  ModuleDeclaration,
+  EnumDeclaration,
+  TypeAliasDeclaration,
+  InterfaceDeclaration,
+  ClassDeclaration,
+  FunctionDeclaration,
+  VariableDeclarationList,
+  VariableDeclaration,
+  DebuggerStatement,
+  TryStatement,
+  ThrowStatement,
+  LabeledStatement,
+  SwitchStatement,
+  WithStatement,
+  ReturnStatement,
+  BreakStatement,
+  ContinueStatement,
+  ForOfStatement,
+  ForInStatement,
+  ForStatement,
+  WhileStatement,
+  DoStatement,
+  IfStatement,
+  EmptyStatement,
+  VariableStatement,
+  Block,
+  SemicolonClassElement,
+  TemplateSpan,
+  MetaProperty,
+  NonNullExpression,
+  AsExpression,
+  ExpressionWithTypeArguments,
+  ClassExpression,
+  SpreadElement,
+  YieldExpression,
+  TemplateExpression,
+  ConditionalExpression,
+  BinaryExpression,
+  AwaitExpression,
+  VoidExpression,
+  TypeOfExpression,
+  DeleteExpression,
+  ArrowFunction,
+  FunctionExpression,
+  ParenthesizedExpression,
+  TypeAssertion,
+  TaggedTemplateExpression,
+  NewExpression,
+  CallExpression,
+  ElementAccessExpression,
+  PropertyAccessExpression,
+  ObjectLiteralExpression,
+  ArrayLiteralExpression,
+  BindingElement,
+  ArrayBindingPattern,
+  ObjectBindingPattern,
+  ImportTypeNode,
+  LiteralTypeNode,
+  MappedTypeNode,
+  IndexedAccessTypeNode,
+  TypeOperatorNode,
+  ThisTypeNode,
+  ParenthesizedTypeNode,
+  InferTypeNode,
+  ConditionalTypeNode,
+  IntersectionTypeNode,
+  UnionTypeNode,
+  RestTypeNode,
+  OptionalTypeNode,
+  TupleTypeNode,
+  ArrayTypeNode,
+  TypeLiteralNode,
+  TypeQueryNode,
+  ConstructorTypeNode,
+  FunctionTypeNode,
+  TypeReferenceNode,
+  TypePredicateNode,
+  IndexSignatureDeclaration,
+  ConstructSignatureDeclaration,
+  ConstructorDeclaration,
+  GetAccessorDeclaration,
+  SetAccessorDeclaration,
+  CallSignatureDeclaration,
+  MethodDeclaration,
+  MethodSignature,
+  PropertyDeclaration,
+  PropertySignature,
+  Decorator,
+  ParameterDeclaration,
+  SyntaxKind,
+  Token,
+  TypeParameterDeclaration,
+  ComputedPropertyName,
+  NumericLiteral,
+  BigIntLiteral,
+  StringLiteral,
+  RegularExpressionLiteral,
+  NoSubstitutionTemplateLiteral,
+  TemplateHead,
+  TemplateMiddle,
+  TemplateTail,
+  Identifier,
+  QualifiedName,
+  ExpressionStatement,
+  PrefixUnaryExpression,
+  PostfixUnaryExpression,
+  JsxExpression,
+  JsxSpreadAttribute,
+  JsxAttributes,
+  JsxAttribute,
+  JsxClosingFragment,
+  JsxOpeningFragment,
+  JsxFragment,
+  JsxClosingElement,
+  JsxOpeningElement,
+  JsxSelfClosingElement,
+  JsxElement,
+  SourceFile,
+  createStringLiteral,
+  createPropertyAccess,
+  createIdentifier,
+  ScriptTarget,
+  createParen,
+  createAsExpression,
+  createTypeReferenceNode,
+  createQualifiedName,
+  KeywordTypeNode,
+  Modifier,
+  NodeArray,
+  Expression,
+  createArrayLiteral,
+  updateSourceFileNode,
+  createExpressionStatement
+} from 'typescript'
 
 import {
   createTsCall,
@@ -9,25 +168,25 @@ import {
 } from './helper'
 
 interface QuestionOrExclamation {
-  questionToken?: ts.QuestionToken
-  exclamationToken?: ts.ExclamationToken
+  questionToken?: QuestionToken
+  exclamationToken?: ExclamationToken
 }
 
-function createEnumMember(node: ts.EnumMember) {
+function generateEnumMember(node: EnumMember) {
   return createTsCall('createEnumMember', [
     transformVisitor(node.name),
     transformVisitor(node.initializer)
   ])
 }
 
-function createSpreadAssignment(node: ts.SpreadAssignment) {
+function generateSpreadAssignment(node: SpreadAssignment) {
   return createTsCall('createSpreadAssignment', [
     transformVisitor(node.expression)
   ])
 }
 
-function createShorthandPropertyAssignment(
-  node: ts.ShorthandPropertyAssignment
+function generateShorthandPropertyAssignment(
+  node: ShorthandPropertyAssignment
 ) {
   return createTsCall('createShorthandPropertyAssignment', [
     transformVisitor(node.name),
@@ -35,58 +194,58 @@ function createShorthandPropertyAssignment(
   ])
 }
 
-function createPropertyAssignment(node: ts.PropertyAssignment) {
+function generatePropertyAssignment(node: PropertyAssignment) {
   return createTsCall('createPropertyAssignment', [
     transformVisitor(node.name),
     transformVisitor(node.initializer)
   ])
 }
 
-function createCatchClause(node: ts.CatchClause) {
+function generateCatchClause(node: CatchClause) {
   return createTsCall('createCatchClause', [
     transformVisitor(node.variableDeclaration),
     transformVisitor(node.block)
   ])
 }
 
-function createHeritageClause(node: ts.HeritageClause) {
+function generateHeritageClause(node: HeritageClause) {
   return createTsCall('createHeritageClause', [
     transformSyntaxKind(node.token),
     transformVisitors(node.types)
   ])
 }
 
-function createDefaultClause(node: ts.DefaultClause) {
+function generateDefaultClause(node: DefaultClause) {
   return createTsCall('createDefaultClause', [
     transformVisitors(node.statements)
   ])
 }
 
-function createCaseClause(node: ts.CaseClause) {
+function generateCaseClause(node: CaseClause) {
   return createTsCall('createCaseClause', [
     transformVisitor(node.expression),
     transformVisitors(node.statements)
   ])
 }
 
-function createExternalModuleReference(node: ts.ExternalModuleReference) {
+function generateExternalModuleReference(node: ExternalModuleReference) {
   return createTsCall('createExternalModuleReference', [
     transformVisitor(node.expression)
   ])
 }
 
-function createExportSpecifier(node: ts.ExportSpecifier) {
+function generateExportSpecifier(node: ExportSpecifier) {
   return createTsCall('createExportSpecifier', [
     transformVisitor(node.propertyName),
     transformVisitor(node.name)
   ])
 }
 
-function createNamedExports(node: ts.NamedExports) {
+function generateNamedExports(node: NamedExports) {
   return createTsCall('createNamedExports', [transformVisitors(node.elements)])
 }
 
-function createExportDeclaration(node: ts.ExportDeclaration) {
+function generateExportDeclaration(node: ExportDeclaration) {
   return createTsCall('createExportDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -95,7 +254,7 @@ function createExportDeclaration(node: ts.ExportDeclaration) {
   ])
 }
 
-function createExportAssignment(node: ts.ExportAssignment) {
+function generateExportAssignment(node: ExportAssignment) {
   return createTsCall('createExportAssignment', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -104,29 +263,29 @@ function createExportAssignment(node: ts.ExportAssignment) {
   ])
 }
 
-function createImportSpecifier(node: ts.ImportSpecifier) {
+function generateImportSpecifier(node: ImportSpecifier) {
   return createTsCall('createImportSpecifier', [
     transformVisitor(node.propertyName),
     transformVisitor(node.name)
   ])
 }
 
-function createNamedImports(node: ts.NamedImports) {
+function generateNamedImports(node: NamedImports) {
   return createTsCall('createNamedImports', [transformVisitors(node.elements)])
 }
 
-function createNamespaceImport(node: ts.NamespaceImport) {
+function generateNamespaceImport(node: NamespaceImport) {
   return createTsCall('createNamespaceImport', [transformVisitor(node.name)])
 }
 
-function createImportClause(node: ts.ImportClause) {
+function generateImportClause(node: ImportClause) {
   return createTsCall('createImportClause', [
     transformVisitor(node.name),
     transformVisitor(node.namedBindings)
   ])
 }
 
-function createImportDeclaration(node: ts.ImportDeclaration) {
+function generateImportDeclaration(node: ImportDeclaration) {
   return createTsCall('createImportDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -135,7 +294,7 @@ function createImportDeclaration(node: ts.ImportDeclaration) {
   ])
 }
 
-function createImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
+function generateImportEqualsDeclaration(node: ImportEqualsDeclaration) {
   return createTsCall('createImportEqualsDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -144,21 +303,21 @@ function createImportEqualsDeclaration(node: ts.ImportEqualsDeclaration) {
   ])
 }
 
-function createNamespaceExportDeclaration(node: ts.NamespaceExportDeclaration) {
+function generateNamespaceExportDeclaration(node: NamespaceExportDeclaration) {
   return createTsCall('createNamespaceExportDeclaration', [
     transformVisitor(node.name)
   ])
 }
 
-function createCaseBlock(node: ts.CaseBlock) {
+function generateCaseBlock(node: CaseBlock) {
   return createTsCall('createCaseBlock', [transformVisitors(node.clauses)])
 }
 
-function createModuleBlock(node: ts.ModuleBlock) {
+function generateModuleBlock(node: ModuleBlock) {
   return createTsCall('createModuleBlock', [transformVisitors(node.statements)])
 }
 
-function createModuleDeclaration(node: ts.ModuleDeclaration) {
+function generateModuleDeclaration(node: ModuleDeclaration) {
   return createTsCall('createModuleDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -168,7 +327,7 @@ function createModuleDeclaration(node: ts.ModuleDeclaration) {
   ])
 }
 
-function createEnumDeclaration(node: ts.EnumDeclaration) {
+function generateEnumDeclaration(node: EnumDeclaration) {
   return createTsCall('createEnumDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -177,7 +336,7 @@ function createEnumDeclaration(node: ts.EnumDeclaration) {
   ])
 }
 
-function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
+function generateTypeAliasDeclaration(node: TypeAliasDeclaration) {
   return createTsCall('createTypeAliasDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -187,7 +346,7 @@ function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
   ])
 }
 
-function createInterfaceDeclaration(node: ts.InterfaceDeclaration) {
+function generateInterfaceDeclaration(node: InterfaceDeclaration) {
   return createTsCall('createInterfaceDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -198,7 +357,7 @@ function createInterfaceDeclaration(node: ts.InterfaceDeclaration) {
   ])
 }
 
-function createClassDeclaration(node: ts.ClassDeclaration) {
+function generateClassDeclaration(node: ClassDeclaration) {
   return createTsCall('createClassDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -209,7 +368,7 @@ function createClassDeclaration(node: ts.ClassDeclaration) {
   ])
 }
 
-function createFunctionDeclaration(node: ts.FunctionDeclaration) {
+function generateFunctionDeclaration(node: FunctionDeclaration) {
   return createTsCall('createFunctionDeclaration', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -222,14 +381,14 @@ function createFunctionDeclaration(node: ts.FunctionDeclaration) {
   ])
 }
 
-function createVariableDeclarationList(node: ts.VariableDeclarationList) {
+function generateVariableDeclarationList(node: VariableDeclarationList) {
   return createTsCall('createVariableDeclarationList', [
     transformVisitors(node.declarations),
     createNodeFlags(node.flags)
   ])
 }
 
-function createVariableDeclaration(node: ts.VariableDeclaration) {
+function generateVariableDeclaration(node: VariableDeclaration) {
   return createTsCall('createVariableDeclaration', [
     transformVisitor(node.name),
     transformVisitor(node.type),
@@ -237,11 +396,11 @@ function createVariableDeclaration(node: ts.VariableDeclaration) {
   ])
 }
 
-function createDebuggerStatement(node: ts.DebuggerStatement) {
+function generateDebuggerStatement(node: DebuggerStatement) {
   return createTsCall('createDebuggerStatement', [])
 }
 
-function createTryStatement(node: ts.TryStatement) {
+function generateTryStatement(node: TryStatement) {
   return createTsCall('createTry', [
     transformVisitor(node.tryBlock),
     transformVisitor(node.catchClause),
@@ -249,44 +408,44 @@ function createTryStatement(node: ts.TryStatement) {
   ])
 }
 
-function createThrowStatement(node: ts.ThrowStatement) {
+function generateThrowStatement(node: ThrowStatement) {
   return createTsCall('createThrow', [transformVisitor(node.expression)])
 }
 
-function createLabeledStatement(node: ts.LabeledStatement) {
+function generateLabeledStatement(node: LabeledStatement) {
   return createTsCall('createLabel', [
     transformVisitor(node.label),
     transformVisitor(node.statement)
   ])
 }
 
-function createSwitchStatement(node: ts.SwitchStatement) {
+function generateSwitchStatement(node: SwitchStatement) {
   return createTsCall('createSwitch', [
     transformVisitor(node.expression),
     transformVisitor(node.caseBlock)
   ])
 }
 
-function createWithStatement(node: ts.WithStatement) {
+function generateWithStatement(node: WithStatement) {
   return createTsCall('createWith', [
     transformVisitor(node.expression),
     transformVisitor(node.statement)
   ])
 }
 
-function createReturnStatement(node: ts.ReturnStatement) {
+function generateReturnStatement(node: ReturnStatement) {
   return createTsCall('createReturn', [transformVisitor(node.expression)])
 }
 
-function createBreakStatement(node: ts.BreakStatement) {
+function generateBreakStatement(node: BreakStatement) {
   return createTsCall('createBreak', [transformVisitor(node.label)])
 }
 
-function createContinueStatement(node: ts.ContinueStatement) {
+function generateContinueStatement(node: ContinueStatement) {
   return createTsCall('createContinue', [transformVisitor(node.label)])
 }
 
-function createForOfStatement(node: ts.ForOfStatement) {
+function generateForOfStatement(node: ForOfStatement) {
   return createTsCall('createForOf', [
     transformVisitor(node.awaitModifier),
     transformVisitor(node.initializer),
@@ -295,7 +454,7 @@ function createForOfStatement(node: ts.ForOfStatement) {
   ])
 }
 
-function createForInStatement(node: ts.ForInStatement) {
+function generateForInStatement(node: ForInStatement) {
   return createTsCall('createForIn', [
     transformVisitor(node.initializer),
     transformVisitor(node.expression),
@@ -303,7 +462,7 @@ function createForInStatement(node: ts.ForInStatement) {
   ])
 }
 
-function createForStatement(node: ts.ForStatement) {
+function generateForStatement(node: ForStatement) {
   return createTsCall('createFor', [
     transformVisitor(node.initializer),
     transformVisitor(node.condition),
@@ -312,21 +471,21 @@ function createForStatement(node: ts.ForStatement) {
   ])
 }
 
-function createWhileStatement(node: ts.WhileStatement) {
+function generateWhileStatement(node: WhileStatement) {
   return createTsCall('createWhile', [
     transformVisitor(node.expression),
     transformVisitor(node.statement)
   ])
 }
 
-function createDoStatement(node: ts.DoStatement) {
+function generateDoStatement(node: DoStatement) {
   return createTsCall('createDo', [
     transformVisitor(node.statement),
     transformVisitor(node.expression)
   ])
 }
 
-function createIfStatement(node: ts.IfStatement) {
+function generateIfStatement(node: IfStatement) {
   return createTsCall('createIf', [
     transformVisitor(node.expression),
     transformVisitor(node.thenStatement),
@@ -334,57 +493,57 @@ function createIfStatement(node: ts.IfStatement) {
   ])
 }
 
-function createEmptyStatement(node: ts.EmptyStatement) {
+function generateEmptyStatement(node: EmptyStatement) {
   return createTsCall('createEmptyStatement', [])
 }
 
-function createVariableStatement(node: ts.VariableStatement) {
+function generateVariableStatement(node: VariableStatement) {
   return createTsCall('createVariableStatement', [
     transformVisitors(node.modifiers),
     transformVisitor(node.declarationList)
   ])
 }
 
-function createBlock(node: ts.Block) {
+function generateBlock(node: Block) {
   return createTsCall('createBlock', [
     transformVisitors(node.statements),
     createBooleanLiteral(true)
   ])
 }
 
-function createSemicolonClassElement(node: ts.SemicolonClassElement) {
+function generateSemicolonClassElement(node: SemicolonClassElement) {
   return createTsCall('createSemicolonClassElement', [])
 }
 
-function createTemplateSpan(node: ts.TemplateSpan) {
+function generateTemplateSpan(node: TemplateSpan) {
   return createTsCall('createTemplateSpan', [
     transformVisitor(node.expression),
     transformVisitor(node.literal)
   ])
 }
 
-function createMetaProperty(node: ts.MetaProperty) {
+function generateMetaProperty(node: MetaProperty) {
   return createTsCall('createMetaProperty', [
     transformSyntaxKind(node.keywordToken),
     transformVisitor(node.name)
   ])
 }
 
-function createNonNullExpression(node: ts.NonNullExpression) {
+function generateNonNullExpression(node: NonNullExpression) {
   return createTsCall('createNonNullExpression', [
     transformVisitor(node.expression)
   ])
 }
 
-function createAsExpression(node: ts.AsExpression) {
+function generateAsExpression(node: AsExpression) {
   return createTsCall('createAsExpression', [
     transformVisitor(node.expression),
     transformVisitor(node.type)
   ])
 }
 
-function createExpressionWithTypeArguments(
-  node: ts.ExpressionWithTypeArguments
+function generateExpressionWithTypeArguments(
+  node: ExpressionWithTypeArguments
 ) {
   return createTsCall('createExpressionWithTypeArguments', [
     transformVisitors(node.typeArguments),
@@ -392,7 +551,7 @@ function createExpressionWithTypeArguments(
   ])
 }
 
-function createClassExpression(node: ts.ClassExpression) {
+function generateClassExpression(node: ClassExpression) {
   return createTsCall('createClassExpression', [
     transformVisitors(node.modifiers),
     transformVisitor(node.name),
@@ -402,22 +561,22 @@ function createClassExpression(node: ts.ClassExpression) {
   ])
 }
 
-function createSpreadElement(node: ts.SpreadElement) {
+function generateSpreadElement(node: SpreadElement) {
   return createTsCall('createSpread', [transformVisitor(node.expression)])
 }
 
-function createYieldExpression(node: ts.YieldExpression) {
+function generateYieldExpression(node: YieldExpression) {
   return createTsCall('createYield', [transformVisitor(node.expression)])
 }
 
-function createTemplateExpression(node: ts.TemplateExpression) {
+function generateTemplateExpression(node: TemplateExpression) {
   return createTsCall('createTemplateExpression', [
     transformVisitor(node.head),
     transformVisitors(node.templateSpans)
   ])
 }
 
-function createConditionalExpression(node: ts.ConditionalExpression) {
+function generateConditionalExpression(node: ConditionalExpression) {
   return createTsCall('createConditional', [
     transformVisitor(node.condition),
     transformVisitor(node.whenTrue),
@@ -425,7 +584,7 @@ function createConditionalExpression(node: ts.ConditionalExpression) {
   ])
 }
 
-function createBinaryExpression(node: ts.BinaryExpression) {
+function generateBinaryExpression(node: BinaryExpression) {
   return createTsCall('createBinary', [
     transformVisitor(node.left),
     transformVisitor(node.operatorToken),
@@ -433,23 +592,23 @@ function createBinaryExpression(node: ts.BinaryExpression) {
   ])
 }
 
-function createAwaitExpression(node: ts.AwaitExpression) {
+function generateAwaitExpression(node: AwaitExpression) {
   return createTsCall('createAwait', [transformVisitor(node.expression)])
 }
 
-function createVoidExpression(node: ts.VoidExpression) {
+function generateVoidExpression(node: VoidExpression) {
   return createTsCall('createVoid', [transformVisitor(node.expression)])
 }
 
-function createTypeOfExpression(node: ts.TypeOfExpression) {
+function generateTypeOfExpression(node: TypeOfExpression) {
   return createTsCall('createTypeOf', [transformVisitor(node.expression)])
 }
 
-function createDeleteExpression(node: ts.DeleteExpression) {
+function generateDeleteExpression(node: DeleteExpression) {
   return createTsCall('createDelete', [transformVisitor(node.expression)])
 }
 
-function createArrowFunction(node: ts.ArrowFunction) {
+function generateArrowFunction(node: ArrowFunction) {
   return createTsCall('createArrowFunction', [
     transformVisitors(node.modifiers),
     transformVisitors(node.typeParameters),
@@ -460,7 +619,7 @@ function createArrowFunction(node: ts.ArrowFunction) {
   ])
 }
 
-function createFunctionExpression(node: ts.FunctionExpression) {
+function generateFunctionExpression(node: FunctionExpression) {
   return createTsCall('createFunctionExpression', [
     transformVisitors(node.modifiers),
     transformVisitor(node.asteriskToken),
@@ -472,25 +631,25 @@ function createFunctionExpression(node: ts.FunctionExpression) {
   ])
 }
 
-function createParenthesizedExpression(node: ts.ParenthesizedExpression) {
+function generateParenthesizedExpression(node: ParenthesizedExpression) {
   return createTsCall('createParen', [transformVisitor(node.expression)])
 }
 
-function createTypeAssertionExpression(node: ts.TypeAssertion) {
+function generateTypeAssertionExpression(node: TypeAssertion) {
   return createTsCall('createTypeAssertion', [
     transformVisitor(node.type),
     transformVisitor(node.expression)
   ])
 }
 
-function createTaggedTemplateExpression(node: ts.TaggedTemplateExpression) {
+function generateTaggedTemplateExpression(node: TaggedTemplateExpression) {
   return createTsCall('createTaggedTemplate', [
     transformVisitor(node.tag),
     transformVisitor(node.template)
   ])
 }
 
-function createNewExpression(node: ts.NewExpression) {
+function generateNewExpression(node: NewExpression) {
   return createTsCall('createNew', [
     transformVisitor(node.expression),
     transformVisitors(node.typeArguments),
@@ -498,7 +657,7 @@ function createNewExpression(node: ts.NewExpression) {
   ])
 }
 
-function createCallExpression(node: ts.CallExpression) {
+function generateCallExpression(node: CallExpression) {
   return createTsCall('createCall', [
     transformVisitor(node.expression),
     transformVisitors(node.typeArguments),
@@ -506,35 +665,35 @@ function createCallExpression(node: ts.CallExpression) {
   ])
 }
 
-function createElementAccessExpression(node: ts.ElementAccessExpression) {
+function generateElementAccessExpression(node: ElementAccessExpression) {
   return createTsCall('createElementAccess', [
     transformVisitor(node.expression),
     transformVisitor(node.argumentExpression)
   ])
 }
 
-function createPropertyAccessExpression(node: ts.PropertyAccessExpression) {
+function generatePropertyAccessExpression(node: PropertyAccessExpression) {
   return createTsCall('createPropertyAccess', [
     transformVisitor(node.expression),
     transformVisitor(node.name)
   ])
 }
 
-function createObjectLiteralExpression(node: ts.ObjectLiteralExpression) {
+function generateObjectLiteralExpression(node: ObjectLiteralExpression) {
   return createTsCall('createObjectLiteral', [
     transformVisitors(node.properties),
     createBooleanLiteral(false)
   ])
 }
 
-function createArrayLiteralExpression(node: ts.ArrayLiteralExpression) {
+function generateArrayLiteralExpression(node: ArrayLiteralExpression) {
   return createTsCall('createArrayLiteral', [
     transformVisitors(node.elements),
     createBooleanLiteral(false)
   ])
 }
 
-function createBindingElement(node: ts.BindingElement) {
+function generateBindingElement(node: BindingElement) {
   return createTsCall('createBindingElement', [
     transformVisitor(node.dotDotDotToken),
     transformVisitor(node.propertyName),
@@ -543,19 +702,19 @@ function createBindingElement(node: ts.BindingElement) {
   ])
 }
 
-function createArrayBindingPattern(node: ts.ArrayBindingPattern) {
+function generateArrayBindingPattern(node: ArrayBindingPattern) {
   return createTsCall('createArrayBindingPattern', [
     transformVisitors(node.elements)
   ])
 }
 
-function createObjectBindingPattern(node: ts.ObjectBindingPattern) {
+function generateObjectBindingPattern(node: ObjectBindingPattern) {
   return createTsCall('createObjectBindingPattern', [
     transformVisitors(node.elements)
   ])
 }
 
-function createImportType(node: ts.ImportTypeNode) {
+function generateImportType(node: ImportTypeNode) {
   return createTsCall('createImportTypeNode', [
     transformVisitor(node.argument),
     transformVisitor(node.qualifier),
@@ -564,11 +723,11 @@ function createImportType(node: ts.ImportTypeNode) {
   ])
 }
 
-function createLiteralType(node: ts.LiteralTypeNode) {
+function generateLiteralType(node: LiteralTypeNode) {
   return createTsCall('createLiteralTypeNode', [transformVisitor(node.literal)])
 }
 
-function createMappedType(node: ts.MappedTypeNode) {
+function generateMappedType(node: MappedTypeNode) {
   return createTsCall('createMappedTypeNode', [
     transformVisitor(node.readonlyToken),
     transformVisitor(node.typeParameter),
@@ -577,35 +736,35 @@ function createMappedType(node: ts.MappedTypeNode) {
   ])
 }
 
-function createIndexedAccessType(node: ts.IndexedAccessTypeNode) {
+function generateIndexedAccessType(node: IndexedAccessTypeNode) {
   return createTsCall('createIndexedAccessTypeNode', [
     transformVisitor(node.objectType),
     transformVisitor(node.indexType)
   ])
 }
 
-function createTypeOperator(node: ts.TypeOperatorNode) {
+function generateTypeOperator(node: TypeOperatorNode) {
   return createTsCall('createTypeOperatorNode', [
     transformSyntaxKind(node.operator),
     transformVisitor(node.type)
   ])
 }
 
-function createThisType(node: ts.ThisTypeNode) {
+function generateThisType(node: ThisTypeNode) {
   return createTsCall('createThisTypeNode')
 }
 
-function createParenthesizedType(node: ts.ParenthesizedTypeNode) {
+function generateParenthesizedType(node: ParenthesizedTypeNode) {
   return createTsCall('createParenthesizedType', [transformVisitor(node.type)])
 }
 
-function createInferType(node: ts.InferTypeNode) {
+function generateInferType(node: InferTypeNode) {
   return createTsCall('createInferTypeNode', [
     transformVisitor(node.typeParameter)
   ])
 }
 
-function createConditionalType(node: ts.ConditionalTypeNode) {
+function generateConditionalType(node: ConditionalTypeNode) {
   return createTsCall('createConditionalTypeNode', [
     transformVisitor(node.checkType),
     transformVisitor(node.extendsType),
@@ -614,47 +773,47 @@ function createConditionalType(node: ts.ConditionalTypeNode) {
   ])
 }
 
-function createIntersectionType(node: ts.IntersectionTypeNode) {
+function generateIntersectionType(node: IntersectionTypeNode) {
   return createTsCall('createIntersectionTypeNode', [
     transformVisitors(node.types)
   ])
 }
 
-function createUnionType(node: ts.UnionTypeNode) {
+function generateUnionType(node: UnionTypeNode) {
   return createTsCall('createUnionTypeNode', [transformVisitors(node.types)])
 }
 
-function createRestType(node: ts.RestTypeNode) {
+function generateRestType(node: RestTypeNode) {
   return createTsCall('createRestTypeNode', [transformVisitor(node.type)])
 }
 
-function createOptionalType(node: ts.OptionalTypeNode) {
+function generateOptionalType(node: OptionalTypeNode) {
   return createTsCall('createOptionalTypeNode', [transformVisitor(node.type)])
 }
 
-function createTypleType(node: ts.TupleTypeNode) {
+function generateTypleType(node: TupleTypeNode) {
   return createTsCall('createTupleTypeNode', [
     transformVisitors(node.elementTypes)
   ])
 }
 
-function createArrayType(node: ts.ArrayTypeNode) {
+function generateArrayType(node: ArrayTypeNode) {
   return createTsCall('createArrayTypeNode', [
     transformVisitor(node.elementType)
   ])
 }
 
-function createTypeLiteral(node: ts.TypeLiteralNode) {
+function generateTypeLiteral(node: TypeLiteralNode) {
   return createTsCall('createTypeLiteralNode', [
     transformVisitors(node.members)
   ])
 }
 
-function createTypeQuery(node: ts.TypeQueryNode) {
+function generateTypeQuery(node: TypeQueryNode) {
   return createTsCall('createTypeQueryNode', [transformVisitor(node.exprName)])
 }
 
-function createConstructorType(node: ts.ConstructorTypeNode) {
+function generateConstructorType(node: ConstructorTypeNode) {
   return createTsCall('createConstructorTypeNode', [
     transformVisitors(node.typeParameters),
     transformVisitors(node.parameters),
@@ -662,7 +821,7 @@ function createConstructorType(node: ts.ConstructorTypeNode) {
   ])
 }
 
-function createFunctionType(node: ts.FunctionTypeNode) {
+function generateFunctionType(node: FunctionTypeNode) {
   return createTsCall('createFunctionTypeNode', [
     transformVisitors(node.typeParameters),
     transformVisitors(node.parameters),
@@ -670,21 +829,21 @@ function createFunctionType(node: ts.FunctionTypeNode) {
   ])
 }
 
-function createTypeReference(node: ts.TypeReferenceNode) {
+function generateTypeReference(node: TypeReferenceNode) {
   return createTsCall('createTypeReferenceNode', [
     transformVisitor(node.typeName),
     transformVisitors(node.typeArguments)
   ])
 }
 
-function createTypePredicate(node: ts.TypePredicateNode) {
+function generateTypePredicate(node: TypePredicateNode) {
   return createTsCall('createTypePredicateNode', [
     transformVisitor(node.parameterName),
     transformVisitor(node.type)
   ])
 }
 
-function createIndexSignature(node: ts.IndexSignatureDeclaration) {
+function generateIndexSignature(node: IndexSignatureDeclaration) {
   return createTsCall('createIndexSignature', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -693,7 +852,7 @@ function createIndexSignature(node: ts.IndexSignatureDeclaration) {
   ])
 }
 
-function createConstructSignature(node: ts.ConstructSignatureDeclaration) {
+function generateConstructSignature(node: ConstructSignatureDeclaration) {
   return createTsCall('createConstructSignature', [
     transformVisitors(node.typeParameters),
     transformVisitors(node.parameters),
@@ -701,7 +860,7 @@ function createConstructSignature(node: ts.ConstructSignatureDeclaration) {
   ])
 }
 
-function createConstructor(node: ts.ConstructorDeclaration) {
+function generateConstructor(node: ConstructorDeclaration) {
   return createTsCall('createConstructor', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -710,7 +869,7 @@ function createConstructor(node: ts.ConstructorDeclaration) {
   ])
 }
 
-function createGetAccessor(node: ts.GetAccessorDeclaration) {
+function generateGetAccessor(node: GetAccessorDeclaration) {
   return createTsCall('createGetAccessor', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -721,7 +880,7 @@ function createGetAccessor(node: ts.GetAccessorDeclaration) {
   ])
 }
 
-function createSetAccessor(node: ts.SetAccessorDeclaration) {
+function generateSetAccessor(node: SetAccessorDeclaration) {
   return createTsCall('createSetAccessor', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -731,7 +890,7 @@ function createSetAccessor(node: ts.SetAccessorDeclaration) {
   ])
 }
 
-function createCallSignature(node: ts.CallSignatureDeclaration) {
+function generateCallSignature(node: CallSignatureDeclaration) {
   return createTsCall('createCallSignature', [
     transformVisitors(node.typeParameters),
     transformVisitors(node.parameters),
@@ -739,7 +898,7 @@ function createCallSignature(node: ts.CallSignatureDeclaration) {
   ])
 }
 
-function createMethodDeclaration(node: ts.MethodDeclaration) {
+function generateMethodDeclaration(node: MethodDeclaration) {
   return createTsCall('createMethod', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -753,7 +912,7 @@ function createMethodDeclaration(node: ts.MethodDeclaration) {
   ])
 }
 
-function createMethodSignature(node: ts.MethodSignature) {
+function generateMethodSignature(node: MethodSignature) {
   return createTsCall('createMethodSignature', [
     transformVisitors(node.typeParameters),
     transformVisitors(node.parameters),
@@ -763,7 +922,7 @@ function createMethodSignature(node: ts.MethodSignature) {
   ])
 }
 
-function createPropertyDeclaration(node: ts.PropertyDeclaration) {
+function generatePropertyDeclaration(node: PropertyDeclaration) {
   return createTsCall('createProperty', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -774,7 +933,7 @@ function createPropertyDeclaration(node: ts.PropertyDeclaration) {
   ])
 }
 
-function createPropertySignature(node: ts.PropertySignature) {
+function generatePropertySignature(node: PropertySignature) {
   return createTsCall('createPropertySignature', [
     transformVisitors(node.modifiers),
     transformVisitor(node.name),
@@ -784,11 +943,11 @@ function createPropertySignature(node: ts.PropertySignature) {
   ])
 }
 
-function createDecorator(node: ts.Decorator) {
+function generateDecorator(node: Decorator) {
   return createTsCall('createDecorator', [transformVisitor(node.expression)])
 }
 
-function createParameter(node: ts.ParameterDeclaration) {
+function generateParameter(node: ParameterDeclaration) {
   return createTsCall('createParameter', [
     transformVisitors(node.decorators),
     transformVisitors(node.modifiers),
@@ -800,11 +959,11 @@ function createParameter(node: ts.ParameterDeclaration) {
   ])
 }
 
-function createToken<T extends ts.SyntaxKind>(node: ts.Token<T>) {
+function generateToken<T extends SyntaxKind>(node: Token<T>) {
   return createTsCall('createToken', [transformSyntaxKind(node.kind)])
 }
 
-function createTypeParameter(node: ts.TypeParameterDeclaration) {
+function generateTypeParameter(node: TypeParameterDeclaration) {
   return createTsCall('createTypeParameterDeclaration', [
     transformVisitor(node.name),
     transformVisitor(node.constraint),
@@ -812,112 +971,112 @@ function createTypeParameter(node: ts.TypeParameterDeclaration) {
   ])
 }
 
-function createComputedPropertyName(node: ts.ComputedPropertyName) {
+function generateComputedPropertyName(node: ComputedPropertyName) {
   return createTsCall('createComputedPropertyName', [
     transformVisitor(node.expression)
   ])
 }
 
-function createNumericLiteral(node: ts.NumericLiteral) {
+function generateNumericLiteral(node: NumericLiteral) {
   return createLiteralCall(node, 'createNumericLiteral')
 }
 
-function BigIntLiteral(node: ts.BigIntLiteral) {
+function BigIntLiteral(node: BigIntLiteral) {
   return createLiteralCall(node, 'createBigIntLiteral')
 }
 
-function createStringLiteral(node: ts.StringLiteral) {
+function generateStringLiteral(node: StringLiteral) {
   return createLiteralCall(node, 'createStringLiteral')
 }
 
-function createRegularExpressionLiteral(node: ts.RegularExpressionLiteral) {
+function generateRegularExpressionLiteral(node: RegularExpressionLiteral) {
   return createLiteralCall(node, 'createRegularExpressionLiteral')
 }
 
-function createNoSubstitutionTemplateLiteral(
-  node: ts.NoSubstitutionTemplateLiteral
+function generateNoSubstitutionTemplateLiteral(
+  node: NoSubstitutionTemplateLiteral
 ) {
   return createLiteralCall(node, 'createNoSubstitutionTemplateLiteral')
 }
 
-function createTemplateHead(node: ts.TemplateHead) {
+function generateTemplateHead(node: TemplateHead) {
   return createLiteralCall(node, 'createTemplateHead')
 }
 
-function createTemplateMiddle(node: ts.TemplateMiddle) {
+function generateTemplateMiddle(node: TemplateMiddle) {
   return createLiteralCall(node, 'createTemplateMiddle')
 }
 
-function createTemplateTail(node: ts.TemplateTail) {
+function generateTemplateTail(node: TemplateTail) {
   return createLiteralCall(node, 'createTemplateTail')
 }
 
-function createIdentifier(node: ts.Identifier) {
+function generateIdentifier(node: Identifier) {
   return createLiteralCall(node, 'createIdentifier')
 }
 
-function createQualifiedName(node: ts.QualifiedName) {
+function generateQualifiedName(node: QualifiedName) {
   return createTsCall('createQualifiedName', [
     transformVisitor(node.left),
     transformVisitor(node.right)
   ])
 }
 
-function createExpressionStatement(node: ts.ExpressionStatement) {
+function generateExpressionStatement(node: ExpressionStatement) {
   return createTsCall('createExpressionStatement', [
     transformVisitor(node.expression)
   ])
 }
 
-function createPrefixUnaryExpression(node: ts.PrefixUnaryExpression) {
+function generatePrefixUnaryExpression(node: PrefixUnaryExpression) {
   return createTsCall('createPrefix', [
     transformSyntaxKind(node.operator),
     transformVisitor(node.operand)
   ])
 }
 
-function createPostfixUnaryExpression(node: ts.PostfixUnaryExpression) {
+function generatePostfixUnaryExpression(node: PostfixUnaryExpression) {
   return createTsCall('createPostfix', [
     transformVisitor(node.operand),
     transformSyntaxKind(node.operator)
   ])
 }
 
-function createJsxExpression(node: ts.JsxExpression) {
+function generateJsxExpression(node: JsxExpression) {
   return createTsCall('createJsxExpression', [
     transformVisitor(node.dotDotDotToken),
     transformVisitor(node.expression)
   ])
 }
 
-function createJsxSpreadAttribute(node: ts.JsxSpreadAttribute) {
+function generateJsxSpreadAttribute(node: JsxSpreadAttribute) {
   return createTsCall('createJsxSpreadAttribute', [
     transformVisitor(node.expression)
   ])
 }
 
-function createJsxAttributes(node: ts.JsxAttributes) {
+function generateJsxAttributes(node: JsxAttributes) {
   return createTsCall('createJsxAttributes', [
     transformVisitors(node.properties)
   ])
 }
 
-function createJsxAttribute(node: ts.JsxAttribute) {
+function generateJsxAttribute(node: JsxAttribute) {
   return createTsCall('createJsxAttribute', [
     transformVisitor(node.name),
     transformVisitor(node.initializer)
   ])
 }
 
-function createJsxClosingFragment(node: ts.JsxClosingFragment) {
-  return transformRawNode(ts.SyntaxKind.JsxClosingFragment)
+function generateJsxClosingFragment(node: JsxClosingFragment) {
+  return transformRawNode(SyntaxKind.JsxClosingFragment)
 }
 
-function createJsxOpeningFragment(node: ts.JsxOpeningFragment) {
-  return transformRawNode(ts.SyntaxKind.JsxOpeningElement)
+function generateJsxOpeningFragment(node: JsxOpeningFragment) {
+  return transformRawNode(SyntaxKind.JsxOpeningElement)
 }
 
-function createJsxFragment(node: ts.JsxFragment) {
+function generateJsxFragment(node: JsxFragment) {
   return createTsCall('createJsxFragment', [
     transformVisitor(node.openingFragment),
     transformVisitors(node.children),
@@ -925,13 +1084,13 @@ function createJsxFragment(node: ts.JsxFragment) {
   ])
 }
 
-function createJsxClosingElement(node: ts.JsxClosingElement) {
+function generateJsxClosingElement(node: JsxClosingElement) {
   return createTsCall('createJsxClosingElement', [
     transformVisitor(node.tagName)
   ])
 }
 
-function createJsxOpeningElement(node: ts.JsxOpeningElement) {
+function generateJsxOpeningElement(node: JsxOpeningElement) {
   return createTsCall('createJsxOpeningElement', [
     transformVisitor(node.tagName),
     transformVisitors(node.typeArguments),
@@ -939,7 +1098,7 @@ function createJsxOpeningElement(node: ts.JsxOpeningElement) {
   ])
 }
 
-function createJsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
+function generateJsxSelfClosingElement(node: JsxSelfClosingElement) {
   return createTsCall('createJsxSelfClosingElement', [
     transformVisitor(node.tagName),
     transformVisitors(node.typeArguments),
@@ -947,7 +1106,7 @@ function createJsxSelfClosingElement(node: ts.JsxSelfClosingElement) {
   ])
 }
 
-function createJsxElement(node: ts.JsxElement) {
+function generateJsxElement(node: JsxElement) {
   return createTsCall('createJsxElement', [
     transformVisitor(node.openingElement),
     transformVisitors(node.children),
@@ -955,38 +1114,38 @@ function createJsxElement(node: ts.JsxElement) {
   ])
 }
 
-function createSourceFile(node: ts.SourceFile) {
+function generateSourceFile(node: SourceFile) {
   return createTsCall('updateSourceFileNode', [
     createTsCall('createSourceFile', [
-      ts.createStringLiteral(node.fileName),
-      ts.createStringLiteral(''),
-      ts.createPropertyAccess(
-        createTsAccess(ts.createIdentifier('ScriptTarget')),
-        ts.createIdentifier(ts.ScriptTarget[node.languageVersion])
+      createStringLiteral(node.fileName),
+      createStringLiteral(''),
+      createPropertyAccess(
+        createTsAccess(createIdentifier('ScriptTarget')),
+        createIdentifier(ScriptTarget[node.languageVersion])
       )
     ]),
     transformVisitors(node.statements)
   ])
 }
 
-function transformSyntaxKind(kind: ts.SyntaxKind) {
-  return ts.createPropertyAccess(
-    createTsAccess(ts.createIdentifier('SyntaxKind')),
-    ts.createIdentifier(ts.SyntaxKind[kind])
+function transformSyntaxKind(kind: SyntaxKind) {
+  return createPropertyAccess(
+    createTsAccess(createIdentifier('SyntaxKind')),
+    createIdentifier(SyntaxKind[kind])
   )
 }
 
-function transformRawNode(kind: ts.SyntaxKind) {
-  return ts.createParen(
-    ts.createAsExpression(
+function transformRawNode(kind: SyntaxKind) {
+  return createParen(
+    createAsExpression(
       createTsCall('createNode', [transformSyntaxKind(kind)]),
-      ts.createTypeReferenceNode(
-        ts.createQualifiedName(
-          ts.createQualifiedName(
-            ts.createIdentifier('ts'),
-            ts.createIdentifier('SyntaxKind')
+      createTypeReferenceNode(
+        createQualifiedName(
+          createQualifiedName(
+            createIdentifier('ts'),
+            createIdentifier('SyntaxKind')
           ),
-          ts.createIdentifier(ts.SyntaxKind[kind])
+          createIdentifier(SyntaxKind[kind])
         ),
         undefined
       )
@@ -994,42 +1153,42 @@ function transformRawNode(kind: ts.SyntaxKind) {
   )
 }
 
-function transformKeyword(kind: ts.SyntaxKind) {
+function transformKeyword(kind: SyntaxKind) {
   switch (kind) {
-    case ts.SyntaxKind.TrueKeyword:
+    case SyntaxKind.TrueKeyword:
       return createTsCall('createTrue', [])
-    case ts.SyntaxKind.FalseKeyword:
+    case SyntaxKind.FalseKeyword:
       return createTsCall('createFalse', [])
-    case ts.SyntaxKind.NullKeyword:
+    case SyntaxKind.NullKeyword:
       return createTsCall('createNull', [])
-    case ts.SyntaxKind.SuperKeyword:
+    case SyntaxKind.SuperKeyword:
       return createTsCall('createSuper', [])
-    case ts.SyntaxKind.ThisKeyword:
+    case SyntaxKind.ThisKeyword:
       return createTsCall('createThis', [])
-    case ts.SyntaxKind.AnyKeyword:
-    case ts.SyntaxKind.UnknownKeyword:
-    case ts.SyntaxKind.NumberKeyword:
-    case ts.SyntaxKind.BigIntKeyword:
-    case ts.SyntaxKind.ObjectKeyword:
-    case ts.SyntaxKind.BooleanKeyword:
-    case ts.SyntaxKind.StringKeyword:
-    case ts.SyntaxKind.SymbolKeyword:
-    case ts.SyntaxKind.VoidKeyword:
-    case ts.SyntaxKind.UndefinedKeyword:
-    case ts.SyntaxKind.NeverKeyword:
+    case SyntaxKind.AnyKeyword:
+    case SyntaxKind.UnknownKeyword:
+    case SyntaxKind.NumberKeyword:
+    case SyntaxKind.BigIntKeyword:
+    case SyntaxKind.ObjectKeyword:
+    case SyntaxKind.BooleanKeyword:
+    case SyntaxKind.StringKeyword:
+    case SyntaxKind.SymbolKeyword:
+    case SyntaxKind.VoidKeyword:
+    case SyntaxKind.UndefinedKeyword:
+    case SyntaxKind.NeverKeyword:
       return transformTypeKeyword(kind)
 
-    case ts.SyntaxKind.AbstractKeyword:
-    case ts.SyntaxKind.AsyncKeyword:
-    case ts.SyntaxKind.ConstKeyword:
-    case ts.SyntaxKind.DeclareKeyword:
-    case ts.SyntaxKind.DefaultKeyword:
-    case ts.SyntaxKind.ExportKeyword:
-    case ts.SyntaxKind.PublicKeyword:
-    case ts.SyntaxKind.PrivateKeyword:
-    case ts.SyntaxKind.ProtectedKeyword:
-    case ts.SyntaxKind.ReadonlyKeyword:
-    case ts.SyntaxKind.StaticKeyword:
+    case SyntaxKind.AbstractKeyword:
+    case SyntaxKind.AsyncKeyword:
+    case SyntaxKind.ConstKeyword:
+    case SyntaxKind.DeclareKeyword:
+    case SyntaxKind.DefaultKeyword:
+    case SyntaxKind.ExportKeyword:
+    case SyntaxKind.PublicKeyword:
+    case SyntaxKind.PrivateKeyword:
+    case SyntaxKind.ProtectedKeyword:
+    case SyntaxKind.ReadonlyKeyword:
+    case SyntaxKind.StaticKeyword:
       return transformModifier(kind)
 
     default:
@@ -1037,11 +1196,11 @@ function transformKeyword(kind: ts.SyntaxKind) {
   }
 }
 
-function transformTypeKeyword(kind: ts.KeywordTypeNode['kind']) {
+function transformTypeKeyword(kind: KeywordTypeNode['kind']) {
   return createTsCall('createKeywordTypeNode', [transformSyntaxKind(kind)])
 }
 
-function transformModifier(kind: ts.Modifier['kind']) {
+function transformModifier(kind: Modifier['kind']) {
   return createTsCall('createModifier', [transformSyntaxKind(kind)])
 }
 
@@ -1051,324 +1210,324 @@ function transformVisitorQuestionOrExclamation(node: QuestionOrExclamation) {
   } else if (node.exclamationToken) {
     return transformVisitor(node.exclamationToken)
   } else {
-    return ts.createIdentifier('undefined')
+    return createIdentifier('undefined')
   }
 }
 
-function transformVisitors(nodes?: ts.NodeArray<ts.Node>): ts.Expression {
+function transformVisitors(nodes?: NodeArray<Node>): Expression {
   if (!nodes) {
-    return ts.createIdentifier('undefined')
+    return createIdentifier('undefined')
   }
-  return ts.createArrayLiteral(nodes.map(transformVisitor))
+  return createArrayLiteral(nodes.map(transformVisitor))
 }
 
-function isToken(kind: ts.SyntaxKind) {
-  return kind >= ts.SyntaxKind.FirstToken && kind <= ts.SyntaxKind.LastToken
+function isToken(kind: SyntaxKind) {
+  return kind >= SyntaxKind.FirstToken && kind <= SyntaxKind.LastToken
 }
 
-function isKeyword(kind: ts.SyntaxKind) {
-  return kind >= ts.SyntaxKind.FirstKeyword && kind <= ts.SyntaxKind.LastKeyword
+function isKeyword(kind: SyntaxKind) {
+  return kind >= SyntaxKind.FirstKeyword && kind <= SyntaxKind.LastKeyword
 }
 
-function transformVisitor(node?: ts.Node): ts.Expression {
+function transformVisitor(node?: Node): Expression {
   if (!node) {
-    return ts.createIdentifier('undefined')
+    return createIdentifier('undefined')
   }
 
   switch (node.kind) {
-    case ts.SyntaxKind.NumericLiteral:
-      return createNumericLiteral(node as ts.NumericLiteral)
-    case ts.SyntaxKind.BigIntLiteral:
-      return BigIntLiteral(node as ts.BigIntLiteral)
-    case ts.SyntaxKind.StringLiteral:
-      return createStringLiteral(node as ts.StringLiteral)
-    case ts.SyntaxKind.RegularExpressionLiteral:
-      return createRegularExpressionLiteral(node as ts.RegularExpressionLiteral)
-    case ts.SyntaxKind.NoSubstitutionTemplateLiteral:
-      return createNoSubstitutionTemplateLiteral(
-        node as ts.NoSubstitutionTemplateLiteral
+    case SyntaxKind.NumericLiteral:
+      return generateNumericLiteral(node as NumericLiteral)
+    case SyntaxKind.BigIntLiteral:
+      return BigIntLiteral(node as BigIntLiteral)
+    case SyntaxKind.StringLiteral:
+      return generateStringLiteral(node as StringLiteral)
+    case SyntaxKind.RegularExpressionLiteral:
+      return generateRegularExpressionLiteral(node as RegularExpressionLiteral)
+    case SyntaxKind.NoSubstitutionTemplateLiteral:
+      return generateNoSubstitutionTemplateLiteral(
+        node as NoSubstitutionTemplateLiteral
       )
-    case ts.SyntaxKind.TemplateHead:
-      return createTemplateHead(node as ts.TemplateHead)
-    case ts.SyntaxKind.TemplateMiddle:
-      return createTemplateMiddle(node as ts.TemplateMiddle)
-    case ts.SyntaxKind.TemplateTail:
-      return createTemplateTail(node as ts.TemplateTail)
-    case ts.SyntaxKind.Identifier:
-      return createIdentifier(node as ts.Identifier)
+    case SyntaxKind.TemplateHead:
+      return generateTemplateHead(node as TemplateHead)
+    case SyntaxKind.TemplateMiddle:
+      return generateTemplateMiddle(node as TemplateMiddle)
+    case SyntaxKind.TemplateTail:
+      return generateTemplateTail(node as TemplateTail)
+    case SyntaxKind.Identifier:
+      return generateIdentifier(node as Identifier)
 
-    case ts.SyntaxKind.QualifiedName:
-      return createQualifiedName(node as ts.QualifiedName)
-    case ts.SyntaxKind.ComputedPropertyName:
-      return createComputedPropertyName(node as ts.ComputedPropertyName)
-    case ts.SyntaxKind.TypeParameter:
-      return createTypeParameter(node as ts.TypeParameterDeclaration)
-    case ts.SyntaxKind.Parameter:
-      return createParameter(node as ts.ParameterDeclaration)
-    case ts.SyntaxKind.Decorator:
-      return createDecorator(node as ts.Decorator)
-    case ts.SyntaxKind.PropertySignature:
-      return createPropertySignature(node as ts.PropertySignature)
-    case ts.SyntaxKind.PropertyDeclaration:
-      return createPropertyDeclaration(node as ts.PropertyDeclaration)
-    case ts.SyntaxKind.MethodSignature:
-      return createMethodSignature(node as ts.MethodSignature)
-    case ts.SyntaxKind.MethodDeclaration:
-      return createMethodDeclaration(node as ts.MethodDeclaration)
-    case ts.SyntaxKind.Constructor:
-      return createConstructor(node as ts.ConstructorDeclaration)
-    case ts.SyntaxKind.GetAccessor:
-      return createGetAccessor(node as ts.GetAccessorDeclaration)
-    case ts.SyntaxKind.SetAccessor:
-      return createSetAccessor(node as ts.SetAccessorDeclaration)
-    case ts.SyntaxKind.CallSignature:
-      return createCallSignature(node as ts.CallSignatureDeclaration)
-    case ts.SyntaxKind.ConstructSignature:
-      return createConstructSignature(node as ts.ConstructSignatureDeclaration)
-    case ts.SyntaxKind.IndexSignature:
-      return createIndexSignature(node as ts.IndexSignatureDeclaration)
-    case ts.SyntaxKind.TypePredicate:
-      return createTypePredicate(node as ts.TypePredicateNode)
-    case ts.SyntaxKind.TypeReference:
-      return createTypeReference(node as ts.TypeReferenceNode)
-    case ts.SyntaxKind.FunctionType:
-      return createFunctionType(node as ts.FunctionTypeNode)
-    case ts.SyntaxKind.ConstructorType:
-      return createConstructorType(node as ts.ConstructorTypeNode)
-    case ts.SyntaxKind.TypeQuery:
-      return createTypeQuery(node as ts.TypeQueryNode)
-    case ts.SyntaxKind.TypeLiteral:
-      return createTypeLiteral(node as ts.TypeLiteralNode)
-    case ts.SyntaxKind.ArrayType:
-      return createArrayType(node as ts.ArrayTypeNode)
-    case ts.SyntaxKind.TupleType:
-      return createTypleType(node as ts.TupleTypeNode)
-    case ts.SyntaxKind.OptionalType:
-      return createOptionalType(node as ts.OptionalTypeNode)
-    case ts.SyntaxKind.RestType:
-      return createRestType(node as ts.RestTypeNode)
-    case ts.SyntaxKind.UnionType:
-      return createUnionType(node as ts.UnionTypeNode)
-    case ts.SyntaxKind.IntersectionType:
-      return createIntersectionType(node as ts.IntersectionTypeNode)
-    case ts.SyntaxKind.ConditionalType:
-      return createConditionalType(node as ts.ConditionalTypeNode)
-    case ts.SyntaxKind.InferType:
-      return createInferType(node as ts.InferTypeNode)
-    case ts.SyntaxKind.ParenthesizedType:
-      return createParenthesizedType(node as ts.ParenthesizedTypeNode)
-    case ts.SyntaxKind.ThisType:
-      return createThisType(node as ts.ThisTypeNode)
-    case ts.SyntaxKind.TypeOperator:
-      return createTypeOperator(node as ts.TypeOperatorNode)
-    case ts.SyntaxKind.IndexedAccessType:
-      return createIndexedAccessType(node as ts.IndexedAccessTypeNode)
-    case ts.SyntaxKind.MappedType:
-      return createMappedType(node as ts.MappedTypeNode)
-    case ts.SyntaxKind.LiteralType:
-      return createLiteralType(node as ts.LiteralTypeNode)
-    case ts.SyntaxKind.ImportType:
-      return createImportType(node as ts.ImportTypeNode)
-    case ts.SyntaxKind.ObjectBindingPattern:
-      return createObjectBindingPattern(node as ts.ObjectBindingPattern)
-    case ts.SyntaxKind.ArrayBindingPattern:
-      return createArrayBindingPattern(node as ts.ArrayBindingPattern)
-    case ts.SyntaxKind.BindingElement:
-      return createBindingElement(node as ts.BindingElement)
-    case ts.SyntaxKind.ArrayLiteralExpression:
-      return createArrayLiteralExpression(node as ts.ArrayLiteralExpression)
-    case ts.SyntaxKind.ObjectLiteralExpression:
-      return createObjectLiteralExpression(node as ts.ObjectLiteralExpression)
-    case ts.SyntaxKind.PropertyAccessExpression:
-      return createPropertyAccessExpression(node as ts.PropertyAccessExpression)
-    case ts.SyntaxKind.ElementAccessExpression:
-      return createElementAccessExpression(node as ts.ElementAccessExpression)
-    case ts.SyntaxKind.CallExpression:
-      return createCallExpression(node as ts.CallExpression)
-    case ts.SyntaxKind.NewExpression:
-      return createNewExpression(node as ts.NewExpression)
-    case ts.SyntaxKind.TaggedTemplateExpression:
-      return createTaggedTemplateExpression(node as ts.TaggedTemplateExpression)
-    case ts.SyntaxKind.TypeAssertionExpression:
-      return createTypeAssertionExpression(node as ts.TypeAssertion)
-    case ts.SyntaxKind.ParenthesizedExpression:
-      return createParenthesizedExpression(node as ts.ParenthesizedExpression)
-    case ts.SyntaxKind.FunctionExpression:
-      return createFunctionExpression(node as ts.FunctionExpression)
-    case ts.SyntaxKind.ArrowFunction:
-      return createArrowFunction(node as ts.ArrowFunction)
-    case ts.SyntaxKind.DeleteExpression:
-      return createDeleteExpression(node as ts.DeleteExpression)
-    case ts.SyntaxKind.TypeOfExpression:
-      return createTypeOfExpression(node as ts.TypeOfExpression)
-    case ts.SyntaxKind.VoidExpression:
-      return createVoidExpression(node as ts.VoidExpression)
-    case ts.SyntaxKind.AwaitExpression:
-      return createAwaitExpression(node as ts.AwaitExpression)
-    case ts.SyntaxKind.BinaryExpression:
-      return createBinaryExpression(node as ts.BinaryExpression)
-    case ts.SyntaxKind.ConditionalExpression:
-      return createConditionalExpression(node as ts.ConditionalExpression)
-    case ts.SyntaxKind.TemplateExpression:
-      return createTemplateExpression(node as ts.TemplateExpression)
-    case ts.SyntaxKind.YieldExpression:
-      return createYieldExpression(node as ts.YieldExpression)
-    case ts.SyntaxKind.SpreadElement:
-      return createSpreadElement(node as ts.SpreadElement)
-    case ts.SyntaxKind.ClassExpression:
-      return createClassExpression(node as ts.ClassExpression)
-    case ts.SyntaxKind.ExpressionWithTypeArguments:
-      return createExpressionWithTypeArguments(
-        node as ts.ExpressionWithTypeArguments
+    case SyntaxKind.QualifiedName:
+      return generateQualifiedName(node as QualifiedName)
+    case SyntaxKind.ComputedPropertyName:
+      return generateComputedPropertyName(node as ComputedPropertyName)
+    case SyntaxKind.TypeParameter:
+      return generateTypeParameter(node as TypeParameterDeclaration)
+    case SyntaxKind.Parameter:
+      return generateParameter(node as ParameterDeclaration)
+    case SyntaxKind.Decorator:
+      return generateDecorator(node as Decorator)
+    case SyntaxKind.PropertySignature:
+      return generatePropertySignature(node as PropertySignature)
+    case SyntaxKind.PropertyDeclaration:
+      return generatePropertyDeclaration(node as PropertyDeclaration)
+    case SyntaxKind.MethodSignature:
+      return generateMethodSignature(node as MethodSignature)
+    case SyntaxKind.MethodDeclaration:
+      return generateMethodDeclaration(node as MethodDeclaration)
+    case SyntaxKind.Constructor:
+      return generateConstructor(node as ConstructorDeclaration)
+    case SyntaxKind.GetAccessor:
+      return generateGetAccessor(node as GetAccessorDeclaration)
+    case SyntaxKind.SetAccessor:
+      return generateSetAccessor(node as SetAccessorDeclaration)
+    case SyntaxKind.CallSignature:
+      return generateCallSignature(node as CallSignatureDeclaration)
+    case SyntaxKind.ConstructSignature:
+      return generateConstructSignature(node as ConstructSignatureDeclaration)
+    case SyntaxKind.IndexSignature:
+      return generateIndexSignature(node as IndexSignatureDeclaration)
+    case SyntaxKind.TypePredicate:
+      return generateTypePredicate(node as TypePredicateNode)
+    case SyntaxKind.TypeReference:
+      return generateTypeReference(node as TypeReferenceNode)
+    case SyntaxKind.FunctionType:
+      return generateFunctionType(node as FunctionTypeNode)
+    case SyntaxKind.ConstructorType:
+      return generateConstructorType(node as ConstructorTypeNode)
+    case SyntaxKind.TypeQuery:
+      return generateTypeQuery(node as TypeQueryNode)
+    case SyntaxKind.TypeLiteral:
+      return generateTypeLiteral(node as TypeLiteralNode)
+    case SyntaxKind.ArrayType:
+      return generateArrayType(node as ArrayTypeNode)
+    case SyntaxKind.TupleType:
+      return generateTypleType(node as TupleTypeNode)
+    case SyntaxKind.OptionalType:
+      return generateOptionalType(node as OptionalTypeNode)
+    case SyntaxKind.RestType:
+      return generateRestType(node as RestTypeNode)
+    case SyntaxKind.UnionType:
+      return generateUnionType(node as UnionTypeNode)
+    case SyntaxKind.IntersectionType:
+      return generateIntersectionType(node as IntersectionTypeNode)
+    case SyntaxKind.ConditionalType:
+      return generateConditionalType(node as ConditionalTypeNode)
+    case SyntaxKind.InferType:
+      return generateInferType(node as InferTypeNode)
+    case SyntaxKind.ParenthesizedType:
+      return generateParenthesizedType(node as ParenthesizedTypeNode)
+    case SyntaxKind.ThisType:
+      return generateThisType(node as ThisTypeNode)
+    case SyntaxKind.TypeOperator:
+      return generateTypeOperator(node as TypeOperatorNode)
+    case SyntaxKind.IndexedAccessType:
+      return generateIndexedAccessType(node as IndexedAccessTypeNode)
+    case SyntaxKind.MappedType:
+      return generateMappedType(node as MappedTypeNode)
+    case SyntaxKind.LiteralType:
+      return generateLiteralType(node as LiteralTypeNode)
+    case SyntaxKind.ImportType:
+      return generateImportType(node as ImportTypeNode)
+    case SyntaxKind.ObjectBindingPattern:
+      return generateObjectBindingPattern(node as ObjectBindingPattern)
+    case SyntaxKind.ArrayBindingPattern:
+      return generateArrayBindingPattern(node as ArrayBindingPattern)
+    case SyntaxKind.BindingElement:
+      return generateBindingElement(node as BindingElement)
+    case SyntaxKind.ArrayLiteralExpression:
+      return generateArrayLiteralExpression(node as ArrayLiteralExpression)
+    case SyntaxKind.ObjectLiteralExpression:
+      return generateObjectLiteralExpression(node as ObjectLiteralExpression)
+    case SyntaxKind.PropertyAccessExpression:
+      return generatePropertyAccessExpression(node as PropertyAccessExpression)
+    case SyntaxKind.ElementAccessExpression:
+      return generateElementAccessExpression(node as ElementAccessExpression)
+    case SyntaxKind.CallExpression:
+      return generateCallExpression(node as CallExpression)
+    case SyntaxKind.NewExpression:
+      return generateNewExpression(node as NewExpression)
+    case SyntaxKind.TaggedTemplateExpression:
+      return generateTaggedTemplateExpression(node as TaggedTemplateExpression)
+    case SyntaxKind.TypeAssertionExpression:
+      return generateTypeAssertionExpression(node as TypeAssertion)
+    case SyntaxKind.ParenthesizedExpression:
+      return generateParenthesizedExpression(node as ParenthesizedExpression)
+    case SyntaxKind.FunctionExpression:
+      return generateFunctionExpression(node as FunctionExpression)
+    case SyntaxKind.ArrowFunction:
+      return generateArrowFunction(node as ArrowFunction)
+    case SyntaxKind.DeleteExpression:
+      return generateDeleteExpression(node as DeleteExpression)
+    case SyntaxKind.TypeOfExpression:
+      return generateTypeOfExpression(node as TypeOfExpression)
+    case SyntaxKind.VoidExpression:
+      return generateVoidExpression(node as VoidExpression)
+    case SyntaxKind.AwaitExpression:
+      return generateAwaitExpression(node as AwaitExpression)
+    case SyntaxKind.BinaryExpression:
+      return generateBinaryExpression(node as BinaryExpression)
+    case SyntaxKind.ConditionalExpression:
+      return generateConditionalExpression(node as ConditionalExpression)
+    case SyntaxKind.TemplateExpression:
+      return generateTemplateExpression(node as TemplateExpression)
+    case SyntaxKind.YieldExpression:
+      return generateYieldExpression(node as YieldExpression)
+    case SyntaxKind.SpreadElement:
+      return generateSpreadElement(node as SpreadElement)
+    case SyntaxKind.ClassExpression:
+      return generateClassExpression(node as ClassExpression)
+    case SyntaxKind.ExpressionWithTypeArguments:
+      return generateExpressionWithTypeArguments(
+        node as ExpressionWithTypeArguments
       )
-    case ts.SyntaxKind.AsExpression:
-      return createAsExpression(node as ts.AsExpression)
-    case ts.SyntaxKind.NonNullExpression:
-      return createNonNullExpression(node as ts.NonNullExpression)
-    case ts.SyntaxKind.MetaProperty:
-      return createMetaProperty(node as ts.MetaProperty)
-    case ts.SyntaxKind.TemplateSpan:
-      return createTemplateSpan(node as ts.TemplateSpan)
-    case ts.SyntaxKind.SemicolonClassElement:
-      return createSemicolonClassElement(node as ts.SemicolonClassElement)
+    case SyntaxKind.AsExpression:
+      return generateAsExpression(node as AsExpression)
+    case SyntaxKind.NonNullExpression:
+      return generateNonNullExpression(node as NonNullExpression)
+    case SyntaxKind.MetaProperty:
+      return generateMetaProperty(node as MetaProperty)
+    case SyntaxKind.TemplateSpan:
+      return generateTemplateSpan(node as TemplateSpan)
+    case SyntaxKind.SemicolonClassElement:
+      return generateSemicolonClassElement(node as SemicolonClassElement)
 
-    case ts.SyntaxKind.Block:
-      return createBlock(node as ts.Block)
-    case ts.SyntaxKind.VariableStatement:
-      return createVariableStatement(node as ts.VariableStatement)
-    case ts.SyntaxKind.EmptyStatement:
-      return createEmptyStatement(node as ts.EmptyStatement)
-    case ts.SyntaxKind.ExpressionStatement:
-      return createExpressionStatement(node as ts.ExpressionStatement)
-    case ts.SyntaxKind.IfStatement:
-      return createIfStatement(node as ts.IfStatement)
-    case ts.SyntaxKind.DoStatement:
-      return createDoStatement(node as ts.DoStatement)
-    case ts.SyntaxKind.WhileStatement:
-      return createWhileStatement(node as ts.WhileStatement)
-    case ts.SyntaxKind.ForStatement:
-      return createForStatement(node as ts.ForStatement)
-    case ts.SyntaxKind.ForInStatement:
-      return createForInStatement(node as ts.ForInStatement)
-    case ts.SyntaxKind.ForOfStatement:
-      return createForOfStatement(node as ts.ForOfStatement)
-    case ts.SyntaxKind.ContinueStatement:
-      return createContinueStatement(node as ts.ContinueStatement)
-    case ts.SyntaxKind.BreakStatement:
-      return createBreakStatement(node as ts.BreakStatement)
-    case ts.SyntaxKind.ReturnStatement:
-      return createReturnStatement(node as ts.ReturnStatement)
-    case ts.SyntaxKind.WithStatement:
-      return createWithStatement(node as ts.WithStatement)
-    case ts.SyntaxKind.SwitchStatement:
-      return createSwitchStatement(node as ts.SwitchStatement)
-    case ts.SyntaxKind.LabeledStatement:
-      return createLabeledStatement(node as ts.LabeledStatement)
-    case ts.SyntaxKind.ThrowStatement:
-      return createThrowStatement(node as ts.ThrowStatement)
-    case ts.SyntaxKind.TryStatement:
-      return createTryStatement(node as ts.TryStatement)
-    case ts.SyntaxKind.DebuggerStatement:
-      return createDebuggerStatement(node as ts.DebuggerStatement)
-    case ts.SyntaxKind.VariableDeclaration:
-      return createVariableDeclaration(node as ts.VariableDeclaration)
-    case ts.SyntaxKind.VariableDeclarationList:
-      return createVariableDeclarationList(node as ts.VariableDeclarationList)
-    case ts.SyntaxKind.FunctionDeclaration:
-      return createFunctionDeclaration(node as ts.FunctionDeclaration)
-    case ts.SyntaxKind.ClassDeclaration:
-      return createClassDeclaration(node as ts.ClassDeclaration)
-    case ts.SyntaxKind.InterfaceDeclaration:
-      return createInterfaceDeclaration(node as ts.InterfaceDeclaration)
-    case ts.SyntaxKind.TypeAliasDeclaration:
-      return createTypeAliasDeclaration(node as ts.TypeAliasDeclaration)
-    case ts.SyntaxKind.EnumDeclaration:
-      return createEnumDeclaration(node as ts.EnumDeclaration)
-    case ts.SyntaxKind.ModuleDeclaration:
-      return createModuleDeclaration(node as ts.ModuleDeclaration)
-    case ts.SyntaxKind.ModuleBlock:
-      return createModuleBlock(node as ts.ModuleBlock)
-    case ts.SyntaxKind.CaseBlock:
-      return createCaseBlock(node as ts.CaseBlock)
-    case ts.SyntaxKind.NamespaceExportDeclaration:
-      return createNamespaceExportDeclaration(
-        node as ts.NamespaceExportDeclaration
+    case SyntaxKind.Block:
+      return generateBlock(node as Block)
+    case SyntaxKind.VariableStatement:
+      return generateVariableStatement(node as VariableStatement)
+    case SyntaxKind.EmptyStatement:
+      return generateEmptyStatement(node as EmptyStatement)
+    case SyntaxKind.ExpressionStatement:
+      return generateExpressionStatement(node as ExpressionStatement)
+    case SyntaxKind.IfStatement:
+      return generateIfStatement(node as IfStatement)
+    case SyntaxKind.DoStatement:
+      return generateDoStatement(node as DoStatement)
+    case SyntaxKind.WhileStatement:
+      return generateWhileStatement(node as WhileStatement)
+    case SyntaxKind.ForStatement:
+      return generateForStatement(node as ForStatement)
+    case SyntaxKind.ForInStatement:
+      return generateForInStatement(node as ForInStatement)
+    case SyntaxKind.ForOfStatement:
+      return generateForOfStatement(node as ForOfStatement)
+    case SyntaxKind.ContinueStatement:
+      return generateContinueStatement(node as ContinueStatement)
+    case SyntaxKind.BreakStatement:
+      return generateBreakStatement(node as BreakStatement)
+    case SyntaxKind.ReturnStatement:
+      return generateReturnStatement(node as ReturnStatement)
+    case SyntaxKind.WithStatement:
+      return generateWithStatement(node as WithStatement)
+    case SyntaxKind.SwitchStatement:
+      return generateSwitchStatement(node as SwitchStatement)
+    case SyntaxKind.LabeledStatement:
+      return generateLabeledStatement(node as LabeledStatement)
+    case SyntaxKind.ThrowStatement:
+      return generateThrowStatement(node as ThrowStatement)
+    case SyntaxKind.TryStatement:
+      return generateTryStatement(node as TryStatement)
+    case SyntaxKind.DebuggerStatement:
+      return generateDebuggerStatement(node as DebuggerStatement)
+    case SyntaxKind.VariableDeclaration:
+      return generateVariableDeclaration(node as VariableDeclaration)
+    case SyntaxKind.VariableDeclarationList:
+      return generateVariableDeclarationList(node as VariableDeclarationList)
+    case SyntaxKind.FunctionDeclaration:
+      return generateFunctionDeclaration(node as FunctionDeclaration)
+    case SyntaxKind.ClassDeclaration:
+      return generateClassDeclaration(node as ClassDeclaration)
+    case SyntaxKind.InterfaceDeclaration:
+      return generateInterfaceDeclaration(node as InterfaceDeclaration)
+    case SyntaxKind.TypeAliasDeclaration:
+      return generateTypeAliasDeclaration(node as TypeAliasDeclaration)
+    case SyntaxKind.EnumDeclaration:
+      return generateEnumDeclaration(node as EnumDeclaration)
+    case SyntaxKind.ModuleDeclaration:
+      return generateModuleDeclaration(node as ModuleDeclaration)
+    case SyntaxKind.ModuleBlock:
+      return generateModuleBlock(node as ModuleBlock)
+    case SyntaxKind.CaseBlock:
+      return generateCaseBlock(node as CaseBlock)
+    case SyntaxKind.NamespaceExportDeclaration:
+      return generateNamespaceExportDeclaration(
+        node as NamespaceExportDeclaration
       )
-    case ts.SyntaxKind.ImportEqualsDeclaration:
-      return createImportEqualsDeclaration(node as ts.ImportEqualsDeclaration)
-    case ts.SyntaxKind.ImportDeclaration:
-      return createImportDeclaration(node as ts.ImportDeclaration)
-    case ts.SyntaxKind.ImportClause:
-      return createImportClause(node as ts.ImportClause)
-    case ts.SyntaxKind.NamespaceImport:
-      return createNamespaceImport(node as ts.NamespaceImport)
-    case ts.SyntaxKind.NamedImports:
-      return createNamedImports(node as ts.NamedImports)
-    case ts.SyntaxKind.ImportSpecifier:
-      return createImportSpecifier(node as ts.ImportSpecifier)
-    case ts.SyntaxKind.ExportAssignment:
-      return createExportAssignment(node as ts.ExportAssignment)
-    case ts.SyntaxKind.ExportDeclaration:
-      return createExportDeclaration(node as ts.ExportDeclaration)
-    case ts.SyntaxKind.NamedExports:
-      return createNamedExports(node as ts.NamedExports)
-    case ts.SyntaxKind.ExportSpecifier:
-      return createExportSpecifier(node as ts.ExportSpecifier)
-    case ts.SyntaxKind.ExternalModuleReference:
-      return createExternalModuleReference(node as ts.ExternalModuleReference)
-    case ts.SyntaxKind.CaseClause:
-      return createCaseClause(node as ts.CaseClause)
-    case ts.SyntaxKind.DefaultClause:
-      return createDefaultClause(node as ts.DefaultClause)
-    case ts.SyntaxKind.HeritageClause:
-      return createHeritageClause(node as ts.HeritageClause)
-    case ts.SyntaxKind.CatchClause:
-      return createCatchClause(node as ts.CatchClause)
-    case ts.SyntaxKind.PropertyAssignment:
-      return createPropertyAssignment(node as ts.PropertyAssignment)
-    case ts.SyntaxKind.ShorthandPropertyAssignment:
-      return createShorthandPropertyAssignment(
-        node as ts.ShorthandPropertyAssignment
+    case SyntaxKind.ImportEqualsDeclaration:
+      return generateImportEqualsDeclaration(node as ImportEqualsDeclaration)
+    case SyntaxKind.ImportDeclaration:
+      return generateImportDeclaration(node as ImportDeclaration)
+    case SyntaxKind.ImportClause:
+      return generateImportClause(node as ImportClause)
+    case SyntaxKind.NamespaceImport:
+      return generateNamespaceImport(node as NamespaceImport)
+    case SyntaxKind.NamedImports:
+      return generateNamedImports(node as NamedImports)
+    case SyntaxKind.ImportSpecifier:
+      return generateImportSpecifier(node as ImportSpecifier)
+    case SyntaxKind.ExportAssignment:
+      return generateExportAssignment(node as ExportAssignment)
+    case SyntaxKind.ExportDeclaration:
+      return generateExportDeclaration(node as ExportDeclaration)
+    case SyntaxKind.NamedExports:
+      return generateNamedExports(node as NamedExports)
+    case SyntaxKind.ExportSpecifier:
+      return generateExportSpecifier(node as ExportSpecifier)
+    case SyntaxKind.ExternalModuleReference:
+      return generateExternalModuleReference(node as ExternalModuleReference)
+    case SyntaxKind.CaseClause:
+      return generateCaseClause(node as CaseClause)
+    case SyntaxKind.DefaultClause:
+      return generateDefaultClause(node as DefaultClause)
+    case SyntaxKind.HeritageClause:
+      return generateHeritageClause(node as HeritageClause)
+    case SyntaxKind.CatchClause:
+      return generateCatchClause(node as CatchClause)
+    case SyntaxKind.PropertyAssignment:
+      return generatePropertyAssignment(node as PropertyAssignment)
+    case SyntaxKind.ShorthandPropertyAssignment:
+      return generateShorthandPropertyAssignment(
+        node as ShorthandPropertyAssignment
       )
-    case ts.SyntaxKind.SpreadAssignment:
-      return createSpreadAssignment(node as ts.SpreadAssignment)
-    case ts.SyntaxKind.EnumMember:
-      return createEnumMember(node as ts.EnumMember)
-    case ts.SyntaxKind.PrefixUnaryExpression:
-      return createPrefixUnaryExpression(node as ts.PrefixUnaryExpression)
-    case ts.SyntaxKind.PostfixUnaryExpression:
-      return createPostfixUnaryExpression(node as ts.PostfixUnaryExpression)
+    case SyntaxKind.SpreadAssignment:
+      return generateSpreadAssignment(node as SpreadAssignment)
+    case SyntaxKind.EnumMember:
+      return generateEnumMember(node as EnumMember)
+    case SyntaxKind.PrefixUnaryExpression:
+      return generatePrefixUnaryExpression(node as PrefixUnaryExpression)
+    case SyntaxKind.PostfixUnaryExpression:
+      return generatePostfixUnaryExpression(node as PostfixUnaryExpression)
 
-    case ts.SyntaxKind.SourceFile:
-      return createSourceFile(node as ts.SourceFile)
+    case SyntaxKind.SourceFile:
+      return generateSourceFile(node as SourceFile)
 
-    case ts.SyntaxKind.JsxElement:
-      return createJsxElement(node as ts.JsxElement)
-    case ts.SyntaxKind.JsxSelfClosingElement:
-      return createJsxSelfClosingElement(node as ts.JsxSelfClosingElement)
-    case ts.SyntaxKind.JsxOpeningElement:
-      return createJsxOpeningElement(node as ts.JsxOpeningElement)
-    case ts.SyntaxKind.JsxClosingElement:
-      return createJsxClosingElement(node as ts.JsxClosingElement)
-    case ts.SyntaxKind.JsxFragment:
-      return createJsxFragment(node as ts.JsxFragment)
-    case ts.SyntaxKind.JsxOpeningFragment:
-      return createJsxOpeningFragment(node as ts.JsxOpeningFragment)
-    case ts.SyntaxKind.JsxClosingFragment:
-      return createJsxClosingFragment(node as ts.JsxClosingFragment)
-    case ts.SyntaxKind.JsxAttribute:
-      return createJsxAttribute(node as ts.JsxAttribute)
-    case ts.SyntaxKind.JsxAttributes:
-      return createJsxAttributes(node as ts.JsxAttributes)
-    case ts.SyntaxKind.JsxSpreadAttribute:
-      return createJsxSpreadAttribute(node as ts.JsxSpreadAttribute)
-    case ts.SyntaxKind.JsxExpression:
-      return createJsxExpression(node as ts.JsxExpression)
+    case SyntaxKind.JsxElement:
+      return generateJsxElement(node as JsxElement)
+    case SyntaxKind.JsxSelfClosingElement:
+      return generateJsxSelfClosingElement(node as JsxSelfClosingElement)
+    case SyntaxKind.JsxOpeningElement:
+      return generateJsxOpeningElement(node as JsxOpeningElement)
+    case SyntaxKind.JsxClosingElement:
+      return generateJsxClosingElement(node as JsxClosingElement)
+    case SyntaxKind.JsxFragment:
+      return generateJsxFragment(node as JsxFragment)
+    case SyntaxKind.JsxOpeningFragment:
+      return generateJsxOpeningFragment(node as JsxOpeningFragment)
+    case SyntaxKind.JsxClosingFragment:
+      return generateJsxClosingFragment(node as JsxClosingFragment)
+    case SyntaxKind.JsxAttribute:
+      return generateJsxAttribute(node as JsxAttribute)
+    case SyntaxKind.JsxAttributes:
+      return generateJsxAttributes(node as JsxAttributes)
+    case SyntaxKind.JsxSpreadAttribute:
+      return generateJsxSpreadAttribute(node as JsxSpreadAttribute)
+    case SyntaxKind.JsxExpression:
+      return generateJsxExpression(node as JsxExpression)
 
-    case ts.SyntaxKind.JsxText:
-    case ts.SyntaxKind.MissingDeclaration:
-    case ts.SyntaxKind.SyntheticExpression:
-    case ts.SyntaxKind.OmittedExpression:
+    case SyntaxKind.JsxText:
+    case SyntaxKind.MissingDeclaration:
+    case SyntaxKind.SyntheticExpression:
+    case SyntaxKind.OmittedExpression:
       throw new Error(
         'unknown syntax: ' + node.kind + ' ' + JSON.stringify(node)
       )
@@ -1378,19 +1537,19 @@ function transformVisitor(node?: ts.Node): ts.Expression {
       }
 
       if (isToken(node.kind)) {
-        return createToken(node)
+        return generateToken(node)
       }
 
       throw new Error('unsupported syntax: ' + node.kind)
   }
 }
 
-export function transformNode(node: ts.Node): ts.Expression {
+export function transformNode(node: Node): Expression {
   return transformVisitor(node)
 }
 
-export function transformSourceFile(sourceFile: ts.SourceFile): ts.SourceFile {
-  return ts.updateSourceFileNode(sourceFile, [
-    ts.createExpressionStatement(transformVisitor(sourceFile))
+export function transformSourceFile(sourceFile: SourceFile): SourceFile {
+  return updateSourceFileNode(sourceFile, [
+    createExpressionStatement(transformVisitor(sourceFile))
   ])
 }

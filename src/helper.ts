@@ -1,49 +1,60 @@
-import * as ts from 'typescript'
 import { formatFlags } from './utils'
+import {
+  Identifier,
+  createPropertyAccess,
+  createIdentifier,
+  Expression,
+  createCall,
+  LiteralLikeNode,
+  createStringLiteral,
+  BinaryOperator,
+  createBinary,
+  NodeFlags,
+  SyntaxKind,
+  createTrue,
+  createFalse
+} from 'typescript'
 
 /** @internal */
-export function createTsAccess(id: ts.Identifier) {
-  return ts.createPropertyAccess(ts.createIdentifier('ts'), id)
+export function createTsAccess(id: Identifier) {
+  return createPropertyAccess(createIdentifier('ts'), id)
 }
 
 /** @internal */
-export function createTsCall(id: string, args?: ts.Expression[]) {
-  return ts.createCall(createTsAccess(ts.createIdentifier(id)), undefined, args)
+export function createTsCall(id: string, args?: Expression[]) {
+  return createCall(createTsAccess(createIdentifier(id)), undefined, args)
 }
 
 /** @internal */
-export function createLiteralCall(node: ts.LiteralLikeNode, func: string) {
-  return createTsCall(func, [ts.createStringLiteral(node.text)])
+export function createLiteralCall(node: LiteralLikeNode, func: string) {
+  return createTsCall(func, [createStringLiteral(node.text)])
 }
 
-function connectBinary(
-  op: ts.BinaryOperator,
-  nodes: ts.Expression[]
-): ts.Expression {
+function connectBinary(op: BinaryOperator, nodes: Expression[]): Expression {
   if (nodes.length === 0) {
-    return ts.createIdentifier('undefined')
+    return createIdentifier('undefined')
   }
   if (nodes.length === 1) {
     return nodes[0]
   }
-  return ts.createBinary(nodes[0], op, connectBinary(op, nodes.slice(1)))
+  return createBinary(nodes[0], op, connectBinary(op, nodes.slice(1)))
 }
 
 /** @internal */
-export function createNodeFlags(flags: ts.NodeFlags) {
-  const formattedFlags = formatFlags(flags, ts.NodeFlags).map(f =>
-    ts.createPropertyAccess(
-      createTsAccess(ts.createIdentifier('NodeFlags')),
-      ts.createIdentifier(f)
+export function createNodeFlags(flags: NodeFlags) {
+  const formattedFlags = formatFlags(flags, NodeFlags).map(f =>
+    createPropertyAccess(
+      createTsAccess(createIdentifier('NodeFlags')),
+      createIdentifier(f)
     )
   )
-  return connectBinary(ts.SyntaxKind.BarBarToken, formattedFlags)
+  return connectBinary(SyntaxKind.BarBarToken, formattedFlags)
 }
 
 /** @internal */
 export function createBooleanLiteral(bool: boolean | undefined) {
   if (bool === undefined) {
-    return ts.createIdentifier('undefined')
+    return createIdentifier('undefined')
   }
-  return bool ? ts.createTrue() : ts.createFalse()
+  return bool ? createTrue() : createFalse()
 }
