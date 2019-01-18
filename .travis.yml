@@ -15,6 +15,7 @@ cache:
 stages:
   - test
   - deploy
+  - deploy_next
 
 jobs:
   include:
@@ -24,7 +25,17 @@ jobs:
         - yarn run test
       on:
         branch: master
-        
+    
+    - stage: deploy_next
+      script: yarn run build
+      deploy:
+        provider: npm
+        email: "$NPM_EMAIL"
+        api_key: "$NPM_TOKEN"
+        tag: next
+        skip_cleanup: true
+        on:
+          branch: master
 
     - stage: deploy
       if: tag IS present
