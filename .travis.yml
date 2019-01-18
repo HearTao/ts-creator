@@ -28,6 +28,8 @@ jobs:
     
     - stage: deploy_next
       script: yarn run build
+      before_deploy:
+        - node ./update-next.js
       deploy:
         provider: npm
         email: "$NPM_EMAIL"
