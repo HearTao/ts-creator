@@ -1,7 +1,9 @@
 const path = require('path')
 const merge = require('webpack-merge')
 
-const cjsConfig = {
+module.exports = []
+
+module.exports.cjsConfig = {
   mode: process.env.NODE_ENV || 'none',
   target: 'node',
   entry: './src/index.ts',
@@ -10,16 +12,27 @@ const cjsConfig = {
     filename: 'index.js',
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"]
+    alias: {
+      'prettier-typescript-plugins': path.resolve(__dirname, './prettier.plugin.js')
+    }
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: "ts-loader" }
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        resolve: {
+          extensions: [".ts", ".tsx", ".js"],
+        },
+      }
     ]
+  },
+  optimization: {
+    minimize: false
   }
 }
 
-const umdConfig = merge(cjsConfig, {
+module.exports.umdConfig = merge(module.exports.cjsConfig, {
   output: {
     filename: 'index.umd.js',
     library: 'tsCreator',
@@ -27,7 +40,7 @@ const umdConfig = merge(cjsConfig, {
   }
 })
 
-const standaloneConfig = merge(cjsConfig, {
+module.exports.standaloneConfig = merge(module.exports.cjsConfig, {
   target: 'web',
   output: {
     filename: 'index.standalone.js',
@@ -37,7 +50,12 @@ const standaloneConfig = merge(cjsConfig, {
   externals: {
     typescript: 'ts',
     prettier: 'prettier',
+    "prettier-typescript-plugins": {
+      commonjs: 'prettier/parser-typescript',
+      commonjs2: 'prettier/parser-typescript',
+      root: ['prettierPlugins', 'typescript']
+    }
   }
 })
 
-module.exports = [cjsConfig, umdConfig, standaloneConfig]
+module.exports.push(module.exports.cjsConfig, module.exports.umdConfig, module.exports.standaloneConfig)
