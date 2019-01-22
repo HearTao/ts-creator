@@ -3,7 +3,7 @@
   "version": "1.1.10",
   "description": "A code generator to generate TypeScript code generator from TypeScript code",
   "main": "dist/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "dev": "webpack --config webpack.config.js",
