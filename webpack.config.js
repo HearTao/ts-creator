@@ -11,11 +11,6 @@ module.exports.cjsConfig = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.js',
   },
-  resolve: {
-    alias: {
-      'prettier-typescript-plugins': 'prettier/parser-typescript'
-    }
-  },
   module: {
     rules: [
       {
@@ -28,6 +23,12 @@ module.exports.cjsConfig = {
     ]
   }
 }
+
+module.exports.webCjsConfig = merge(module.exports.cjsConfig, {
+  output: {
+    filename: 'index.web.js',
+  }
+})
 
 module.exports.umdConfig = merge(module.exports.cjsConfig, {
   output: {
@@ -47,12 +48,12 @@ module.exports.standaloneConfig = merge(module.exports.cjsConfig, {
   externals: {
     typescript: 'ts',
     prettier: 'prettier',
-    "prettier-typescript-plugins": {
-      commonjs: 'prettier/parser-typescript',
+    "prettier/parser-typescript": {
+      commonjs: '',
       commonjs2: 'prettier/parser-typescript',
       root: ['prettierPlugins', 'typescript']
     }
   }
 })
 
-module.exports.push(module.exports.cjsConfig, module.exports.umdConfig, module.exports.standaloneConfig)
+module.exports.push(module.exports.cjsConfig, module.exports.webCjsConfig, module.exports.umdConfig, module.exports.standaloneConfig)

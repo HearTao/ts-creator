@@ -1,8 +1,8 @@
 import { transformSourceFile } from './transformer'
-import { Options as PrettierOptions, format } from 'prettier'
 import { createPrinter, createSourceFile, ScriptTarget } from 'typescript'
 
-import tsPlugin from 'prettier-typescript-plugins'
+import { Options as PrettierOptions, format } from 'prettier/standalone'
+import tsPlugin from 'prettier/parser-typescript'
 
 export interface Options {
   prettierOptions?: Options
