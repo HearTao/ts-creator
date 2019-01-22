@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/types/src/index.d.ts",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "dev": "webpack --config webpack.config.js",
-    "test": "webpack --config webpack.test.config.js && node ./dist/tests/index.js",
+    "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=production webpack --config webpack.config.js",
+    "dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config webpack.config.js",
+    "test": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config webpack.test.config.js && node ./dist/tests/index.js",
     "lint": "prettier --config ./prettier.json --list-different ./src/**/* ./tests/**/*",
     "prettier": "prettier --config ./prettier.json --write ./src/**/* ./tests/**/*"
   },

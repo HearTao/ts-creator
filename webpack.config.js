@@ -26,9 +26,6 @@ module.exports.cjsConfig = {
         },
       }
     ]
-  },
-  optimization: {
-    minimize: false
   }
 }
 
