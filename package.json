@@ -14,7 +14,7 @@
   "author": "kingwl",
   "license": "MIT",
   "dependencies": {
-    "prettier": "^1.15.3",
+    "prettier": "^1.16.0",
     "typescript": "^3.2.2"
   },
   "files": [

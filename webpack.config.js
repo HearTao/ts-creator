@@ -13,7 +13,7 @@ module.exports.cjsConfig = {
   },
   resolve: {
     alias: {
-      'prettier-typescript-plugins': path.resolve(__dirname, './prettier.plugin.js')
+      'prettier-typescript-plugins': 'prettier/parser-typescript'
     }
   },
   module: {
