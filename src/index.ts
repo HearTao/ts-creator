@@ -1,14 +1,14 @@
 import { transformSourceFile } from './transformer'
 import { createPrinter, createSourceFile, ScriptTarget } from 'typescript'
 
-import { Options as PrettierOptions, format } from 'prettier/standalone'
+import * as prettier from 'prettier/standalone'
 import tsPlugin from 'prettier/parser-typescript'
 
 export interface Options {
   prettierOptions?: Options
 }
 
-const defaultPrettierOptions: PrettierOptions = {
+const defaultPrettierOptions: prettier.Options = {
   parser: 'typescript',
   plugins: [tsPlugin],
   semi: false,
@@ -31,7 +31,7 @@ export default function create(code: string, options: Options = {}): string {
     ...defaultPrettierOptions,
     ...options.prettierOptions
   }
-  return format(factoryCode, prettierOptions)
+  return prettier.format(factoryCode, prettierOptions)
 }
 
 export { transformNode, transformSourceFile } from './transformer'

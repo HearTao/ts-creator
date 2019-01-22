@@ -6,5 +6,6 @@ declare module "prettier/parser-typescript" {
 }
 
 declare module "prettier/standalone" {
-    export * from 'prettier'
+    import * as prettier from 'prettier'
+    export = prettier
 }
