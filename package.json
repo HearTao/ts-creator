@@ -17,9 +17,13 @@
     "prettier": "^1.16.0",
     "typescript": "^3.2.2"
   },
+  "bin": {
+    "ts-creator": "bin/ts-creator"
+  },
   "files": [
     "src",
     "dist",
+    "bin",
     "LICENSE",
     "tsconfig.json",
     "package.json",
