@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="400" src="./media/Logo.svg">
+  <img width="520" src="./media/Logo.svg">
   
   # ts-creator 
   
