@@ -1,3 +1,7 @@
+<div align="center">
+  <img width="400" src="./media/Logo.svg">
+</div>
+
 # ts-creator 
 
 A code generator to generate TypeScript code generator from TypeScript code
