@@ -49,4 +49,15 @@ module.exports.standaloneConfig = merge(module.exports.umdConfig, {
   }
 })
 
-module.exports.push(module.exports.umdConfig, module.exports.webConfig, module.exports.standaloneConfig)
+module.exports.cliConfig = merge(module.exports.umdConfig, {
+  entry: './src/cli.ts',
+  node: false,
+  output: {
+    filename: 'cli.js',
+    library: 'tsCreatorCli',
+    libraryTarget: 'commonjs2'
+  },
+  externals: ['yargs', './src/index.ts']
+})
+
+module.exports.push(module.exports.umdConfig, module.exports.webConfig, module.exports.standaloneConfig, module.exports.cliConfig)
