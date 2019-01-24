@@ -4,31 +4,7 @@ import yargs, { Argv, Arguments } from 'yargs'
 import { Options as PrettierOptions } from 'prettier'
 import { highlight } from 'cardinal'
 import * as getStdin from 'get-stdin'
-import create, { Options as creatorOptions } from './index'
-
-interface Options {
-  input: string,
-  output?: string,
-  color: boolean
-}
-
-function transformFile(creatorOptions: creatorOptions, { input, output, color }: Options): void {
-  try {
-    const content: string = fs.readFileSync(input, 'utf8')
-    const result: string = create(content, creatorOptions)    
-
-    if(!output) {
-      console.log('\n' + (color ? highlight(result) : result) + '\n')
-      return 
-    }
-
-    const target: string = path.resolve(output)
-    fs.writeFileSync(target, result, 'utf8')
-    console.log(`Done at ${target}`)
-  } catch(e) {
-    throw new Error(e)
-  }
-}
+import create from './'
 
 function handler(data?: string) {
   return function handler1(argv: Arguments): void {
@@ -43,19 +19,24 @@ function handler(data?: string) {
       proseWrap: argv['prose-wrap']
     } as PrettierOptions
 
-    const options = {
-      input: argv['input'],
-      output: argv['output'],
-      color: argv['color']
-    } as Options
+    const input = argv['input'] as string
+    const output = argv['output'] as string
+    const color = argv['color'] as  boolean
 
-    if(data) {
-      const result: string = create(data, { prettierOptions })
-      console.log('\n' + (options.color ? highlight(result) : result) + '\n')
-      return
+    try {
+      const result: string = create(
+        data ? data : fs.readFileSync(input, 'utf8'), 
+        { prettierOptions }
+      )
+
+      if(!output) return console.log('\n' + (color ? highlight(result) : result) + '\n')
+      
+      const filepath: string = path.resolve(output)
+      fs.writeFileSync(filepath, data, 'utf8')
+      console.log(`Done at ${filepath}`)
+    } catch(e) {
+      throw new Error(e)  
     }
-
-    return transformFile({ prettierOptions }, options)
   }
 }
 
