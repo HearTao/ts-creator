@@ -5,7 +5,7 @@ import * as prettier from 'prettier/standalone'
 import tsPlugin from 'prettier/parser-typescript'
 
 export interface Options {
-  prettierOptions?: Options
+  prettierOptions?: prettier.Options
 }
 
 const defaultPrettierOptions: prettier.Options = {
