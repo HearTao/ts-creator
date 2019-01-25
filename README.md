@@ -13,9 +13,18 @@
 
 ## How to use it:
 
-```
+```shell
 npm install ts-creator
 ```
+
+### 0. generate from file
+
+```shell
+
+ts-creator ./a.ts -o ./output.ts
+
+```
+
 
 ### 1. generate from code
 
