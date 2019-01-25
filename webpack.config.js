@@ -57,7 +57,24 @@ module.exports.cliConfig = merge(module.exports.umdConfig, {
     library: 'tsCreatorCli',
     libraryTarget: 'commonjs2'
   },
-  externals: ['yargs', './src/index.ts']
+  externals: ['yargs', './src/index.ts'],
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        resolve: {
+          extensions: [".ts", ".tsx", ".js"],
+        },
+        options: {
+          compilerOptions : {
+            target: 'commonjs',
+            lib: ['esnext']
+          }
+        }
+      }
+    ]
+  }
 })
 
 module.exports.push(module.exports.umdConfig, module.exports.webConfig, module.exports.standaloneConfig, module.exports.cliConfig)
