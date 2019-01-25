@@ -21,27 +21,28 @@ function handler(data?: string) {
 
     const input = argv['input'] as string
     const output = argv['output'] as string
-    const color = argv['color'] as  boolean
+    const color = argv['color'] as boolean
 
     try {
       const result: string = create(
-        data ? data : fs.readFileSync(input, 'utf8'), 
+        data ? data : fs.readFileSync(input, 'utf8'),
         { prettierOptions }
       )
 
-      if(!output) return console.log('\n' + (color ? highlight(result) : result) + '\n')
-      
+      if (!output)
+        return console.log('\n' + (color ? highlight(result) : result) + '\n')
+
       const filepath: string = path.resolve(output)
       fs.writeFileSync(filepath, data, 'utf8')
       console.log(`Done at ${filepath}`)
-    } catch(e) {
-      throw new Error(e)  
+    } catch (e) {
+      throw new Error(e)
     }
   }
 }
 
 export default async function main(args: string[]): Promise<void> {
-  const data: string = await getStdin()  
+  const data: string = await getStdin()
   const isReadData: boolean = '' !== data
 
   yargs(args)
@@ -49,19 +50,18 @@ export default async function main(args: string[]): Promise<void> {
       command: `$0 ${isReadData ? '' : '<input> '}[options]`,
       handler: handler(isReadData ? data : undefined),
       builder: (yargs: Argv): Argv => {
-        if(isReadData) return yargs
-        return yargs
-          .positional('input', {
-            describe: 'input file path',
-            type: 'string'
-          })
+        if (isReadData) return yargs
+        return yargs.positional('input', {
+          describe: 'input file path',
+          type: 'string'
+        })
       }
     })
     .demandCommand()
     .option('o', {
       alias: 'output',
       describe: 'Output directory',
-      type: 'string',
+      type: 'string'
       // demandOption: true
     })
     .option('color', {
@@ -118,6 +118,5 @@ export default async function main(args: string[]): Promise<void> {
     .help()
     .alias('h', 'help')
     .epilog('Please see https://ts-creator.js.org')
-    .showHelpOnFail(true, 'Specify --help for available options')
-    .argv
+    .showHelpOnFail(true, 'Specify --help for available options').argv
 }
