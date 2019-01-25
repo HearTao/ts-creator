@@ -68,8 +68,9 @@ module.exports.cliConfig = merge(module.exports.umdConfig, {
         },
         options: {
           compilerOptions : {
-            target: 'commonjs',
-            lib: ['esnext']
+            target: 'es2015',
+            module: 'commonjs',
+            lib: ['es2015']
           }
         }
       }
