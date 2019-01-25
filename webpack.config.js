@@ -57,7 +57,13 @@ module.exports.cliConfig = merge(module.exports.umdConfig, {
     library: 'tsCreatorCli',
     libraryTarget: 'commonjs2'
   },
-  externals: ['yargs', './src/index.ts'],
+  externals: [
+    'yargs', 
+    'cardinal',
+    'prettier',
+    'get-stdin',
+    './'
+  ],
   module: {
     rules: [
       {
@@ -68,9 +74,9 @@ module.exports.cliConfig = merge(module.exports.umdConfig, {
         },
         options: {
           compilerOptions : {
-            target: 'es2015',
-            module: 'commonjs',
-            lib: ['es2015']
+            strict: false,
+            target: 'esnext',
+            module: 'commonjs'
           }
         }
       }
