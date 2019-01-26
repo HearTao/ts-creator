@@ -30,7 +30,7 @@ function handler(data?: string) {
       )
 
       if (!output)
-        return console.log('\n' + (color ? highlight(result) : result) + '\n')
+        return console.log((color ? highlight(result) : result) + '\n')
 
       const filepath: string = path.resolve(output)
       fs.writeFileSync(filepath, data, 'utf8')
