@@ -59,8 +59,8 @@ export default async function main(args: string[]): Promise<void> {
         }).epilog(`
 Welcome to contribute, any bugs or features please report on:
 
-* Bug: https://github.com/HearTao/ts-creator/issues/new?template=issue_bug.md
-* Feature: https://github.com/HearTao/ts-creator/issues/new?template=issue_feature.md
+* Bug: https://github.com/HearTao/ts-creator/issues/new?template=bug.md
+* Feature: https://github.com/HearTao/ts-creator/issues/new?template=feature.md
 
 Also see the online playground:
 
