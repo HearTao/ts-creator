@@ -1,13 +1,13 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import yargs, { Argv, Arguments } from 'yargs'
+import * as yargs from 'yargs'
 import { Options as PrettierOptions } from 'prettier'
 import { highlight } from 'cardinal'
 import * as getStdin from 'get-stdin'
 import create from './'
 
 function handler(data?: string) {
-  return function handler1(argv: Arguments): void {
+  return function handler1(argv: yargs.Arguments): void {
     const prettierOptions = {
       semi: argv['semi'],
       singleQuote: argv['single-quote'],
@@ -30,7 +30,7 @@ function handler(data?: string) {
       )
 
       if (!output)
-        return console.log('\n' + (color ? highlight(result) : result) + '\n')
+        return console.log((color ? highlight(result) : result) + '\n')
 
       const filepath: string = path.resolve(output)
       fs.writeFileSync(filepath, data, 'utf8')
@@ -44,25 +44,37 @@ function handler(data?: string) {
 export default async function main(args: string[]): Promise<void> {
   const data: string = await getStdin()
   const isReadData: boolean = '' !== data
-
-  yargs(args)
+  yargs
+    .strict()
     .command({
       command: `$0 ${isReadData ? '' : '<input> '}[options]`,
+      describe:
+        'A code generator to generate TypeScript code generator from TypeScript code',
       handler: handler(isReadData ? data : undefined),
-      builder: (yargs: Argv): Argv => {
+      builder: (yargs: yargs.Argv): yargs.Argv => {
         if (isReadData) return yargs
         return yargs.positional('input', {
           describe: 'input file path',
-          type: 'string'
-        })
+          type: 'string',
+          normalize: true
+        }).epilog(`
+Welcome to contribute, any bugs or features please report on:
+
+* Bug: https://github.com/HearTao/ts-creator/issues/new?template=bug.md
+* Feature: https://github.com/HearTao/ts-creator/issues/new?template=feature.md
+
+Also see the online playground:
+
+  https://ts-creator.js.org
+
+Happy hack with ts-creator`)
       }
     })
-    .demandCommand()
     .option('o', {
       alias: 'output',
       describe: 'Output directory',
-      type: 'string'
-      // demandOption: true
+      type: 'string',
+      requiresArg: true
     })
     .option('color', {
       describe: 'colorful result when print on terminal',
@@ -70,53 +82,52 @@ export default async function main(args: string[]): Promise<void> {
       default: false
     })
 
-    .options('semi', {
+    .option('semi', {
       group: 'Prettier Options',
       default: false,
       type: 'boolean'
     })
-    .options('single-quote', {
+    .option('single-quote', {
       group: 'Prettier Options',
       default: true,
       type: 'boolean'
     })
-    .options('jsx-single-quote', {
+    .option('jsx-single-quote', {
       group: 'Prettier Options',
       default: false,
       type: 'boolean'
     })
-    .options('bracket-spacing', {
+    .option('bracket-spacing', {
       group: 'Prettier Options',
       default: true,
       type: 'boolean'
     })
-    .options('tab-width', {
+    .option('tab-width', {
       group: 'Prettier Options',
       default: 2,
       type: 'number'
     })
-    .options('use-tabs', {
+    .option('use-tabs', {
       group: 'Prettier Options',
       default: false,
       type: 'boolean'
     })
-    .options('trailing-comma', {
+    .option('trailing-comma', {
       group: 'Prettier Options',
       default: 'none',
       type: 'string',
       choices: ['none', 'es5', 'all']
     })
-    .options('prose-wrap', {
+    .option('prose-wrap', {
       group: 'Prettier Options',
       default: 'preserve',
       type: 'string',
       choices: ['always', 'never', 'preserve']
     })
 
-    .version('v')
+    .version()
     .alias('v', 'version')
-    .help()
-    .alias('h', 'help')
-    .epilog('Please see https://ts-creator.js.org')
-    .showHelpOnFail(true, 'Specify --help for available options').argv
+    .showHelpOnFail(true, 'Specify --help for available options')
+    .help('h')
+    .alias('h', 'help').argv
 }

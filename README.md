@@ -17,14 +17,6 @@
 npm install ts-creator
 ```
 
-### 0. generate from file
-
-```shell
-
-ts-creator ./a.ts -o ./output.ts
-
-```
-
 
 ### 1. generate from code
 
@@ -108,6 +100,62 @@ function foo(bar: number): number {
     return bar + 1;
 }
 ```
+
+## Cli usage
+
+Use `ts-creator` cli to generate code:
+
+```sh
+ts-creator <input> [options]
+```
+
+Simple usage:
+
+```sh
+# print generate code
+ts-creator foo.ts
+
+# or read data from pipeline
+echo 42 | ts-creator
+cat foo.ts | ts-creator
+ts-creator < foo.ts
+
+# write to file
+ts-creator foo.ts -o foo.js
+ts-creator foo.ts > foo.js
+```
+
+### Installation
+
+You can install `ts-creator` globally.
+
+```sh
+npm i -g ts-creator
+# or yarn
+yarn global add ts-creator
+```
+
+If you install locally, may prepend `npx` or `yarn` you need. 
+
+```sh
+# use npm
+npm i ts-creator
+npx ts-creator -h
+
+# use yarn
+yarn add ts-creator
+yarn ts-creator -h
+```
+
+### Cli options
+
+| option | description | type | default |
+|---|---|---|---|
+| --color | colorful print | boolean | false |
+| --output, -o | output to filepath | string | undefined |
+| --version, -v | show ts-creator version | boolean | false |
+| --help, -h | show help | boolean | false |
+
 
 ## TODO:
 
