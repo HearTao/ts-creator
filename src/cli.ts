@@ -48,7 +48,8 @@ export default async function main(args: string[]): Promise<void> {
     .strict()
     .command({
       command: `$0 ${isReadData ? '' : '<input> '}[options]`,
-      describe: 'A code generator to generate TypeScript code generator from TypeScript code',
+      describe:
+        'A code generator to generate TypeScript code generator from TypeScript code',
       handler: handler(isReadData ? data : undefined),
       builder: (yargs: yargs.Argv): yargs.Argv => {
         if (isReadData) return yargs
@@ -123,11 +124,10 @@ Happy hack with ts-creator`)
       type: 'string',
       choices: ['always', 'never', 'preserve']
     })
-      
+
     .version()
     .alias('v', 'version')
     .showHelpOnFail(true, 'Specify --help for available options')
     .help('h')
-    .alias('h', 'help')
-    .argv
+    .alias('h', 'help').argv
 }
