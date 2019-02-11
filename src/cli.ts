@@ -4,7 +4,7 @@ import * as yargs from 'yargs'
 import { Options as PrettierOptions } from 'prettier'
 import { highlight } from 'cardinal'
 import * as getStdin from 'get-stdin'
-import create from './'
+import create, { CreatorTarget } from './'
 
 function handler(data?: string) {
   return function handler1(argv: yargs.Arguments): void {
@@ -23,10 +23,12 @@ function handler(data?: string) {
     const output = argv['output'] as string
     const color = argv['color'] as boolean
 
+    const target = argv['target'] as CreatorTarget
+
     try {
       const result: string = create(
         data ? data : fs.readFileSync(input, 'utf8'),
-        { prettierOptions }
+        { prettierOptions, target }
       )
 
       if (!output)
@@ -70,6 +72,14 @@ Also see the online playground:
 Happy hack with ts-creator`)
       }
     })
+    .option('t', {
+      alias: 'target',
+      describe: 'Generate target',
+      type: 'string',
+      choices: ['expression', 'runnable'],
+      default: 'expression'
+    })
+
     .option('o', {
       alias: 'output',
       describe: 'Output directory',
