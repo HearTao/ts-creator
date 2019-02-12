@@ -4,9 +4,21 @@ const webpack = require('webpack-stream');
 const configs = require('./webpack.config')
 const del = require('del')
 const through = require('through2');
-const vm = require('vm')
 const vfs = require('memory-fs')
 const requireFromString = require('require-from-string');
+const composer = require('gulp-uglify/composer');
+const uglifyjs = require('uglify-es')
+const uglify = composer(uglifyjs);
+
+const fs = new vfs()
+const tsconfig = {
+    module: 'commonjs',
+    target: 'esnext',
+    lib: ['es2015']
+}
+const uglifyConfig = {
+    compress: false
+}
 
 function tsCreatorPipe() {
     return through.obj(function (vinylFile, encoding, callback) {
@@ -30,7 +42,7 @@ function runFactoryPipe() {
     });
 }
 
-function writeToVfs(fs) {
+function writeToVfs() {
     return through.obj(function (vinylFile, encoding, callback) {
         fs.mkdirpSync(vinylFile.dirname)
         fs.writeFileSync(vinylFile.path, vinylFile.contents.toString())
@@ -49,33 +61,27 @@ function compareFromVfs(fs) {
     });
 }
 
-gulp.task('clean', function () {
-    return del('dist/')
-})
-
 gulp.task('build', function () {
     return gulp.src('src/index.ts')
         .pipe(webpack(configs.umdConfig))
         .pipe(gulp.dest('dist/'))
 })
 
-gulp.task('tests', function () {
-    const fs = new vfs()
-    const tsconfig = {
-        module: 'commonjs',
-        target: 'esnext',
-        lib: ['es2015']
-    }
+gulp.task('cases', function () {
+    return gulp.src('tests/cases/**/*.ts')
+        .pipe(ts(tsconfig))
+        .pipe(uglify(uglifyConfig))
+        .pipe(writeToVfs())
+})
+
+gulp.task('compare', function () {
     return gulp.src('tests/cases/**/*.ts')
         .pipe(tsCreatorPipe())
         .pipe(ts(tsconfig))
         .pipe(runFactoryPipe())
-        .pipe(writeToVfs(fs))
-        .pipe(tsCreatorPipe())
         .pipe(ts(tsconfig))
-        .pipe(runFactoryPipe())
+        .pipe(uglify(uglifyConfig))
         .pipe(compareFromVfs(fs))
-        .on('end', () => console.log('All tests passed'))
-});
+})
 
-gulp.task('default', gulp.series(['clean', 'build', 'tests', 'clean']));
+gulp.task('default', gulp.series(['build', 'cases', 'compare']));
