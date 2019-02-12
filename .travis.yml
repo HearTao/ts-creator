@@ -25,6 +25,15 @@ jobs:
         - yarn run test
       on:
         branch: master
+
+    - stage: coverage
+      script:
+        - yarn run lint
+        - yarn run coverage
+        - yarn run codecov
+      branches:
+        only:
+          - master
     
     - stage: deploy_next
       script: yarn run build
@@ -36,8 +45,9 @@ jobs:
         api_key: "$NPM_TOKEN"
         tag: next
         skip_cleanup: true
-        on:
-          branch: master
+      branches:
+        only:
+          - master
 
     - stage: deploy
       if: tag IS present
