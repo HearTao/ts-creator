@@ -62,7 +62,7 @@ function compareFromVfs(fs) {
 }
 
 gulp.task('clean', function() {
-  return del('./dist/')
+  return del(['./dist/', './coverage/'])
 })
 
 gulp.task('build', function() {

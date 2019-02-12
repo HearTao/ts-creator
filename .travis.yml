@@ -27,15 +27,14 @@ jobs:
         branch: master
 
     - stage: coverage
+      if: branch = master
       script:
         - yarn run lint
         - yarn run coverage
         - yarn run codecov
-      branches:
-        only:
-          - master
     
     - stage: deploy_next
+      if: branch = master
       script: yarn run build
       before_deploy:
         - node ./update-next.js
@@ -45,9 +44,6 @@ jobs:
         api_key: "$NPM_TOKEN"
         tag: next
         skip_cleanup: true
-      branches:
-        only:
-          - master
 
     - stage: deploy
       if: tag IS present
