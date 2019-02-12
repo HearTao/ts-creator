@@ -8,11 +8,13 @@ import {
 
 import * as prettier from 'prettier/standalone'
 import tsPlugin from 'prettier/parser-typescript'
-import { resolveRunnable } from './runnable'
+import { resolveRunnable } from './wrapper/runnable'
+import { resolveESModule } from './wrapper/esmodule'
 
 export enum CreatorTarget {
   expression = 'expression',
-  runnable = 'runnable'
+  runnable = 'runnable',
+  esmodule = 'esmodule'
 }
 
 export interface Options {
@@ -41,10 +43,16 @@ function transformExpression(file: SourceFile): SourceFile {
   return transformSourceFile(file)
 }
 
+function transformESModule(file: SourceFile): SourceFile {
+  return resolveESModule(transformNode(file))
+}
+
 function transformTarget(file: SourceFile, options: Options): SourceFile {
   switch (options.target) {
     case CreatorTarget.runnable:
       return transformRunable(file)
+    case CreatorTarget.esmodule:
+      return transformESModule(file)
     default:
       return transformExpression(file)
   }

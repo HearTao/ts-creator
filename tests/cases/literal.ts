@@ -1,0 +1,16 @@
+1
+2
+1.1
+2.2
+Infinity
+;-Infinity
+NaN
+0x123
+''
+'123'
+null
+undefined
+;``
+;`123`
+true
+false
