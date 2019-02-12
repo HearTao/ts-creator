@@ -76,8 +76,8 @@ Happy hack with ts-creator`)
       alias: 'target',
       describe: 'Generate target',
       type: 'string',
-      choices: ['expression', 'runnable'],
-      default: 'expression'
+      choices: [CreatorTarget.expression, CreatorTarget.runnable, CreatorTarget.esmodule],
+      default: CreatorTarget.expression
     })
 
     .option('o', {
