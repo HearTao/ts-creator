@@ -61,10 +61,14 @@ function compareFromVfs(fs) {
     });
 }
 
+gulp.task('clean', function () {
+    return del('./dist/')
+})
+
 gulp.task('build', function () {
     return gulp.src('src/index.ts')
         .pipe(webpack(configs.umdConfig))
-        .pipe(gulp.dest('dist/'))
+        .pipe(gulp.dest('./dist/'))
 })
 
 gulp.task('cases', function () {
@@ -84,4 +88,4 @@ gulp.task('compare', function () {
         .pipe(compareFromVfs(fs))
 })
 
-gulp.task('default', gulp.series(['build', 'cases', 'compare']));
+gulp.task('default', gulp.series(['clean', 'build', 'cases', 'compare', 'clean']));
