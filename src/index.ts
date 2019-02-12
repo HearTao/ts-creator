@@ -9,7 +9,7 @@ import {
 import * as prettier from 'prettier/standalone'
 import tsPlugin from 'prettier/parser-typescript'
 import { resolveRunnable } from './wrapper/runnable'
-import { resolveESModule } from './wrapper/esmodule';
+import { resolveESModule } from './wrapper/esmodule'
 
 export enum CreatorTarget {
   expression = 'expression',
