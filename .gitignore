@@ -2,5 +2,6 @@ node_modules/
 dist/
 .vscode/
 .rpt2_cache/
-
+.nyc_output/
 .DS_Store
+coverage/

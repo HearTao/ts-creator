@@ -43,6 +43,7 @@ function handler(data?: string) {
   }
 }
 
+/** @internal */
 export default async function main(args: string[]): Promise<void> {
   const data: string = await getStdin()
   const isReadData: boolean = '' !== data
@@ -76,7 +77,11 @@ Happy hack with ts-creator`)
       alias: 'target',
       describe: 'Generate target',
       type: 'string',
-      choices: [CreatorTarget.expression, CreatorTarget.runnable, CreatorTarget.esmodule],
+      choices: [
+        CreatorTarget.expression,
+        CreatorTarget.runnable,
+        CreatorTarget.esmodule
+      ],
       default: CreatorTarget.expression
     })
 

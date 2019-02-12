@@ -18,6 +18,7 @@ import {
   SourceFile
 } from 'typescript'
 
+/** @internal */
 export function resolveRunnable(expression: Expression): SourceFile {
   return updateSourceFileNode(
     createSourceFile('templory.ts', '', ScriptTarget.Latest),

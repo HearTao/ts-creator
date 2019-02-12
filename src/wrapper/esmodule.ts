@@ -19,6 +19,7 @@ import {
   createExportAssignment
 } from 'typescript'
 
+/** @internal */
 export function resolveESModule(expression: Expression): SourceFile {
   return updateSourceFileNode(
     createSourceFile('templory.ts', '', ScriptTarget.Latest),
