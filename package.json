@@ -7,7 +7,7 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 NODE_ENV=production webpack --config webpack.config.js",
     "dev": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config webpack.config.js -w",
-    "test": "cross-env NODE_OPTIONS=--max_old_space_size=4096 webpack --config webpack.test.config.js && node ./dist/tests/index.js",
+    "test": "cross-env NODE_OPTIONS=--max_old_space_size=4096 gulp --gulpfile gulpfile.test.js",
     "lint": "prettier --config ./prettier.json --list-different ./src/**/* ./tests/**/*",
     "prettier": "prettier --config ./prettier.json --write ./src/**/* ./tests/**/*"
   },
@@ -25,6 +25,7 @@
     "gulp-typescript": "^5.0.0",
     "memory-fs": "^0.4.1",
     "prettier": "^1.16.0",
+    "require-from-string": "^2.0.2",
     "through2": "^3.0.0",
     "typescript": "^3.2.2",
     "webpack-stream": "^5.2.1",
