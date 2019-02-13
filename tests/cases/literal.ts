@@ -11,6 +11,7 @@ NaN
 null
 undefined
 ;``
-;`123`
+;`this is helpful to me${0}`
+;`this is helpful to me${0} ${2} ${1}`
 true
 false
