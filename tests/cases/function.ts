@@ -1,12 +1,12 @@
-function f() {}
-function ff(a: number, b: string) {}
-function fff() {
+function func() {}
+function ffunc(a: number, b: string) {}
+function fffunc() {
   return 1
 }
 
-const ffff = () => {}
-const fffff = (a: any) => {}
-const ffffff = () => {
+const ffffunc = () => {}
+const fffffunc = (a: any) => {}
+const ffffffunc = () => {
   return 0
 }
 ;(function() {})()
@@ -20,14 +20,14 @@ void (function() {})()
 function nested(age: number) {
   function oh() {}
 }
-function A() {
-  function B() {
-    function C() {}
-    C()
+function FA() {
+  function FB() {
+    function FC() {}
+    FC()
   }
-  B()
+  FB()
 }
-A()
+FA()
 
 const getter = (function getSomething() {
   const something = 'hahaha'
