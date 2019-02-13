@@ -14,3 +14,4 @@ undefined
 ;`123`
 true
 false
+;/[1-9]/

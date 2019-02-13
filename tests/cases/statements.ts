@@ -1,48 +1,37 @@
-1;
-const a = 1;
+1
+const a = 1
 if (true) {
-
 }
 
-do {
-  
-} while (false)
+do {} while (false)
 
-while (false) {
+while (false) {}
 
-}
-
-for (let i = 0; i <= 0; ++i) {
-
-}
+for (let i = 0; i <= 0; ++i) {}
 
 for (let i in []) {
-
 }
 
 for (let i of []) {
-
 }
 
 while (false) {
-  continue;
+  continue
 }
 
 while (false) {
-  break;
+  break
 }
 
-function foo () {
+function foo() {
   return 0
 }
 
 try {
   throw new Error()
-} catch (e) {
+} catch (e) {}
 
-}
-
-debugger;
+debugger
 
 label: while (false) {
   break label
