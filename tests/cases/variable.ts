@@ -10,5 +10,13 @@ const f = 1,
 const g = (e = b = 1)
 const h = ''
 const i = true
+const o = { name: 'kingwl' }
+var x = (function(number: number) {
+  return number * number
+})(4)
+var xx = function() {
+  return function() {}
+}
 export const j = 1
 declare const k: number
+a++
