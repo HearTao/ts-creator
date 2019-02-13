@@ -40,15 +40,21 @@ function connectBinary(op: BinaryOperator, nodes: Expression[]): Expression {
   return createBinary(nodes[0], op, connectBinary(op, nodes.slice(1)))
 }
 
+// NodeFlags.PossiblyContainsDynamicImport, NodeFlags.PossiblyContainsImportMeta, NodeFlags.Ambient, NodeFlags.InWithStatement
+const internalFlags: number = 1 << 19 | 1 << 20 | 1 << 22 | 1 << 23
+function filterInternalFlags (flags: NodeFlags): NodeFlags {
+  return flags &= ~internalFlags
+}
+
 /** @internal */
 export function createNodeFlags(flags: NodeFlags) {
-  const formattedFlags = formatFlags(flags, NodeFlags).map(f =>
+  const formattedFlags = formatFlags(filterInternalFlags(flags), NodeFlags).map(f =>
     createPropertyAccess(
       createTsAccess(createIdentifier('NodeFlags')),
       createIdentifier(f)
     )
   )
-  return connectBinary(SyntaxKind.BarBarToken, formattedFlags)
+  return connectBinary(SyntaxKind.BarToken, formattedFlags)
 }
 
 /** @internal */
