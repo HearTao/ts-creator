@@ -6,9 +6,9 @@ const del = require('del')
 const through = require('through2')
 const vfs = require('memory-fs')
 const requireFromString = require('require-from-string')
-const composer = require('gulp-uglify/composer')
-const uglifyjs = require('uglify-es')
-const uglify = composer(uglifyjs)
+const diff = require('diff')
+const prettier = require('gulp-prettier')
+const tsPlugin = require('prettier/parser-typescript')
 
 const fs = new vfs()
 const tsconfig = {
@@ -16,8 +16,17 @@ const tsconfig = {
   target: 'esnext',
   lib: ['es2015']
 }
-const uglifyConfig = {
-  compress: false
+const prettierOptions = {
+  parser: 'typescript',
+  plugins: [tsPlugin],
+  semi: false,
+  singleQuote: true,
+  jsxSingleQuote: false,
+  bracketSpacing: true,
+  tabWidth: 2,
+  useTabs: false,
+  trailingComma: 'none',
+  proseWrap: 'preserve'
 }
 
 function tsCreatorPipe() {
@@ -54,8 +63,9 @@ function compareFromVfs(fs) {
   return through.obj(function(vinylFile, encoding, callback) {
     const oldCode = fs.readFileSync(vinylFile.path).toString()
     const code = vinylFile.contents.toString()
-    if (oldCode !== code) {
-      throw new Error('test failed: ' + vinylFile.path)
+    const diffs = diff.diffWords(oldCode, code)
+    if (diffs.some(diff => !!(diff.added || diff.removed))) {
+      callback(new Error('test failed: ' + vinylFile.path), vinylFile)
     }
     callback(null, vinylFile)
   })
@@ -82,8 +92,7 @@ gulp.task('build:coverage', function() {
 gulp.task('cases', function() {
   return gulp
     .src('tests/cases/**/*.ts')
-    .pipe(ts(tsconfig))
-    .pipe(uglify(uglifyConfig))
+    .pipe(prettier(prettierOptions))
     .pipe(writeToVfs())
 })
 
@@ -93,8 +102,7 @@ gulp.task('compare', function() {
     .pipe(tsCreatorPipe())
     .pipe(ts(tsconfig))
     .pipe(runFactoryPipe())
-    .pipe(ts(tsconfig))
-    .pipe(uglify(uglifyConfig))
+    .pipe(prettier(prettierOptions))
     .pipe(compareFromVfs(fs))
 })
 

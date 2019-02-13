@@ -5,7 +5,6 @@
 Infinity
 ;-Infinity
 NaN
-0x123
 ''
 '123'
 null
