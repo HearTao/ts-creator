@@ -15,3 +15,4 @@ undefined
 ;`this is helpful to me${0} ${2} ${1}`
 true
 false
+;/[1-9]/
