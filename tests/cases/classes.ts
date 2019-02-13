@@ -9,6 +9,10 @@ interface I {}
 class CC extends BB implements I {
   private ccc: number = 1
 
+  public eee?: number
+
+  public fff!: number
+
   public ['dd']: number = 2
 
   get t() {

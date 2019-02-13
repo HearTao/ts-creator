@@ -58,3 +58,6 @@ function switchStatement(aaa: string) {
   }
   return undefined
 }
+
+with ({}) {
+}

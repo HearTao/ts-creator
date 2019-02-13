@@ -41,13 +41,13 @@ function connectBinary(op: BinaryOperator, nodes: Expression[]): Expression {
 }
 
 // NodeFlags.PossiblyContainsDynamicImport, NodeFlags.PossiblyContainsImportMeta, NodeFlags.Ambient, NodeFlags.InWithStatement
-const internalFlags: number = 1 << 19 | 1 << 20 | 1 << 22 | 1 << 23
-function filterInternalFlags (flags: NodeFlags): NodeFlags {
-  return flags &= ~internalFlags
+const internalFlags: number = (1 << 19) | (1 << 20) | (1 << 22) | (1 << 23)
+function filterInternalFlags(flags: NodeFlags): NodeFlags {
+  return (flags &= ~internalFlags)
 }
 
 /** @internal */
-export function transformInternalSyntaxKind (syntaxKind: string) {
+export function transformInternalSyntaxKind(syntaxKind: string) {
   switch (syntaxKind) {
     case 'FirstContextualKeyword':
       return 'AbstractKeyword'
@@ -60,11 +60,12 @@ export function transformInternalSyntaxKind (syntaxKind: string) {
 
 /** @internal */
 export function createNodeFlags(flags: NodeFlags) {
-  const formattedFlags = formatFlags(filterInternalFlags(flags), NodeFlags).map(f =>
-    createPropertyAccess(
-      createTsAccess(createIdentifier('NodeFlags')),
-      createIdentifier(f)
-    )
+  const formattedFlags = formatFlags(filterInternalFlags(flags), NodeFlags).map(
+    f =>
+      createPropertyAccess(
+        createTsAccess(createIdentifier('NodeFlags')),
+        createIdentifier(f)
+      )
   )
   return connectBinary(SyntaxKind.BarToken, formattedFlags)
 }

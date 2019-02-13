@@ -9,7 +9,10 @@
       "declaration": true,
       "outDir": "./dist",
       "declarationDir": "./dist/types",
-      "stripInternal": true,
-      "experimentalDecorators": true
-  }
+      "stripInternal": true
+  },
+  "include": [
+    "src/",
+    "types/"
+  ]
 }

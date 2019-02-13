@@ -3,7 +3,8 @@ import {
   createPrinter,
   createSourceFile,
   ScriptTarget,
-  SourceFile
+  SourceFile,
+  ScriptKind
 } from 'typescript'
 
 import * as prettier from 'prettier/standalone'
