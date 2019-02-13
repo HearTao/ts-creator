@@ -3,6 +3,7 @@ class A {}
 interface B {
   c: number
   option?: number
+  func?: (a: this) => void
 }
 
 enum EN {}
@@ -23,7 +24,9 @@ const g = f as B
 
 const n: number = g.option!
 
-function thisType(this: number) {}
+function thisParam(this: number, a: string | number): a is number {
+  return true
+}
 
 const h = <A>g
 
@@ -58,3 +61,21 @@ type Index = {
 type Mapped<T> = { [P in keyof T]: T[P] }
 
 type Cond<T, U = T extends (infer P)[] ? P : never> = U
+
+type Nullable<T> = { [P in keyof T]: T[P] | null }
+
+type Partial1<T> = { [P in keyof T]?: T[P] }
+
+type Readonly1<T> = { readonly [P in keyof T]: T[P] }
+
+type ImportType = import('typescript').Identifier
+
+type Whatever = [number, string?, boolean?, ...number[]]
+
+type Unknown = unknown
+
+type Any = any
+
+type MutableRequired<T> = { -readonly [P in keyof T]-?: T[P] }
+
+type ReadonlyPartial<T> = { +readonly [P in keyof T]+?: T[P] }

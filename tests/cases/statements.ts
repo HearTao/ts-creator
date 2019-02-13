@@ -40,3 +40,21 @@ label: while (false) {
 label: while (false) {
   continue label
 }
+
+function switchStatement(aaa: string) {
+  switch (aaa) {
+    case 'a':
+      return 1
+    case 'b':
+      return 2
+    case 'c':
+      break
+    case 'e':
+    case 'f':
+      return 3
+    case 'g':
+    default:
+      return 4
+  }
+  return undefined
+}

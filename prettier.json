@@ -7,5 +7,5 @@
   "tabWidth": 2,
   "useTabs": false,
   "trailingComma": "none",
-  "proseWrap": "preserve"
+  "proseWrap": "always"
 }
