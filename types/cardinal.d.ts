@@ -1,4 +1,4 @@
-declare module "cardinal" {
+declare module 'cardinal' {
   interface Highlight {
     (code: string, options?: object): string
   }
