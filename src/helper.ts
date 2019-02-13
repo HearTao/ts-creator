@@ -47,6 +47,18 @@ function filterInternalFlags (flags: NodeFlags): NodeFlags {
 }
 
 /** @internal */
+export function transformInternalSyntaxKind (syntaxKind: string) {
+  switch (syntaxKind) {
+    case 'FirstContextualKeyword':
+      return 'AbstractKeyword'
+    case 'LastContextualKeyword':
+      return 'OfKeyword'
+    default:
+      return syntaxKind
+  }
+}
+
+/** @internal */
 export function createNodeFlags(flags: NodeFlags) {
   const formattedFlags = formatFlags(filterInternalFlags(flags), NodeFlags).map(f =>
     createPropertyAccess(

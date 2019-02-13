@@ -164,7 +164,8 @@ import {
   createBooleanLiteral,
   createNodeFlags,
   createLiteralCall,
-  createTsAccess
+  createTsAccess,
+  transformInternalSyntaxKind
 } from './helper'
 
 interface QuestionOrExclamation {
@@ -1131,7 +1132,7 @@ function generateSourceFile(node: SourceFile) {
 function transformSyntaxKind(kind: SyntaxKind) {
   return createPropertyAccess(
     createTsAccess(createIdentifier('SyntaxKind')),
-    createIdentifier(SyntaxKind[kind])
+    createIdentifier(transformInternalSyntaxKind(SyntaxKind[kind]))
   )
 }
 
