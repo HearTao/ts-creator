@@ -1,8 +1,6 @@
 const path = require('path')
 const merge = require('webpack-merge')
 
-module.exports = []
-
 module.exports.umdConfig = {
   mode: process.env.NODE_ENV || 'development',
   target: 'node',
@@ -104,10 +102,3 @@ module.exports.coverageConfig = merge.strategy({
     ]
   }
 })
-
-module.exports.push(
-  module.exports.umdConfig,
-  module.exports.webConfig,
-  module.exports.standaloneConfig,
-  module.exports.cliConfig
-)
