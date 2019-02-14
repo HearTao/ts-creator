@@ -129,12 +129,12 @@ gulp.task('compare', function() {
 
 gulp.task(
   'test',
-  gulp.series(['clean', 'build:umd', 'cases', 'compare', 'clean'])
+  gulp.series(['clean', 'build:umd', 'cases', 'compare'])
 )
 
 gulp.task(
   'coverage',
-  gulp.series(['clean', 'build:coverage', 'cases', 'compare', 'clean'])
+  gulp.series(['clean', 'build:coverage', 'cases', 'compare'])
 )
 
 gulp.task(
