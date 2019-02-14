@@ -1069,22 +1069,6 @@ function generateJsxAttribute(node: JsxAttribute) {
   ])
 }
 
-function generateJsxClosingFragment(node: JsxClosingFragment) {
-  return transformRawNode(SyntaxKind.JsxClosingFragment)
-}
-
-function generateJsxOpeningFragment(node: JsxOpeningFragment) {
-  return transformRawNode(SyntaxKind.JsxOpeningElement)
-}
-
-function generateJsxFragment(node: JsxFragment) {
-  return createTsCall('createJsxFragment', [
-    transformVisitor(node.openingFragment),
-    transformVisitors(node.children),
-    transformVisitor(node.closingFragment)
-  ])
-}
-
 function generateJsxClosingElement(node: JsxClosingElement) {
   return createTsCall('createJsxClosingElement', [
     transformVisitor(node.tagName)
@@ -1510,12 +1494,6 @@ function transformVisitor(node?: Node): Expression {
       return generateJsxOpeningElement(node as JsxOpeningElement)
     case SyntaxKind.JsxClosingElement:
       return generateJsxClosingElement(node as JsxClosingElement)
-    case SyntaxKind.JsxFragment:
-      return generateJsxFragment(node as JsxFragment)
-    case SyntaxKind.JsxOpeningFragment:
-      return generateJsxOpeningFragment(node as JsxOpeningFragment)
-    case SyntaxKind.JsxClosingFragment:
-      return generateJsxClosingFragment(node as JsxClosingFragment)
     case SyntaxKind.JsxAttribute:
       return generateJsxAttribute(node as JsxAttribute)
     case SyntaxKind.JsxAttributes:
@@ -1525,7 +1503,17 @@ function transformVisitor(node?: Node): Expression {
     case SyntaxKind.JsxExpression:
       return generateJsxExpression(node as JsxExpression)
 
+      case SyntaxKind.JsxFragment:
+      case SyntaxKind.JsxOpeningFragment:
+      case SyntaxKind.JsxClosingFragment:
+      throw new Error(
+        'JsxFragment is not support yet: see https://github.com/HearTao/ts-creator/issues/2'
+      )
+
     case SyntaxKind.JsxText:
+        throw new Error(
+          'JsxText is not support yet: see https://github.com/HearTao/ts-creator/issues/2'
+        )
     case SyntaxKind.MissingDeclaration:
     case SyntaxKind.SyntheticExpression:
     case SyntaxKind.OmittedExpression:

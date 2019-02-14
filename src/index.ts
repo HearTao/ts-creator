@@ -21,6 +21,7 @@ export enum CreatorTarget {
 export interface Options {
   prettierOptions?: prettier.Options
   target?: CreatorTarget
+  tsx?: boolean
 }
 
 const defaultPrettierOptions: prettier.Options = {
@@ -59,9 +60,17 @@ function transformTarget(file: SourceFile, options: Options): SourceFile {
   }
 }
 
+function createTemporaryFile(code: string, options: Options) {
+  if (options.tsx) {
+    return createSourceFile('temporary.tsx', code, ScriptTarget.Latest, undefined, ScriptKind.TSX)
+  }
+  return createSourceFile('temporary.ts', code, ScriptTarget.Latest)
+}
+
 export default function create(code: string, options: Options = {}): string {
   const printer = createPrinter()
-  const file = createSourceFile('templory.ts', code, ScriptTarget.Latest)
+  
+  const file = createTemporaryFile(code, options)
 
   const factoryFile = transformTarget(file, options)
   const factoryCode = printer.printFile(factoryFile)

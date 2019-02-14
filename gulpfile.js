@@ -61,24 +61,35 @@ const prettierOptions = {
   proseWrap: 'preserve'
 }
 
-function tsCreatorPipe() {
+function tsCreatorPipe(options = {}) {
   return through.obj(function(vinylFile, encoding, callback) {
     const file = vinylFile.clone()
     const code = vinylFile.contents.toString()
     const creator = require('./dist').default
-    const factoryCode = creator(code, { target: 'esmodule' })
+    const factoryCode = creator(code, { target: 'esmodule', ...options })
     file.contents = new Buffer(factoryCode)
     callback(null, file)
   })
 }
 
-function runFactoryPipe() {
+function tsCreatorThrowPipe(options = {}) {
+  return through.obj(function(vinylFile, encoding, callback) {
+    const creator = require('./dist').default
+    try {
+      creator(code, { target: 'esmodule', ...options })
+    } catch (e) {
+      callback(null, vinylFile)
+    }
+  })
+}
+
+function runFactoryPipe(tsx = false) {
   return through.obj(function(vinylFile, encoding, callback) {
     const file = vinylFile.clone()
     const code = vinylFile.contents.toString()
     const result = requireFromString(code).default
     file.contents = new Buffer(result)
-    file.extname = '.ts'
+    file.extname = tsx ? '.tsx' : '.ts'
     callback(null, file)
   })
 }
@@ -112,12 +123,12 @@ gulp.task('build:coverage', function() {
 
 gulp.task('cases', function() {
   return gulp
-    .src('tests/cases/**/*.ts')
+    .src(['tests/cases/**/*.ts', 'tests/cases/**/*.tsx'])
     .pipe(prettier(prettierOptions))
     .pipe(writeToVfs())
 })
 
-gulp.task('compare', function() {
+gulp.task('compare:ts', function() {
   return gulp
     .src('tests/cases/**/*.ts')
     .pipe(tsCreatorPipe())
@@ -127,11 +138,34 @@ gulp.task('compare', function() {
     .pipe(compareFromVfs(fs))
 })
 
-gulp.task('test', gulp.series(['clean', 'build:umd', 'cases', 'compare']))
+gulp.task('compare:tsx', function() {
+  return gulp
+    .src('tests/cases/**/*.tsx')
+    .pipe(tsCreatorPipe({ tsx: true }))
+    .pipe(ts(tsconfig))
+    .pipe(runFactoryPipe(true))
+    .pipe(prettier(prettierOptions))
+    .pipe(compareFromVfs(fs))
+})
+
+gulp.task('compare:errors:tsx', function() {
+  return gulp
+    .src('tests/errors/**/*.tsx')
+    .pipe(tsCreatorThrowPipe({ tsx: true }))
+})
+
+gulp.task('compare', gulp.series(['compare:ts', 'compare:tsx']))
+
+gulp.task('compare:errors', gulp.series(['compare:errors:tsx']))
+
+gulp.task(
+  'test',
+  gulp.series(['clean', 'build:umd', 'cases', 'compare', 'compare:errors'])
+)
 
 gulp.task(
   'coverage',
-  gulp.series(['clean', 'build:coverage', 'cases', 'compare'])
+  gulp.series(['clean', 'build:coverage', 'cases', 'compare', 'compare:errors'])
 )
 
 gulp.task(
