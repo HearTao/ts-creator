@@ -24,11 +24,12 @@ function handler(data?: string) {
     const color = argv['color'] as boolean
 
     const target = argv['target'] as CreatorTarget
+    const tsx = argv['tsx'] as boolean
 
     try {
       const result: string = create(
         data ? data : fs.readFileSync(input, 'utf8'),
-        { prettierOptions, target }
+        { prettierOptions, target, tsx }
       )
 
       if (!output)
@@ -83,6 +84,11 @@ Happy hack with ts-creator`)
         CreatorTarget.esmodule
       ],
       default: CreatorTarget.expression
+    })
+    .option('tsx', {
+      describe: 'Support tsx',
+      type: 'boolean',
+      default: false
     })
 
     .option('o', {
