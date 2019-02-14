@@ -127,10 +127,7 @@ gulp.task('compare', function() {
     .pipe(compareFromVfs(fs))
 })
 
-gulp.task(
-  'test',
-  gulp.series(['clean', 'build:umd', 'cases', 'compare'])
-)
+gulp.task('test', gulp.series(['clean', 'build:umd', 'cases', 'compare']))
 
 gulp.task(
   'coverage',
