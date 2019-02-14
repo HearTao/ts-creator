@@ -9,6 +9,7 @@ const requireFromString = require('require-from-string')
 const diff = require('diff')
 const prettier = require('gulp-prettier')
 const tsPlugin = require('prettier/parser-typescript')
+const vm = require('vm')
 
 gulp.task('clean', function() {
   return del(['./dist/', './coverage/'])
@@ -94,6 +95,28 @@ function runFactoryPipe(tsx = false) {
   })
 }
 
+function runVmPipe(tsx = false) {
+  return through.obj(function(vinylFile, encoding, callback) {
+    const file = vinylFile.clone()
+    const code = vinylFile.contents.toString()
+    let result = ''
+    const vmModule = { exports: {} }
+    const context = vm.createContext({
+      exports: vmModule.exports,
+      module: vmModule,
+      require,
+      console: {
+        log: v => (result = v)
+      }
+    })
+    const script = new vm.Script(code)
+    script.runInContext(context)
+    file.contents = new Buffer(result)
+    file.extname = tsx ? '.tsx' : '.ts'
+    callback(null, file)
+  })
+}
+
 function writeToVfs() {
   return through.obj(function(vinylFile, encoding, callback) {
     fs.mkdirpSync(vinylFile.dirname)
@@ -148,6 +171,26 @@ gulp.task('compare:tsx', function() {
     .pipe(compareFromVfs(fs))
 })
 
+gulp.task('compare:runnable:ts', function() {
+  return gulp
+    .src('tests/cases/**/*.ts')
+    .pipe(tsCreatorPipe({ target: 'runnable' }))
+    .pipe(ts(tsconfig))
+    .pipe(runVmPipe())
+    .pipe(prettier(prettierOptions))
+    .pipe(compareFromVfs(fs))
+})
+
+gulp.task('compare:runnable:tsx', function() {
+  return gulp
+    .src('tests/cases/**/*.tsx')
+    .pipe(tsCreatorPipe({ target: 'runnable', tsx: true }))
+    .pipe(ts(tsconfig))
+    .pipe(runVmPipe(true))
+    .pipe(prettier(prettierOptions))
+    .pipe(compareFromVfs(fs))
+})
+
 gulp.task('compare:errors:tsx', function() {
   return gulp
     .src('tests/errors/**/*.tsx')
@@ -159,13 +202,32 @@ gulp.task('compare', gulp.series(['compare:ts', 'compare:tsx']))
 gulp.task('compare:errors', gulp.series(['compare:errors:tsx']))
 
 gulp.task(
+  'compare:runnable',
+  gulp.series(['compare:runnable:ts', 'compare:runnable:tsx'])
+)
+
+gulp.task(
   'test',
-  gulp.series(['clean', 'build:umd', 'cases', 'compare', 'compare:errors'])
+  gulp.series([
+    'clean',
+    'build:umd',
+    'cases',
+    'compare',
+    'compare:errors',
+    'compare:runnable'
+  ])
 )
 
 gulp.task(
   'coverage',
-  gulp.series(['clean', 'build:coverage', 'cases', 'compare', 'compare:errors'])
+  gulp.series([
+    'clean',
+    'build:coverage',
+    'cases',
+    'compare',
+    'compare:errors',
+    'compare:runnable'
+  ])
 )
 
 gulp.task(
