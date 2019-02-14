@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "description": "A code generator to generate TypeScript code generator from TypeScript code",
   "main": "dist/index.js",
-  "types": "dist/types/src/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 gulp",
     "test": "cross-env NODE_OPTIONS=--max_old_space_size=4096 gulp test",
