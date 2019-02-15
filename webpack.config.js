@@ -38,7 +38,7 @@ module.exports.standaloneConfig = merge(module.exports.umdConfig, {
   },
   externals: {
     typescript: 'ts',
-    prettier: 'prettier',
+    'prettier/standalone': 'prettier',
     'prettier/parser-typescript': {
       commonjs: '',
       commonjs2: 'prettier/parser-typescript',
