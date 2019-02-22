@@ -1503,17 +1503,17 @@ function transformVisitor(node?: Node): Expression {
     case SyntaxKind.JsxExpression:
       return generateJsxExpression(node as JsxExpression)
 
-      case SyntaxKind.JsxFragment:
-      case SyntaxKind.JsxOpeningFragment:
-      case SyntaxKind.JsxClosingFragment:
+    case SyntaxKind.JsxFragment:
+    case SyntaxKind.JsxOpeningFragment:
+    case SyntaxKind.JsxClosingFragment:
       throw new Error(
         'JsxFragment is not support yet: see https://github.com/HearTao/ts-creator/issues/2'
       )
 
     case SyntaxKind.JsxText:
-        throw new Error(
-          'JsxText is not support yet: see https://github.com/HearTao/ts-creator/issues/2'
-        )
+      throw new Error(
+        'JsxText is not support yet: see https://github.com/HearTao/ts-creator/issues/2'
+      )
     case SyntaxKind.MissingDeclaration:
     case SyntaxKind.SyntheticExpression:
     case SyntaxKind.OmittedExpression:

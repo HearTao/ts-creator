@@ -80,7 +80,8 @@ Happy hack with ts-creator`)
       choices: [
         CreatorTarget.expression,
         CreatorTarget.runnable,
-        CreatorTarget.esmodule
+        CreatorTarget.esmodule,
+        CreatorTarget.commonjs
       ],
       default: CreatorTarget.expression
     })
