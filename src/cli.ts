@@ -62,12 +62,11 @@ export default async function main(args: string[]): Promise<void> {
           type: 'string',
           normalize: true
         }).epilog(`
-Welcome to contribute, any bugs or features please report on:
+Welcome to contribute, any bug or feature request please report on:
 
-* Bug: https://github.com/HearTao/ts-creator/issues/new?template=bug.md
-* Feature: https://github.com/HearTao/ts-creator/issues/new?template=feature.md
+  https://github.com/HearTao/ts-creator/issues/new/choose
 
-Also see the online playground:
+Also see our online playground:
 
   https://ts-creator.js.org
 
@@ -100,7 +99,7 @@ Happy hack with ts-creator`)
     .option('color', {
       describe: 'colorful result when print on terminal',
       type: 'boolean',
-      default: false
+      default: true
     })
 
     .option('semi', {

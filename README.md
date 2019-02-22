@@ -151,11 +151,20 @@ yarn ts-creator -h
 
 | option | description | type | default |
 |---|---|---|---|
-| --color | colorful print | boolean | false |
-| --output, -o | output to filepath | string | undefined |
-| --version, -v | show ts-creator version | boolean | false |
-| --help, -h | show help | boolean | false |
-
+| --target, -t | generate targets | Enum { `expression`, `runnable`, `esmodule` } | `expression` |
+| --output, -o | output to filepath | String | `undefined` |
+| --tsx | tsx support | Boolean | `false` |
+| --color | colorful print | Boolean | `true` |
+| --semi | print semicolons at the ends of statements | Boolean | `false` |
+| --single-quote | use single quotes instead of double quotes | Boolean | `true` |
+| --jsx-single-quote | use single quotes in JSX | Boolean | `false` |
+| --bracket-spacing | print spaces between brackets in object literals | Boolean | `true` |
+| --tab-width | pecify the number of spaces per indentation-level | Number | `2` |
+| --use-tabs | indent lines with tabs instead of spaces | Boolean | `false` |
+| --trailing-comma | print trailing commas wherever possible | Enum { `none`, `es5`, `all` } | `none` |
+| --prose-wrap | how to wrap output | Enum { `always`, `never`, `preserve` } | `preserve` |
+| --version, -v | show ts-creator versions | Boolean | `false` |
+| --help, -h | show helper | Boolean | `false` |
 
 ## TODO:
 
