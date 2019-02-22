@@ -36,7 +36,7 @@ function handler(data?: string) {
         return console.log((color ? highlight(result) : result) + '\n')
 
       const filepath: string = path.resolve(output)
-      fs.writeFileSync(filepath, data, 'utf8')
+      fs.writeFileSync(filepath, result, 'utf8')
       console.log(`Done at ${filepath}`)
     } catch (e) {
       throw new Error(e)
