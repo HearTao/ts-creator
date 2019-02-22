@@ -11,11 +11,13 @@ import * as prettier from 'prettier/standalone'
 import tsPlugin from 'prettier/parser-typescript'
 import { resolveRunnable } from './wrapper/runnable'
 import { resolveESModule } from './wrapper/esmodule'
+import { resolveCJSModule } from './wrapper/commonjs'
 
 export enum CreatorTarget {
   expression = 'expression',
   runnable = 'runnable',
-  esmodule = 'esmodule'
+  esmodule = 'esmodule',
+  commonjs = 'commonjs'
 }
 
 export interface Options {
@@ -49,12 +51,18 @@ function transformESModule(file: SourceFile): SourceFile {
   return resolveESModule(transformNode(file))
 }
 
+function transformCJSModule(file: SourceFile): SourceFile {
+  return resolveCJSModule(transformNode(file))
+}
+
 function transformTarget(file: SourceFile, options: Options): SourceFile {
   switch (options.target) {
     case CreatorTarget.runnable:
       return transformRunable(file)
     case CreatorTarget.esmodule:
       return transformESModule(file)
+    case CreatorTarget.commonjs:
+      return transformCJSModule(file)
     default:
       return transformExpression(file)
   }
@@ -62,14 +70,20 @@ function transformTarget(file: SourceFile, options: Options): SourceFile {
 
 function createTemporaryFile(code: string, options: Options) {
   if (options.tsx) {
-    return createSourceFile('temporary.tsx', code, ScriptTarget.Latest, undefined, ScriptKind.TSX)
+    return createSourceFile(
+      'temporary.tsx',
+      code,
+      ScriptTarget.Latest,
+      undefined,
+      ScriptKind.TSX
+    )
   }
   return createSourceFile('temporary.ts', code, ScriptTarget.Latest)
 }
 
 export default function create(code: string, options: Options = {}): string {
   const printer = createPrinter()
-  
+
   const file = createTemporaryFile(code, options)
 
   const factoryFile = transformTarget(file, options)
