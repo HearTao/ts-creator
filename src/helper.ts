@@ -12,7 +12,8 @@ import {
   NodeFlags,
   SyntaxKind,
   createTrue,
-  createFalse
+  createFalse,
+  TokenFlags
 } from 'typescript'
 
 /** @internal */
@@ -41,9 +42,15 @@ function connectBinary(op: BinaryOperator, nodes: Expression[]): Expression {
 }
 
 // NodeFlags.PossiblyContainsDynamicImport, NodeFlags.PossiblyContainsImportMeta, NodeFlags.Ambient, NodeFlags.InWithStatement
-const internalFlags: number = (1 << 19) | (1 << 20) | (1 << 22) | (1 << 23)
-function filterInternalFlags(flags: NodeFlags): NodeFlags {
-  return (flags &= ~internalFlags)
+const internalNodeFlags: number = (1 << 19) | (1 << 20) | (1 << 22) | (1 << 23)
+function filterInternalNodeFlags(flags: NodeFlags): NodeFlags {
+  return (flags &= ~internalNodeFlags)
+}
+
+// NodeFlags.PossiblyContainsDynamicImport, NodeFlags.PossiblyContainsImportMeta, NodeFlags.Ambient, NodeFlags.InWithStatement
+const internalTokenFlags: number = (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8)
+function filterInternalTokenFlags(flags: TokenFlags): TokenFlags {
+  return (flags &= internalTokenFlags)
 }
 
 /** @internal */
@@ -60,10 +67,22 @@ export function transformInternalSyntaxKind(syntaxKind: string) {
 
 /** @internal */
 export function createNodeFlags(flags: NodeFlags) {
-  const formattedFlags = formatFlags(filterInternalFlags(flags), NodeFlags).map(
+  const formattedFlags = formatFlags(filterInternalNodeFlags(flags), NodeFlags).map(
     f =>
       createPropertyAccess(
         createTsAccess(createIdentifier('NodeFlags')),
+        createIdentifier(f)
+      )
+  )
+  return connectBinary(SyntaxKind.BarToken, formattedFlags)
+}
+
+/** @internal */
+export function createTokenFlags(flags: TokenFlags) {
+  const formattedFlags = formatFlags(filterInternalTokenFlags(flags), TokenFlags).map(
+    f =>
+      createPropertyAccess(
+        createTsAccess(createIdentifier('TokenFlags')),
         createIdentifier(f)
       )
   )

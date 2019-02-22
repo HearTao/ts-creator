@@ -50,17 +50,17 @@ export default async function main(args: string[]): Promise<void> {
   const isReadData: boolean = '' !== data
   yargs
     .strict()
-    .command({
+    .command<any>({
       command: `$0 ${isReadData ? '' : '<input> '}[options]`,
       describe:
         'A code generator to generate TypeScript code generator from TypeScript code',
       handler: handler(isReadData ? data : undefined),
-      builder: (yargs: yargs.Argv): yargs.Argv => {
+      builder: yargs => {
         if (isReadData) return yargs
         return yargs.positional('input', {
           describe: 'input file path',
           type: 'string',
-          normalize: true
+          normalize: true,
         }).epilog(`
 Welcome to contribute, any bugs or features please report on:
 

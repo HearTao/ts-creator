@@ -131,6 +131,7 @@ function compareFromVfs(fs) {
     const code = vinylFile.contents.toString()
     const diffs = diff.diffWords(oldCode, code)
     if (diffs.some(diff => !!(diff.added || diff.removed))) {
+      console.log(diffs.filter(diff => !!(diff.added || diff.removed)))
       callback(new Error('test failed: ' + vinylFile.path), vinylFile)
     }
     callback(null, vinylFile)

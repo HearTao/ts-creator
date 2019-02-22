@@ -134,9 +134,6 @@ import {
   JsxSpreadAttribute,
   JsxAttributes,
   JsxAttribute,
-  JsxClosingFragment,
-  JsxOpeningFragment,
-  JsxFragment,
   JsxClosingElement,
   JsxOpeningElement,
   JsxSelfClosingElement,
@@ -165,7 +162,8 @@ import {
   createNodeFlags,
   createLiteralCall,
   createTsAccess,
-  transformInternalSyntaxKind
+  transformInternalSyntaxKind,
+  createTokenFlags
 } from './helper'
 
 interface QuestionOrExclamation {
@@ -979,7 +977,10 @@ function generateComputedPropertyName(node: ComputedPropertyName) {
 }
 
 function generateNumericLiteral(node: NumericLiteral) {
-  return createLiteralCall(node, 'createNumericLiteral')
+  return createTsCall('createNumericLiteral', [
+    createStringLiteral(node.text),
+    createTokenFlags(node.numericLiteralFlags)
+  ])
 }
 
 function BigIntLiteral(node: BigIntLiteral) {

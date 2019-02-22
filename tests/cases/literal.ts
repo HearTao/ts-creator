@@ -2,6 +2,9 @@
 2
 1.1
 2.2
+0o1
+0x1
+1e1
 Infinity
 ;-Infinity
 NaN
