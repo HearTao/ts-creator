@@ -151,7 +151,7 @@ yarn ts-creator -h
 
 | option | description | type | default |
 |---|---|---|---|
-| --target, -t | generate targets | Enum { `expression`, `runnable`, `esmodule` } | `expression` |
+| --target, -t | generate targets | Enum { `expression`, `runnable`, `esmodule`, `commonjs` } | `expression` |
 | --output, -o | output to filepath | String | `undefined` |
 | --tsx | tsx support | Boolean | `false` |
 | --color | colorful print | Boolean | `true` |
