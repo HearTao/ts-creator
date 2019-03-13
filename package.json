@@ -1,6 +1,6 @@
 {
   "name": "ts-creator",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "A code generator to generate TypeScript code generator from TypeScript code",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
