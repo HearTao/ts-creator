@@ -189,13 +189,12 @@ gulp.task('compare:runnable:tsx', function() {
     .pipe(runVmPipe(true))
     .pipe(prettier(prettierOptions))
     .pipe(compareFromVfs(fs))
-})
-
-gulp.task('compare:errors:tsx', function() {
-  return gulp
-    .src('tests/errors/**/*.tsx')
-    .pipe(tsCreatorThrowPipe({ tsx: true }))
-})
+}) |
+  gulp.task('compare:errors:tsx', function() {
+    return gulp
+      .src('tests/errors/**/*.tsx')
+      .pipe(tsCreatorThrowPipe({ tsx: true }))
+  })
 
 gulp.task('compare', gulp.series(['compare:ts', 'compare:tsx']))
 

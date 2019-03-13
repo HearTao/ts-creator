@@ -156,7 +156,8 @@ import {
   Expression,
   createArrayLiteral,
   updateSourceFileNode,
-  createExpressionStatement
+  createExpressionStatement,
+  JsxText,
 } from 'typescript'
 
 import {
@@ -1099,6 +1100,29 @@ function generateJsxElement(node: JsxElement) {
   ])
 }
 
+function generateJsxFragment(node: JsxFragment) {
+  return createTsCall('createJsxFragment', [
+    transformVisitor(node.openingFragment),
+    transformVisitors(node.children),
+    transformVisitor(node.closingFragment)
+  ])
+}
+
+function generateJsxOpeningFragment(node: JsxOpeningFragment) {
+  return createTsCall('createJsxOpeningFragment', [])
+}
+
+function generateJsxClosingFragment(node: JsxClosingFragment) {
+  return createTsCall('createJsxJsxClosingFragment', [])
+}
+
+function generateJsxText(node: JsxText) {
+  return createTsCall('createJsxText', [
+    createStringLiteral(node.text),
+    createBooleanLiteral(node.containsOnlyTriviaWhiteSpaces)
+  ])
+}
+
 function generateSourceFile(node: SourceFile) {
   return createTsCall('updateSourceFileNode', [
     createTsCall('createSourceFile', [
@@ -1504,16 +1528,13 @@ function transformVisitor(node?: Node): Expression {
       return generateJsxExpression(node as JsxExpression)
 
     case SyntaxKind.JsxFragment:
+      return generateJsxFragment(node as JsxFragment)
     case SyntaxKind.JsxOpeningFragment:
+      return generateJsxOpeningFragment(node as JsxOpeningFragment)
     case SyntaxKind.JsxClosingFragment:
-      throw new Error(
-        'JsxFragment is not support yet: see https://github.com/HearTao/ts-creator/issues/2'
-      )
-
+      return generateJsxClosingFragment(node as JsxClosingFragment)
     case SyntaxKind.JsxText:
-      throw new Error(
-        'JsxText is not support yet: see https://github.com/HearTao/ts-creator/issues/2'
-      )
+      return generateJsxText(node as JsxText)
     case SyntaxKind.MissingDeclaration:
     case SyntaxKind.SyntheticExpression:
     case SyntaxKind.OmittedExpression:
