@@ -1563,3 +1563,9 @@ export function transformSourceFile(sourceFile: SourceFile): SourceFile {
     createExpressionStatement(transformVisitor(sourceFile))
   ])
 }
+
+export function transformSourceFileChildren(sourceFile: SourceFile): SourceFile {
+  return updateSourceFileNode(sourceFile, [
+    createExpressionStatement(transformVisitors(sourceFile.statements))
+  ])
+}

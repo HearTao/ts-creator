@@ -1,4 +1,4 @@
-import { transformSourceFile, transformNode } from './transformer'
+import { transformSourceFile, transformNode, transformSourceFileChildren } from './transformer'
 import {
   createPrinter,
   createSourceFile,
@@ -14,6 +14,7 @@ import { resolveESModule } from './wrapper/esmodule'
 import { resolveCJSModule } from './wrapper/commonjs'
 
 export enum CreatorTarget {
+  none = 'none',
   expression = 'expression',
   runnable = 'runnable',
   esmodule = 'esmodule',
@@ -37,6 +38,10 @@ const defaultPrettierOptions: prettier.Options = {
   useTabs: false,
   trailingComma: 'none',
   proseWrap: 'preserve'
+}
+
+function transformNone(file: SourceFile): SourceFile {
+  return transformSourceFileChildren(file)
 }
 
 function transformRunable(file: SourceFile): SourceFile {
@@ -63,8 +68,10 @@ function transformTarget(file: SourceFile, options: Options): SourceFile {
       return transformESModule(file)
     case CreatorTarget.commonjs:
       return transformCJSModule(file)
-    default:
+    case CreatorTarget.expression:
       return transformExpression(file)
+    default:
+      return transformNone(file)
   }
 }
 

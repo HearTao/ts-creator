@@ -78,12 +78,13 @@ Happy hack with ts-creator`)
       describe: 'Generate target',
       type: 'string',
       choices: [
+        CreatorTarget.none,
         CreatorTarget.expression,
         CreatorTarget.runnable,
         CreatorTarget.esmodule,
         CreatorTarget.commonjs
       ],
-      default: CreatorTarget.expression
+      default: CreatorTarget.none
     })
     .option('tsx', {
       describe: 'Support tsx',
