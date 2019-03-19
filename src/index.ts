@@ -1,4 +1,8 @@
-import { transformSourceFile, transformNode, transformSourceFileChildren } from './transformer'
+import {
+  transformSourceFile,
+  transformNode,
+  transformSourceFileChildren
+} from './transformer'
 import {
   createPrinter,
   createSourceFile,
@@ -40,14 +44,17 @@ const defaultPrettierOptions: prettier.Options = {
   proseWrap: 'preserve'
 }
 
+/* istanbul ignore next */
 function transformNone(file: SourceFile): SourceFile {
   return transformSourceFileChildren(file)
 }
 
+/* istanbul ignore next */
 function transformRunable(file: SourceFile): SourceFile {
   return resolveRunnable(transformNode(file))
 }
 
+/* istanbul ignore next */
 function transformExpression(file: SourceFile): SourceFile {
   return transformSourceFile(file)
 }
@@ -56,20 +63,25 @@ function transformESModule(file: SourceFile): SourceFile {
   return resolveESModule(transformNode(file))
 }
 
+/* istanbul ignore next */
 function transformCJSModule(file: SourceFile): SourceFile {
   return resolveCJSModule(transformNode(file))
 }
 
 function transformTarget(file: SourceFile, options: Options): SourceFile {
   switch (options.target) {
+    /* istanbul ignore next */
     case CreatorTarget.runnable:
       return transformRunable(file)
     case CreatorTarget.esmodule:
       return transformESModule(file)
+    /* istanbul ignore next */
     case CreatorTarget.commonjs:
       return transformCJSModule(file)
+    /* istanbul ignore next */
     case CreatorTarget.expression:
       return transformExpression(file)
+    /* istanbul ignore next */
     default:
       return transformNone(file)
   }

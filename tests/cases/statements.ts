@@ -61,3 +61,6 @@ function switchStatement(aaa: string) {
 
 with ({}) {
 }
+
+{
+}

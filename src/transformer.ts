@@ -157,7 +157,7 @@ import {
   createArrayLiteral,
   updateSourceFileNode,
   createExpressionStatement,
-  JsxText,
+  JsxText
 } from 'typescript'
 
 import {
@@ -1535,8 +1535,12 @@ function transformVisitor(node?: Node): Expression {
       return generateJsxClosingFragment(node as JsxClosingFragment)
     case SyntaxKind.JsxText:
       return generateJsxText(node as JsxText)
+
+    /* istanbul ignore next */
     case SyntaxKind.MissingDeclaration:
+    /* istanbul ignore next */
     case SyntaxKind.SyntheticExpression:
+    /* istanbul ignore next */
     case SyntaxKind.OmittedExpression:
       throw new Error(
         'unknown syntax: ' + node.kind + ' ' + JSON.stringify(node)
@@ -1550,6 +1554,7 @@ function transformVisitor(node?: Node): Expression {
         return generateToken(node)
       }
 
+      /* istanbul ignore next */
       throw new Error('unsupported syntax: ' + node.kind)
   }
 }
@@ -1558,13 +1563,18 @@ export function transformNode(node: Node): Expression {
   return transformVisitor(node)
 }
 
+/* istanbul ignore next */
 export function transformSourceFile(sourceFile: SourceFile): SourceFile {
+  /* istanbul ignore next */
   return updateSourceFileNode(sourceFile, [
     createExpressionStatement(transformVisitor(sourceFile))
   ])
 }
 
-export function transformSourceFileChildren(sourceFile: SourceFile): SourceFile {
+/* istanbul ignore next */
+export function transformSourceFileChildren(
+  sourceFile: SourceFile
+): SourceFile {
   return updateSourceFileNode(sourceFile, [
     createExpressionStatement(transformVisitors(sourceFile.statements))
   ])

@@ -19,7 +19,9 @@ import {
 } from 'typescript'
 
 /** @internal */
+/* istanbul ignore next */
 export function resolveRunnable(expression: Expression): SourceFile {
+  /* istanbul ignore next */
   return updateSourceFileNode(
     createSourceFile('templory.ts', '', ScriptTarget.Latest),
     [

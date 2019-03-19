@@ -139,24 +139,11 @@ gulp.task('compare:tsx', function() {
 
 gulp.task('compare', gulp.series(['compare:ts', 'compare:tsx']))
 
-gulp.task(
-  'test',
-  gulp.series([
-    'clean',
-    'build:umd',
-    'cases',
-    'compare'
-  ])
-)
+gulp.task('test', gulp.series(['clean', 'build:umd', 'cases', 'compare']))
 
 gulp.task(
   'coverage',
-  gulp.series([
-    'clean',
-    'build:coverage',
-    'cases',
-    'compare'
-  ])
+  gulp.series(['clean', 'build:coverage', 'cases', 'compare'])
 )
 
 gulp.task(
