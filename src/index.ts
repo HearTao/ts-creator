@@ -32,17 +32,25 @@ export interface Options {
   stripSemi?: boolean
 }
 
-const defaultPrettierOptions: prettier.Options = {
-  parser: 'typescript',
-  plugins: [tsPlugin],
-  semi: false,
-  singleQuote: true,
-  jsxSingleQuote: false,
-  bracketSpacing: true,
-  tabWidth: 2,
-  useTabs: false,
-  trailingComma: 'none',
-  proseWrap: 'preserve'
+function getDefaultOptions(): Options {
+  return {
+    stripSemi: true
+  }
+}
+
+function getDefaultPrettierOptions(): prettier.Options {
+  return {
+    parser: 'typescript',
+    plugins: [tsPlugin],
+    semi: false,
+    singleQuote: true,
+    jsxSingleQuote: false,
+    bracketSpacing: true,
+    tabWidth: 2,
+    useTabs: false,
+    trailingComma: 'none',
+    proseWrap: 'preserve'
+  }
 }
 
 /* istanbul ignore next */
@@ -101,7 +109,10 @@ function createTemporaryFile(code: string, options: Options) {
   return createSourceFile('temporary.ts', code, ScriptTarget.Latest)
 }
 
-export default function create(code: string, options: Options = {}): string {
+export default function create(
+  code: string,
+  options: Options = getDefaultOptions()
+): string {
   const printer = createPrinter()
 
   const file = createTemporaryFile(code, options)
@@ -110,7 +121,7 @@ export default function create(code: string, options: Options = {}): string {
   const factoryCode = printer.printFile(factoryFile)
 
   const prettierOptions = {
-    ...defaultPrettierOptions,
+    ...getDefaultPrettierOptions(),
     ...options.prettierOptions
   }
   let result = prettier.format(factoryCode, prettierOptions)
