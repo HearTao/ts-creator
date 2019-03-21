@@ -29,6 +29,7 @@ export interface Options {
   prettierOptions?: prettier.Options
   target?: CreatorTarget
   tsx?: boolean
+  stripSemi?: boolean
 }
 
 const defaultPrettierOptions: prettier.Options = {
@@ -112,7 +113,13 @@ export default function create(code: string, options: Options = {}): string {
     ...defaultPrettierOptions,
     ...options.prettierOptions
   }
-  return prettier.format(factoryCode, prettierOptions)
+  let result = prettier.format(factoryCode, prettierOptions)
+
+  /* istanbul ignore next */
+  if (options.stripSemi && result.startsWith(';')) {
+    result = result.substring(1)
+  }
+  return result
 }
 
 export { transformNode, transformSourceFile } from './transformer'

@@ -25,11 +25,12 @@ function handler(data?: string) {
 
     const target = argv['target'] as CreatorTarget
     const tsx = argv['tsx'] as boolean
+    const stripSemi = argv['strip'] as boolean
 
     try {
       const result: string = create(
         data ? data : fs.readFileSync(input, 'utf8'),
-        { prettierOptions, target, tsx }
+        { prettierOptions, target, tsx, stripSemi }
       )
 
       if (!output)
@@ -85,6 +86,12 @@ Happy hack with ts-creator`)
         CreatorTarget.commonjs
       ],
       default: CreatorTarget.none
+    })
+    .option('s', {
+      alias: 'strip',
+      describe: 'Strip ASI',
+      type: 'boolean',
+      default: true
     })
     .option('tsx', {
       describe: 'Support tsx',
