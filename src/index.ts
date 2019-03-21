@@ -12,11 +12,38 @@ import {
 } from 'typescript'
 
 import * as prettier from 'prettier/standalone'
+import tsPlugin from 'prettier/parser-typescript'
 import { resolveRunnable } from './wrapper/runnable'
 import { resolveESModule } from './wrapper/esmodule'
 import { resolveCJSModule } from './wrapper/commonjs'
-import { getDefaultOptions, getDefaultPrettierOptions } from './defaults'
-import { CreatorTarget, Options } from './types'
+
+export enum CreatorTarget {
+  none = 'none',
+  expression = 'expression',
+  runnable = 'runnable',
+  esmodule = 'esmodule',
+  commonjs = 'commonjs'
+}
+
+export interface Options {
+  prettierOptions?: prettier.Options
+  target?: CreatorTarget
+  tsx?: boolean
+  stripSemi?: boolean
+}
+
+const defaultPrettierOptions: prettier.Options = {
+  parser: 'typescript',
+  plugins: [tsPlugin],
+  semi: false,
+  singleQuote: true,
+  jsxSingleQuote: false,
+  bracketSpacing: true,
+  tabWidth: 2,
+  useTabs: false,
+  trailingComma: 'none',
+  proseWrap: 'preserve'
+}
 
 /* istanbul ignore next */
 function transformNone(file: SourceFile): SourceFile {
@@ -74,10 +101,7 @@ function createTemporaryFile(code: string, options: Options) {
   return createSourceFile('temporary.ts', code, ScriptTarget.Latest)
 }
 
-export default function create(
-  code: string,
-  options: Options = getDefaultOptions()
-): string {
+export default function create(code: string, options: Options = {}): string {
   const printer = createPrinter()
 
   const file = createTemporaryFile(code, options)
@@ -86,7 +110,7 @@ export default function create(
   const factoryCode = printer.printFile(factoryFile)
 
   const prettierOptions = {
-    ...getDefaultPrettierOptions(),
+    ...defaultPrettierOptions,
     ...options.prettierOptions
   }
   let result = prettier.format(factoryCode, prettierOptions)

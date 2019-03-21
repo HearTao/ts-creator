@@ -4,8 +4,7 @@ import * as yargs from 'yargs'
 import { Options as PrettierOptions } from 'prettier'
 import { highlight } from 'cardinal'
 import * as getStdin from 'get-stdin'
-import create from './'
-import { CreatorTarget } from './types'
+import create, { CreatorTarget } from './'
 
 function handler(data?: string) {
   return function handler1(argv: yargs.Arguments): void {
