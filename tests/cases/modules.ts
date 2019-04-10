@@ -32,3 +32,5 @@ export { Expression } from 'typescript'
 export = 1
 
 export as namespace hehe
+
+import('typescript')
