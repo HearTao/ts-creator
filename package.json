@@ -7,8 +7,8 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 gulp",
     "test": "cross-env NODE_OPTIONS=--max_old_space_size=4096 gulp test",
-    "lint": "prettier --config ./prettier.json --list-different ./types/**/* ./src/**/* ./tests/**/* ./gulpfile.js ./webpack.config.js ./update-next.js",
-    "prettier": "prettier --config ./prettier.json --write ./types/**/* ./src/**/* ./tests/**/* ./gulpfile.js ./webpack.config.js ./update-next.js",
+    "lint": "prettier --config ./prettier.json --list-different ./types/**/* ./src/* ./src/**/* ./tests/**/* ./gulpfile.js ./webpack.config.js ./update-next.js",
+    "prettier": "prettier --config ./prettier.json --write ./types/**/* ./src/* ./src/**/* ./tests/**/* ./gulpfile.js ./webpack.config.js ./update-next.js",
     "coverage": "cross-env NODE_OPTIONS=--max_old_space_size=4096 nyc gulp coverage"
   },
   "author": "kingwl",

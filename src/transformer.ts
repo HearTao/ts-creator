@@ -1149,14 +1149,19 @@ function transformRawNode(kind: SyntaxKind) {
     createAsExpression(
       createTsCall('createNode', [transformSyntaxKind(kind)]),
       createTypeReferenceNode(
-        createQualifiedName(
-          createQualifiedName(
-            createIdentifier('ts'),
-            createIdentifier('SyntaxKind')
-          ),
-          createIdentifier(SyntaxKind[kind])
-        ),
-        undefined
+        createQualifiedName(createIdentifier('ts'), createIdentifier('Token')),
+        [
+          createTypeReferenceNode(
+            createQualifiedName(
+              createQualifiedName(
+                createIdentifier('ts'),
+                createIdentifier('SyntaxKind')
+              ),
+              createIdentifier(SyntaxKind[kind])
+            ),
+            undefined
+          )
+        ]
       )
     )
   )
@@ -1200,6 +1205,9 @@ function transformKeyword(kind: SyntaxKind) {
     case SyntaxKind.StaticKeyword:
       return transformModifier(kind)
 
+    case SyntaxKind.ImportKeyword:
+      return transformAsExpression(transformRawNode(kind))
+
     default:
       return transformRawNode(kind)
   }
@@ -1211,6 +1219,19 @@ function transformTypeKeyword(kind: KeywordTypeNode['kind']) {
 
 function transformModifier(kind: Modifier['kind']) {
   return createTsCall('createModifier', [transformSyntaxKind(kind)])
+}
+
+function transformAsExpression(expr: Expression) {
+  return createAsExpression(
+    expr,
+    createTypeReferenceNode(
+      createQualifiedName(
+        createIdentifier('ts'),
+        createIdentifier('Expression')
+      ),
+      undefined
+    )
+  )
 }
 
 function transformVisitorQuestionOrExclamation(node: QuestionOrExclamation) {
