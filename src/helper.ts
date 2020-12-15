@@ -60,12 +60,14 @@ export function transformInternalSyntaxKind(syntaxKind: string) {
 
 /** @internal */
 export function createNodeFlags(flags: NodeFlags) {
-  const formattedFlags = formatFlags(filterInternalFlags(flags), NodeFlags).map(
-    f =>
-      createPropertyAccess(
-        createTsAccess(createIdentifier('NodeFlags')),
-        createIdentifier(f)
-      )
+  const formattedFlags = formatFlags(
+    filterInternalFlags(flags),
+    NodeFlags
+  ).map(f =>
+    createPropertyAccess(
+      createTsAccess(createIdentifier('NodeFlags')),
+      createIdentifier(f)
+    )
   )
   return connectBinary(SyntaxKind.BarToken, formattedFlags)
 }
