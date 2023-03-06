@@ -3,7 +3,7 @@
   
   # ts-creator 
   
-  A code generator to generate TypeScript code generator from TypeScript code
+  A code generator to generate TypeScript code generators from TypeScript code
 
   [![Build Status](https://travis-ci.com/HearTao/ts-creator.svg?branch=master)](https://travis-ci.com/HearTao/ts-creator)  [![NPM version](https://img.shields.io/npm/v/ts-creator.svg)](https://www.npmjs.com/package/ts-creator)   [![codecov](https://codecov.io/gh/HearTao/ts-creator/branch/master/graph/badge.svg)](https://codecov.io/gh/HearTao/ts-creator)
 
@@ -48,7 +48,7 @@ const factoryNode = transformNode(node)
 
 If you want to write a TypeScript codegen.
 
-You got TypeScript code: 
+Let's use this TypeScript code as an example: 
 
 ```ts
 function foo(bar: number): number {
@@ -56,7 +56,7 @@ function foo(bar: number): number {
 }
 ```
 
-ts-creator generate TypeScript factory from given code to:
+ts-creator generates a TypeScript factory from given code:
 
 ```ts
 ts.createFunctionDeclaration(
@@ -93,7 +93,7 @@ ts.createFunctionDeclaration(
 
 ```
 
-Result after run the generated factory code: 
+And the generated factory code produces: 
 
 ```ts
 function foo(bar: number): number {
@@ -135,7 +135,7 @@ npm i -g ts-creator
 yarn global add ts-creator
 ```
 
-If you install locally, may prepend `npx` or `yarn` you need. 
+If you install locally, you may need to prepend `npx` or `yarn`. 
 
 ```sh
 # use npm
